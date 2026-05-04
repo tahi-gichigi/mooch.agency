@@ -1,0 +1,210 @@
+:root {
+  /* Colors — Primary */
+
+  /* Colors — Neutrals */
+  --color-neutral-50: #000000;
+  --color-neutral-100: #1d1d1f;
+  --color-neutral-200: #ffffff;
+
+  /* Colors — Backgrounds */
+  --color-bg: #ffffff;
+  --color-bg-1: #fbfbfd;
+  --color-bg-2: #000000;
+
+  /* Colors — Text */
+  --color-text: #000000;
+  --color-text-1: #1d1d1f;
+  --color-text-2: #ffffff;
+
+  /* Typography — Families */
+  --font-sans: '-apple-system', sans-serif;
+
+  /* Typography — Scale */
+  --font-size-72: 72px;
+  --font-size-48: 48px;
+  --font-size-36: 36px;
+  --font-size-30: 30px;
+  --font-size-24: 24px;
+  --font-size-20: 20px;
+  --font-size-18: 18px;
+  --font-size-16: 16px;
+  --font-size-14: 14px;
+  --font-size-12: 12px;
+  --font-size-11: 11px;
+  --font-size-10: 10px;
+
+  /* Spacing */
+  --spacing-1: 1px;
+  --spacing-64: 64px;
+  --spacing-96: 96px;
+  --spacing-128: 128px;
+  --spacing-256: 256px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-lg: 12px;
+  --radius-lg: 16px;
+
+  /* Original Site Variables */
+  /* — colors — */
+  --color-amber-400: lab(80.1641% 16.6016 99.2089);
+  --tw-ring-shadow: 0 0 #0000;
+  --color-pink-500: lab(56.9303% 76.8162 -8.07021);
+  --color-orange-600: lab(57.1026% 64.2584 89.8886);
+  --color-neutral-600: lab(34.924% 0 0);
+  --color-orange-800: lab(37.1566% 46.6433 50.5562);
+  --color-neutral-500: lab(48.496% 0 0);
+  --color-yellow-800: lab(38.7484% 23.5833 51.4916);
+  --color-bg: #fff;
+  --color-neutral-300: lab(84.92% 0 -.0000119209);
+  --color-bg-elevated: #fff;
+  --color-green-100: lab(96.1861% -13.8464 6.52365);
+  --tw-inset-ring-shadow: 0 0 #0000;
+  --color-red-200: lab(86.017% 19.8815 7.75869);
+  --color-neutral-200: lab(90.952% 0 -.0000119209);
+  --color-text-secondary: #86868b;
+  --color-green-500: lab(70.5521% -66.5147 45.8073);
+  --tw-ring-offset-color: #fff;
+  --color-white: #fff;
+  --color-red-400: lab(63.7053% 60.745 31.3109);
+  --color-accent: #1d1d1f;
+  --color-red-800: lab(33.7174% 55.8993 41.0293);
+  --color-red-500: lab(55.4814% 75.0732 48.8528);
+  --tw-ring-offset-width: 0px;
+  --color-neutral-700: lab(27.036% 0 0);
+  --color-surface-dark: #1d1d1f;
+  --color-neutral-900: lab(7.78201% -.0000149012 0);
+  --color-yellow-100: lab(97.3564% -4.51407 27.344);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --color-neutral-100: lab(96.52% -.0000298023 .0000119209);
+  --color-green-600: lab(59.0978% -58.6621 41.2579);
+  --color-green-50: lab(98.1563% -5.60117 2.75915);
+  --color-red-300: lab(76.5514% 36.422 15.5335);
+  --color-orange-500: lab(64.272% 57.1788 90.3583);
+  --color-amber-500: lab(72.7183% 31.8672 97.9407);
+  --color-yellow-700: lab(47.8202% 25.2426 66.5015);
+  --color-green-800: lab(37.4616% -36.7971 22.9692);
+  --color-red-700: lab(40.4273% 67.2623 53.7441);
+  --color-green-400: lab(78.503% -64.9265 39.7492);
+  --color-emerald-500: lab(66.9756% -58.27 19.5419);
+  --color-blue-500: lab(54.1736% 13.3369 -74.6839);
+  --color-yellow-50: lab(98.6846% -1.79055 9.7766);
+  --color-amber-700: lab(47.2709% 42.9082 69.2966);
+  --color-surface: #fbfbfd;
+  --color-accent-hover: #000;
+  --color-orange-100: lab(94.7127% 3.58394 14.3151);
+  --color-red-100: lab(92.243% 10.2865 3.83865);
+  --color-blue-600: lab(44.0605% 29.0279 -86.0352);
+  --tw-border-style: solid;
+  --color-text: #1d1d1f;
+  --color-red-600: lab(48.4493% 77.4328 61.5452);
+  --color-red-50: lab(96.5005% 4.18508 1.52328);
+  --color-border: #d2d2d7;
+  --color-black: #000;
+  --color-neutral-950: lab(2.75381% 0 0);
+  --color-neutral-400: lab(66.128% -.0000298023 .0000119209);
+  --color-green-700: lab(47.0329% -47.0239 31.4788);
+  --radius-card: 12px;
+  --color-neutral-800: lab(15.204% 0 -.00000596046);
+  --color-amber-50: lab(98.6252% -.635922 8.42309);
+  /* — spacing — */
+  --spacing: .25rem;
+  --tw-space-y-reverse: 0;
+  /* — typography — */
+  --text-2xl: 1.5rem;
+  --text-7xl: 4.5rem;
+  --text-lg: 1.125rem;
+  --text-5xl--line-height: 1;
+  --text-base--line-height: calc(1.5 / 1);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --tracking-wider: .05em;
+  --text-lg--line-height: calc(1.75 / 1.125);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --font-weight-bold: 700;
+  --text-6xl: 3.75rem;
+  --default-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --text-xs--line-height: calc(1 / .75);
+  --text-7xl--line-height: 1;
+  --text-xl: 1.25rem;
+  --leading-relaxed: 1.625;
+  --leading-snug: 1.375;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --tracking-wide: .025em;
+  --text-xl--line-height: calc(1.75 / 1.25);
+  --font-weight-semibold: 600;
+  --text-sm: .875rem;
+  --leading-tight: 1.25;
+  --text-4xl: 2.25rem;
+  --tracking-normal: 0em;
+  --text-sm--line-height: calc(1.25 / .875);
+  --text-3xl--line-height: calc(2.25 / 1.875);
+  --text-5xl: 3rem;
+  --text-3xl: 1.875rem;
+  --text-xs: .75rem;
+  --tracking-widest: .1em;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --text-6xl--line-height: 1;
+  --text-4xl--line-height: calc(2.5 / 2.25);
+  --text-base: 1rem;
+  --default-mono-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --tracking-tight: -.025em;
+  /* — shadows — */
+  --tw-inset-shadow-alpha: 100%;
+  --tw-drop-shadow-alpha: 100%;
+  --tw-inset-shadow: 0 0 #0000;
+  --tw-shadow-alpha: 100%;
+  --tw-shadow: 0 0 #0000;
+  /* — radii — */
+  --radius-sm: .25rem;
+  --radius-pill: 980px;
+  --radius-2xl: 1rem;
+  --radius-md: .375rem;
+  --radius-lg: .5rem;
+  --radius-3xl: 1.5rem;
+  --radius-xl: .75rem;
+  /* — other — */
+  --container-md: 28rem;
+  --aspect-video: 16 / 9;
+  --tw-outline-style: solid;
+  --blur-xl: 24px;
+  --tw-divide-x-reverse: 0;
+  --tw-gradient-from: rgba(0, 0, 0, 0);
+  --tw-gradient-to: rgba(0, 0, 0, 0);
+  --tw-scale-z: 1;
+  --container-sm: 24rem;
+  --tw-gradient-via-position: 50%;
+  --tw-scroll-snap-strictness: proximity;
+  --container-lg: 32rem;
+  --tw-gradient-to-position: 100%;
+  --default-transition-duration: .15s;
+  --animate-pulse: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+  --container-xs: 20rem;
+  --tw-gradient-from-position: 0%;
+  --default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  --container-5xl: 64rem;
+  --tw-translate-z: 0;
+  --tw-gradient-via: rgba(0, 0, 0, 0);
+  --tw-scale-y: 1;
+  --container-6xl: 72rem;
+  --container-3xl: 48rem;
+  --tw-translate-y: 0;
+  --blur-md: 12px;
+  --animate-spin: spin 1s linear infinite;
+  --container-4xl: 56rem;
+  --tw-content: "";
+  --tw-divide-y-reverse: 0;
+  --container-2xl: 42rem;
+  --tw-translate-x: 0;
+  --tw-scale-x: 1;
+  --ease-smooth: cubic-bezier(.25, .1, .25, 1);
+  --container-xl: 36rem;
+  --container-7xl: 80rem;
+  --blur-sm: 8px;
+  /* — semantic — */
+  success: [object Object];
+  warning: [object Object];
+  error: [object Object];
+  info: [object Object];
+
+}

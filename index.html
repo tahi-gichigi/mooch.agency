@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mooch · A lean and mighty UX agency from London</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --ink: #1d1d1f;
+    --paper: #ffffff;
+    --surface: #fbfbfd;
+    --muted: #86868b;
+    --hairline: #d2d2d7;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+    --pad-x: clamp(20px, 5vw, 56px);
+    --rhythm: clamp(80px, 12vw, 160px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ───────── Topbar ───────── */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .center { justify-self: center; color: var(--ink); font-weight: 600; letter-spacing: 0.18em; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar .num { color: var(--ink); }
+
+  /* ───────── Hero ───────── */
+  .hero {
+    position: relative;
+    padding: clamp(80px, 14vw, 180px) var(--pad-x) clamp(80px, 12vw, 140px);
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 13vw, 200px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--ink);
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: end;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero-deck {
+    font-family: var(--sans);
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 32ch;
+  }
+  .hero-spec {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 38ch;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  @media (min-width: 880px) {
+    .hero-meta {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 48px;
+    }
+    .hero-actions { justify-self: end; flex-direction: column; align-items: flex-end; }
+  }
+
+  /* Buttons */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--paper);
+    padding: 12px 20px;
+    border-radius: 980px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    border: 1px solid var(--black);
+    transition: transform 0.2s ease, background 0.15s ease;
+  }
+  .pill:hover { background: var(--ink); transform: translateY(-1px); }
+  .pill .arrow { transition: transform 0.2s ease; }
+  .pill:hover .arrow { transform: translateX(3px); }
+
+  .ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--ink);
+    padding: 12px 20px;
+    border-radius: 980px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--hairline);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .ghost:hover { border-color: var(--ink); color: var(--black); }
+
+  /* ───────── Marquee ───────── */
+  .marquee {
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+    overflow: hidden;
+    padding: 22px 0;
+    position: relative;
+  }
+  .marquee::before, .marquee::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .marquee::before { left: 0; background: linear-gradient(90deg, var(--surface), transparent); }
+  .marquee::after { right: 0; background: linear-gradient(270deg, var(--surface), transparent); }
+  .marquee-track {
+    display: flex;
+    gap: 64px;
+    width: max-content;
+    animation: scroll 38s linear infinite;
+  }
+  .marquee-track span {
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 64px;
+  }
+  .marquee-track span::after {
+    content: '✦';
+    font-family: var(--sans);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ───────── Section frame ───────── */
+  .section {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .section-inner { max-width: 1320px; margin: 0 auto; }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num strong { color: var(--ink); font-weight: 600; }
+  .section-num .rule { flex: 1; height: 1px; background: var(--hairline); max-width: 80px; }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--black);
+  }
+  .section-title em { font-style: italic; }
+  .section-lead {
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 48ch;
+    margin-top: 12px;
+  }
+
+  @media (min-width: 880px) {
+    .section-head {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+    }
+    .section-head .right { text-align: right; }
+  }
+
+  /* ───────── Work, editorial list ───────── */
+  .work-list { border-top: 1px solid var(--hairline); }
+  .work-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: baseline;
+    gap: 24px;
+    padding: 28px 4px;
+    border-bottom: 1px solid var(--hairline);
+    transition: background 0.2s ease;
+    position: relative;
+  }
+  .work-row .idx {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .work-row .client {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4.5vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    transform-origin: left center;
+    display: block;
+  }
+  .work-row .desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 52ch;
+    margin-top: 8px;
+    display: block;
+  }
+  .work-row .year {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    align-self: baseline;
+    padding-top: 16px;
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) {
+    .work-row {
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      padding: 22px 0;
+    }
+    .work-row .year { grid-column: 2; padding-top: 4px; }
+  }
+
+  /* ───────── Products, card grid ───────── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+  }
+  .product-card {
+    background: var(--paper);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 240px;
+    position: relative;
+    transition: background 0.2s ease;
+  }
+  .product-card:hover { background: var(--surface); }
+  .product-card .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .product-card .name {
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-top: 8px;
+  }
+  .product-card .name em { font-style: italic; }
+  .product-card .blurb {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    max-width: 32ch;
+  }
+  .product-card .meta {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding-top: 24px;
+  }
+  .product-card .meta .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
+  .product-card:hover .meta .arrow { transform: translateX(4px); }
+  .product-card .tag {
+    display: inline-block;
+    border: 1px solid var(--hairline);
+    padding: 3px 8px;
+    border-radius: 980px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  @media (min-width: 720px) { .product-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1080px) { .product-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+  /* ───────── About / Contact split ───────── */
+  .closer {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .closer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .closer-block { display: flex; flex-direction: column; gap: 20px; }
+  .closer-block h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--black);
+  }
+  .closer-block h3 em { font-style: italic; }
+  .closer-block p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 48ch;
+  }
+  .closer-block .small {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .closer-block .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+  @media (min-width: 880px) {
+    .closer-inner { grid-template-columns: 1fr 1fr; gap: 80px; }
+  }
+
+  /* ───────── Footer ───────── */
+  .colophon {
+    padding: 56px var(--pad-x) 40px;
+    background: var(--black);
+    color: var(--paper);
+  }
+  .colophon-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .colophon-mark {
+    font-family: var(--serif);
+    font-size: clamp(72px, 16vw, 240px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .colophon-mark em { font-style: italic; color: var(--muted); }
+  .colophon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 24px;
+    padding-top: 36px;
+    border-top: 1px solid #2a2a2c;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .colophon-grid h4 { color: var(--muted); font-weight: 400; margin-bottom: 12px; }
+  .colophon-grid a, .colophon-grid li { color: var(--paper); display: block; margin-bottom: 6px; }
+  .colophon-grid a { border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-grid a:hover { border-bottom-color: var(--paper); }
+  .colophon-foot {
+    border-top: 1px solid #2a2a2c;
+    margin-top: 36px;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+
+  @media (min-width: 880px) {
+    .colophon-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ───────── Reveal on load ───────── */
+  .reveal { opacity: 0; transform: translateY(12px); animation: reveal 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards; }
+  .reveal.d1 { animation-delay: 0.05s; }
+  .reveal.d2 { animation-delay: 0.18s; }
+  .reveal.d3 { animation-delay: 0.32s; }
+  .reveal.d4 { animation-delay: 0.46s; }
+  @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .reveal { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* ───────── Mobile topbar ───────── */
+  @media (max-width: 480px) {
+    .topbar {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 6px;
+      padding: 18px var(--pad-x);
+      text-align: center;
+    }
+    .topbar .left,
+    .topbar .right {
+      justify-self: center;
+      text-align: center;
+    }
+    .topbar .center {
+      order: -1;
+      font-size: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><span class="num">N° 01</span> &nbsp; · &nbsp; mooch.agency</div>
+  <div class="center">Mooch</div>
+  <div class="right">London &rarr; Lisbon &nbsp; · &nbsp; <span class="num">EST. 2024</span></div>
+</header>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-eyebrow reveal d1">A lean and mighty UX agency &amp; product studio</div>
+    <h1 class="reveal d2">Hey, we're <em>Mooch</em>.</h1>
+  </div>
+  <div class="hero-meta">
+    <div class="hero-deck reveal d3">Qualitative product research and brand tone of voice for teams that care about words.</div>
+    <div class="hero-spec reveal d3">Six years of shipped work for big companies, small companies, government, and a few good people in between.</div>
+    <div class="hero-actions reveal d4">
+      <a class="pill" href="#work">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>gov.uk</span><span>British Airways</span><span>zkSync</span><span>Octant</span><span>Big Debate Club</span><span>Lisbon Restaurant Group</span>
+    <span>gov.uk</span><span>British Airways</span><span>zkSync</span><span>Octant</span><span>Big Debate Club</span><span>Lisbon Restaurant Group</span>
+  </div>
+</div>
+
+<section class="section" id="work">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <div class="section-num"><strong>01</strong> Selected Work <span class="rule"></span></div>
+        <h2 class="section-title">Case studies for big <em>companies</em>, small companies, and government.</h2>
+      </div>
+    </div>
+
+    <div class="work-list">
+      <div class="work-row">
+        <span class="idx">001</span>
+        <span>
+          <span class="client">gov.uk</span>
+          <span class="desc">Designing government digital services that millions of people rely on every day.</span>
+        </span>
+        <span class="year">2024</span>
+      </div>
+      <div class="work-row">
+        <span class="idx">002</span>
+        <span>
+          <span class="client">British Airways</span>
+          <span class="desc">Bringing British heritage into the 2020s through clearer in-flight content.</span>
+        </span>
+        <span class="year">2023</span>
+      </div>
+      <div class="work-row">
+        <span class="idx">003</span>
+        <span>
+          <span class="client">zkSync</span>
+          <span class="desc">Overhauling content and onboarding for the zkSync network launch.</span>
+        </span>
+        <span class="year">2023</span>
+      </div>
+      <div class="work-row">
+        <span class="idx">004</span>
+        <span>
+          <span class="client">Octant</span>
+          <span class="desc">Simplifying public-goods funding on Ethereum without losing the politics.</span>
+        </span>
+        <span class="year">2023</span>
+      </div>
+      <div class="work-row">
+        <span class="idx">005</span>
+        <span>
+          <span class="client">Big Debate Club</span>
+          <span class="desc">Automating content delivery so writers can focus on the writing.</span>
+        </span>
+        <span class="year">2024</span>
+      </div>
+      <div class="work-row">
+        <span class="idx">006</span>
+        <span>
+          <span class="client">Lisbon Restaurant Group</span>
+          <span class="desc">Automating Google review replies across 4 locations in 5 languages.</span>
+        </span>
+        <span class="year">2024</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <div class="section-num"><strong>02</strong> Products &amp; Playthings <span class="rule"></span></div>
+        <h2 class="section-title">Things we've made for <em>ourselves</em> and others.</h2>
+        <p class="section-lead">Three products in market, three prompts in heavy rotation, five playthings that exist mainly because they made us laugh.</p>
+      </div>
+      <div class="right"><a class="ghost" href="https://www.notion.so/2e6804529ed080358d7cfe5c9d86050d">See all 11 <span class="arrow">&rarr;</span></a></div>
+    </div>
+
+    <div class="product-grid">
+      <a class="product-card" href="https://toneofvoice.app">
+        <span class="label">Product · Live</span>
+        <span class="name">tone<em>of</em>voice.app</span>
+        <span class="blurb">Generate professional tone-of-voice guidelines in minutes.</span>
+        <span class="meta"><span>toneofvoice.app</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="product-card" href="https://usefortress.vercel.app">
+        <span class="label">Product · Private alpha</span>
+        <span class="name">fortress</span>
+        <span class="blurb">Run a full content audit on your website and find what's quietly broken.</span>
+        <span class="meta"><span class="tag">alpha</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="product-card" href="https://joinhighway.vercel.app/">
+        <span class="label">Product · Waitlist</span>
+        <span class="name">highway</span>
+        <span class="blurb">Automate SEO-optimised articles on your site, without the slop.</span>
+        <span class="meta"><span class="tag">waitlist</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="product-card" href="https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118" target="_blank" rel="noopener">
+        <span class="label">Prompt</span>
+        <span class="name">/sound<em>like</em>me</span>
+        <span class="blurb">A prompt that makes AI write in your actual voice, not the corporate one.</span>
+        <span class="meta"><span>3 prompts</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="product-card" href="https://egotrip.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">egotrip</span>
+        <span class="blurb">A snobby AI travel agent who finds the sunniest cities near you.</span>
+        <span class="meta"><span>5 playthings</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="product-card" href="http://sassgpt.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">sassgpt</span>
+        <span class="blurb">A ChatGPT clone where the models have attitude. Sometimes too much.</span>
+        <span class="meta"><span>and more</span><span class="arrow">&rarr;</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="closer" id="contact">
+  <div class="closer-inner">
+    <div class="closer-block">
+      <span class="small">03 / About</span>
+      <h3>A husband-and-wife team of <em>two</em>, working from London &amp; Lisbon.</h3>
+      <p>We started Mooch because we wanted to work on things we care about, with people we like, from anywhere in the world. So far, so good.</p>
+      <div class="actions">
+        <a class="ghost" href="https://www.notion.so/d7fea009cb8c4bd49ac04c0ad26d9287">Read more about us <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+    <div class="closer-block">
+      <span class="small">04 / Contact</span>
+      <h3>A new project. A small idea. A chat over <em>coffee</em>.</h3>
+      <p>All welcome. We reply to everything that isn't a sales email, usually within a day.</p>
+      <div class="actions">
+        <a class="pill" href="mailto:hey@mooch.agency">hey@mooch.agency <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-mark">Mooch<em>.</em></div>
+
+    <div class="colophon-grid">
+      <div>
+        <h4>Index</h4>
+        <a href="#work">Selected work</a>
+        <a href="#products">Products</a>
+        <a href="#contact">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <a>London &rarr; Lisbon</a>
+        <a>Est. 2024</a>
+        <a>Two humans</a>
+      </div>
+      <div>
+        <h4>Elsewhere</h4>
+        <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+        <a href="https://toneofvoice.app">toneofvoice.app</a>
+      </div>
+      <div>
+        <h4>Mail</h4>
+        <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+      </div>
+    </div>
+
+    <div class="colophon-foot">
+      <span>© 2026 Mooch Agency Ltd.</span>
+      <span>Set in Instrument Serif &amp; SF Pro.</span>
+      <span>v0.1 / homepage</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
