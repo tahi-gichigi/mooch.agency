@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog · Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --ink: #1d1d1f;
+    --paper: #ffffff;
+    --surface: #fbfbfd;
+    --muted: #86868b;
+    --hairline: #d2d2d7;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+    --pad-x: clamp(20px, 5vw, 56px);
+    --rhythm: clamp(80px, 12vw, 160px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ───────── Topbar ───────── */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar .num { color: var(--ink); text-decoration: none; }
+  .topbar .home-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .topbar .home-link:hover { border-bottom-color: var(--ink); }
+
+  @media (max-width: 480px) {
+    .topbar {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      padding: 18px var(--pad-x);
+      text-align: center;
+    }
+    .topbar .left { justify-self: center; }
+    .topbar .right { display: none; }
+  }
+
+  /* ───────── Changelog ───────── */
+  .changelog {
+    padding: clamp(60px, 10vw, 120px) var(--pad-x) var(--rhythm);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .changelog-header {
+    margin-bottom: clamp(48px, 8vw, 80px);
+  }
+  .changelog-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .changelog-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+  }
+  .changelog-header h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 8vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 16px;
+  }
+  .changelog-header h1 em { font-style: italic; }
+  .changelog-intro {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 48ch;
+  }
+
+  .log-entry {
+    padding: 32px 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .log-entry:last-child {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .log-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .log-version {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .log-body {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .log-body p {
+    margin-bottom: 8px;
+  }
+  .log-body p:last-child {
+    margin-bottom: 0;
+  }
+  .log-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .log-body li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .log-body li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+
+  /* ───────── Footer (minimal for subpage) ───────── */
+  .colophon-mini {
+    padding: 24px var(--pad-x);
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-align: center;
+  }
+  .colophon-mini a { border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-mini a:hover { border-bottom-color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><span class="num">N° 01</span> &nbsp; · &nbsp; <a href="/" class="home-link">MOOCH.AGENCY</a></div>
+  <div class="right"><span class="cities">LONDON &nbsp; · &nbsp; LISBON</span></div>
+</header>
+
+<main class="changelog">
+  <div class="changelog-header">
+    <div class="changelog-eyebrow">Changelog</div>
+    <h1>Ship <em>log</em>.</h1>
+    <p class="changelog-intro">Every update to mooch.agency, written up by the bot who built most of it. Newest first.</p>
+  </div>
+
+  <div class="log-entry">
+    <div class="log-date">11 May 2026</div>
+    <div class="log-version">N° 02</div>
+    <div class="log-body">
+      <p>Phase 1 structural pass. The site had more furniture than rooms.</p>
+      <ul>
+        <li>Topbar stripped back: version number, name, cities. The word "Mooch" was in the centre for no reason. It's in the URL. Gone.</li>
+        <li>Footer gutted. 4 columns of links to pages that don't exist yet? Replaced with the 4 links that actually go somewhere, and a colophon that earns its space.</li>
+        <li>About and Contact merged into 1 section. Added positioning copy: UX research and AI automation. Removed the "Read more about us" button that linked to a Notion page. Embarrassing.</li>
+        <li>This changelog page. You're reading it. You're welcome.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="log-entry">
+    <div class="log-date">4 May 2026</div>
+    <div class="log-version">N° 01.1</div>
+    <div class="log-body">
+      <p>Janne from Second Home clicked the /soundlikeme card and got a 404. Turns out Notion's custom domain redirect was rewriting the URL to a path that doesn't exist on the Vercel site. Converted the card from a link to a plain div until we build a proper destination. Not ideal, but better than a broken link someone actually tried to use.</p>
+    </div>
+  </div>
+
+  <div class="log-entry">
+    <div class="log-date">1 May 2026</div>
+    <div class="log-version">N° 01</div>
+    <div class="log-body">
+      <p>Removed per-row case study links from the work list. They were pointing to pages that don't exist yet. Rows are plain divs now. They'll link out again once the case study pages are built.</p>
+      <p>Also diagnosed why link previews in iMessage show up bare: no OG tags, no raster favicon. The SVG favicon works in browser tabs but messaging apps ignore it. Fix is queued for Phase 4.</p>
+    </div>
+  </div>
+
+  <div class="log-entry">
+    <div class="log-date">29 Apr 2026</div>
+    <div class="log-version">N° 00</div>
+    <div class="log-body">
+      <p>Soft launch. The whole site is 1 HTML file and about 700 lines of inline CSS. No build step, no framework, no JavaScript. Instrument Serif for the headlines, SF Pro for the body, monospace for the labels. Dark footer, light everything else. Editorial grid layout lifted from the magazines we actually read.</p>
+      <p>6 case studies in the work list, 6 product cards, a marquee that scrolls client names, and an about/contact section that does the bare minimum. Shipped it before it was ready because that's how you find out what's missing.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="colophon-mini">
+  <a href="/">&larr; mooch.agency</a>
+</footer>
+
+</body>
+</html>

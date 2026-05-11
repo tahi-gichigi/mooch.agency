@@ -41,7 +41,7 @@
   /* ───────── Topbar ───────── */
   .topbar {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr auto;
     align-items: center;
     padding: 24px var(--pad-x);
     font-family: var(--mono);
@@ -52,9 +52,9 @@
     border-bottom: 1px solid var(--hairline);
   }
   .topbar .left { justify-self: start; }
-  .topbar .center { justify-self: center; color: var(--ink); font-weight: 600; letter-spacing: 0.18em; }
   .topbar .right { justify-self: end; text-align: right; }
-  .topbar .num { color: var(--ink); }
+  .topbar .num { color: var(--ink); text-decoration: none; }
+  .topbar .num:hover { border-bottom: 1px solid var(--ink); }
 
   /* ───────── Hero ───────── */
   .hero {
@@ -449,10 +449,11 @@
     letter-spacing: -0.04em;
   }
   .colophon-mark em { font-style: italic; color: var(--muted); }
-  .colophon-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 24px;
+  .colophon-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
     padding-top: 36px;
     border-top: 1px solid #2a2a2c;
     font-family: var(--mono);
@@ -460,10 +461,9 @@
     text-transform: uppercase;
     letter-spacing: 0.12em;
   }
-  .colophon-grid h4 { color: var(--muted); font-weight: 400; margin-bottom: 12px; }
-  .colophon-grid a, .colophon-grid li { color: var(--paper); display: block; margin-bottom: 6px; }
-  .colophon-grid a { border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
-  .colophon-grid a:hover { border-bottom-color: var(--paper); }
+  .colophon-links a { color: var(--paper); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-links a:hover { border-bottom-color: var(--paper); }
+  .colophon-sep { color: var(--muted); font-size: 10px; }
   .colophon-foot {
     border-top: 1px solid #2a2a2c;
     margin-top: 36px;
@@ -478,10 +478,9 @@
     letter-spacing: 0.18em;
     color: var(--muted);
   }
-
-  @media (min-width: 880px) {
-    .colophon-grid { grid-template-columns: repeat(4, 1fr); }
-  }
+  .colophon-credits { max-width: 48ch; text-align: center; }
+  .colophon-version { color: var(--muted); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-version:hover { border-bottom-color: var(--paper); color: var(--paper); }
 
   /* ───────── Reveal on load ───────── */
   .reveal { opacity: 0; transform: translateY(12px); animation: reveal 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards; }
@@ -501,28 +500,19 @@
     .topbar {
       grid-template-columns: 1fr;
       justify-items: center;
-      gap: 6px;
       padding: 18px var(--pad-x);
       text-align: center;
     }
-    .topbar .left,
-    .topbar .right {
-      justify-self: center;
-      text-align: center;
-    }
-    .topbar .center {
-      order: -1;
-      font-size: 12px;
-    }
+    .topbar .left { justify-self: center; }
+    .topbar .right { display: none; }
   }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="left"><span class="num">N° 01</span> &nbsp; · &nbsp; mooch.agency</div>
-  <div class="center">Mooch</div>
-  <div class="right">London &rarr; Lisbon &nbsp; · &nbsp; <span class="num">EST. 2024</span></div>
+  <div class="left"><a href="/log" class="num">N° 01</a> &nbsp; · &nbsp; MOOCH.AGENCY</div>
+  <div class="right"><span class="cities">LONDON &nbsp; · &nbsp; LISBON</span></div>
 </header>
 
 <section class="hero">
@@ -661,18 +651,16 @@
   </div>
 </section>
 
-<section class="closer" id="contact">
+<section class="closer" id="about">
   <div class="closer-inner">
     <div class="closer-block">
       <span class="small">03 / About</span>
       <h3>A husband-and-wife team of <em>two</em>, working from London &amp; Lisbon.</h3>
+      <p>We do UX research and AI automation. The research figures out what people actually need. The automation builds it and keeps it running. Most of our clients come to us for one and stay for both.</p>
       <p>We started Mooch because we wanted to work on things we care about, with people we like, from anywhere in the world. So far, so good.</p>
-      <div class="actions">
-        <a class="ghost" href="https://www.notion.so/d7fea009cb8c4bd49ac04c0ad26d9287">Read more about us <span class="arrow">&rarr;</span></a>
-      </div>
     </div>
-    <div class="closer-block">
-      <span class="small">04 / Contact</span>
+    <div class="closer-block" id="contact">
+      <span class="small">Get in touch</span>
       <h3>A new project. A small idea. A chat over <em>coffee</em>.</h3>
       <p>All welcome. We reply to everything that isn't a sales email, usually within a day.</p>
       <div class="actions">
@@ -686,35 +674,20 @@
   <div class="colophon-inner">
     <div class="colophon-mark">Mooch<em>.</em></div>
 
-    <div class="colophon-grid">
-      <div>
-        <h4>Index</h4>
-        <a href="#work">Selected work</a>
-        <a href="#products">Products</a>
-        <a href="#contact">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div>
-        <h4>Studio</h4>
-        <a>London &rarr; Lisbon</a>
-        <a>Est. 2024</a>
-        <a>Two humans</a>
-      </div>
-      <div>
-        <h4>Elsewhere</h4>
-        <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
-        <a href="https://toneofvoice.app">toneofvoice.app</a>
-      </div>
-      <div>
-        <h4>Mail</h4>
-        <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
-      </div>
+    <div class="colophon-links">
+      <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://moochagency.substack.com">Substack</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://toneofvoice.app">toneofvoice.app</a>
     </div>
 
     <div class="colophon-foot">
-      <span>© 2026 Mooch Agency Ltd.</span>
-      <span>Set in Instrument Serif &amp; SF Pro.</span>
-      <span>v0.1 / homepage</span>
+      <span>&copy; 2026 Mooch Agency Ltd.</span>
+      <span class="colophon-credits">Set in Instrument Serif &amp; SF Pro. Built by two humans and one MoochBot. Hosted on Vercel because we're not animals.</span>
+      <a href="/log" class="colophon-version">N° 01</a>
     </div>
   </div>
 </footer>
