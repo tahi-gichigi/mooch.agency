@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mooch · A lean and mighty UX agency from London</title>
+<title>Mooch · UX research and AI automation</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,10 +100,6 @@
     color: var(--ink);
   }
   .hero-meta {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 28px;
-    align-items: end;
     max-width: 1320px;
     margin: 0 auto;
   }
@@ -114,27 +110,13 @@
     letter-spacing: -0.01em;
     font-weight: 500;
     color: var(--ink);
-    max-width: 32ch;
-  }
-  .hero-spec {
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--muted);
     max-width: 38ch;
   }
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 8px;
-  }
-
-  @media (min-width: 880px) {
-    .hero-meta {
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 48px;
-    }
-    .hero-actions { justify-self: end; flex-direction: column; align-items: flex-end; }
+    margin-top: 28px;
   }
 
   /* Buttons */
@@ -277,7 +259,11 @@
     border-bottom: 1px solid var(--hairline);
     transition: background 0.2s ease;
     position: relative;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
   }
+  .work-row:hover { background: var(--surface); }
   .work-row .idx {
     font-family: var(--mono);
     font-size: 12px;
@@ -311,6 +297,27 @@
     padding-top: 16px;
     white-space: nowrap;
   }
+  .work-row .discipline {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    border: 1px solid var(--hairline);
+    padding: 2px 8px;
+    border-radius: 980px;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+  .work-row .tldr {
+    display: block;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 6px;
+  }
   @media (max-width: 720px) {
     .work-row {
       grid-template-columns: 40px 1fr;
@@ -318,35 +325,55 @@
       padding: 22px 0;
     }
     .work-row .year { grid-column: 2; padding-top: 4px; }
+    .work-row .discipline { margin-left: 8px; }
   }
 
-  /* ───────── Products, card grid ───────── */
-  .product-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1px;
-    background: var(--hairline);
-    border: 1px solid var(--hairline);
+  /* ───────── Carousel: Things we've made ───────── */
+  :root {
+    --cat-product: hsl(220, 15%, 97%);
+    --cat-prompt: hsl(270, 15%, 97%);
+    --cat-plaything: hsl(35, 15%, 97%);
   }
-  .product-card {
-    background: var(--paper);
+  .carousel-wrap {
+    position: relative;
+  }
+  .carousel-track {
+    display: flex;
+    gap: 1px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    cursor: grab;
+  }
+  .carousel-track:active { cursor: grabbing; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .carousel-card {
+    flex: 0 0 min(360px, 85vw);
+    scroll-snap-align: start;
     padding: 36px 32px;
     display: flex;
     flex-direction: column;
     gap: 14px;
-    min-height: 240px;
-    position: relative;
-    transition: background 0.2s ease;
+    min-height: 260px;
+    border: 1px solid var(--hairline);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease;
   }
-  .product-card:hover { background: var(--surface); }
-  .product-card .label {
+  .carousel-card:hover { border-color: var(--muted); }
+  .carousel-card[data-cat="product"] { background: var(--cat-product); }
+  .carousel-card[data-cat="prompt"] { background: var(--cat-prompt); }
+  .carousel-card[data-cat="plaything"] { background: var(--cat-plaything); }
+  .carousel-card .label {
     font-family: var(--mono);
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: var(--muted);
+    color: var(--ink);
+    font-weight: 600;
   }
-  .product-card .name {
+  .carousel-card .name {
     font-family: var(--serif);
     font-size: 36px;
     line-height: 1;
@@ -354,14 +381,14 @@
     color: var(--black);
     margin-top: 8px;
   }
-  .product-card .name em { font-style: italic; }
-  .product-card .blurb {
+  .carousel-card .name em { font-style: italic; }
+  .carousel-card .blurb {
     font-size: 15px;
     line-height: 1.5;
     color: var(--ink);
     max-width: 32ch;
   }
-  .product-card .meta {
+  .carousel-card .cta {
     margin-top: auto;
     display: flex;
     justify-content: space-between;
@@ -373,19 +400,36 @@
     color: var(--muted);
     padding-top: 24px;
   }
-  .product-card .meta .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
-  .product-card:hover .meta .arrow { transform: translateX(4px); }
-  .product-card .tag {
-    display: inline-block;
+  .carousel-card .cta .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
+  .carousel-card:hover .cta .arrow { transform: translateX(4px); }
+  .carousel-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     border: 1px solid var(--hairline);
-    padding: 3px 8px;
-    border-radius: 980px;
-    font-size: 10px;
+    background: var(--paper);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--ink);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .carousel-btn:hover { border-color: var(--ink); background: var(--surface); }
+  .carousel-btn:disabled { opacity: 0.3; cursor: default; }
+  .carousel-counter {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
     color: var(--muted);
   }
-
-  @media (min-width: 720px) { .product-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1080px) { .product-grid { grid-template-columns: 1fr 1fr 1fr; } }
 
   /* ───────── About / Contact split ───────── */
   .closer {
@@ -517,12 +561,11 @@
 
 <section class="hero">
   <div class="hero-grid">
-    <div class="hero-eyebrow reveal d1">A lean and mighty UX agency &amp; product studio</div>
+    <div class="hero-eyebrow reveal d1">UX research &amp; AI automation</div>
     <h1 class="reveal d2">Hey, we're <em>Mooch</em>.</h1>
   </div>
   <div class="hero-meta">
-    <div class="hero-deck reveal d3">Qualitative product research and brand tone of voice for teams that care about words.</div>
-    <div class="hero-spec reveal d3">Six years of shipped work for big companies, small companies, government, and a few good people in between.</div>
+    <div class="hero-deck reveal d3">We figure out what people actually need, then build the AI to deliver it.</div>
     <div class="hero-actions reveal d4">
       <a class="pill" href="#work">See selected work <span class="arrow">&rarr;</span></a>
       <a class="ghost" href="#contact">Get in touch</a>
@@ -547,54 +590,54 @@
     </div>
 
     <div class="work-list">
-      <div class="work-row">
+      <a class="work-row" href="#" data-case-study="/work/gov-uk">
         <span class="idx">001</span>
         <span>
-          <span class="client">gov.uk</span>
-          <span class="desc">Designing government digital services that millions of people rely on every day.</span>
+          <span class="client">gov.uk <span class="discipline">UX</span></span>
+          <span class="tldr">Designing government digital services that millions of people rely on every day.</span>
         </span>
         <span class="year">2024</span>
-      </div>
-      <div class="work-row">
+      </a>
+      <a class="work-row" href="#" data-case-study="/work/british-airways">
         <span class="idx">002</span>
         <span>
-          <span class="client">British Airways</span>
-          <span class="desc">Bringing British heritage into the 2020s through clearer in-flight content.</span>
+          <span class="client">British Airways <span class="discipline">UX</span></span>
+          <span class="tldr">Bringing British heritage into the 2020s through clearer in-flight content.</span>
         </span>
         <span class="year">2023</span>
-      </div>
-      <div class="work-row">
+      </a>
+      <a class="work-row" href="#" data-case-study="/work/zksync">
         <span class="idx">003</span>
         <span>
-          <span class="client">zkSync</span>
-          <span class="desc">Overhauling content and onboarding for the zkSync network launch.</span>
+          <span class="client">zkSync <span class="discipline">UX</span></span>
+          <span class="tldr">Overhauling content and onboarding for the zkSync network launch.</span>
         </span>
         <span class="year">2023</span>
-      </div>
-      <div class="work-row">
+      </a>
+      <a class="work-row" href="#" data-case-study="/work/octant">
         <span class="idx">004</span>
         <span>
-          <span class="client">Octant</span>
-          <span class="desc">Simplifying public-goods funding on Ethereum without losing the politics.</span>
+          <span class="client">Octant <span class="discipline">UX</span></span>
+          <span class="tldr">Simplifying public-goods funding on Ethereum without losing the politics.</span>
         </span>
         <span class="year">2023</span>
-      </div>
-      <div class="work-row">
+      </a>
+      <a class="work-row" href="#" data-case-study="/work/big-debate-club">
         <span class="idx">005</span>
         <span>
-          <span class="client">Big Debate Club</span>
-          <span class="desc">Automating content delivery so writers can focus on the writing.</span>
+          <span class="client">Big Debate Club <span class="discipline">AI</span></span>
+          <span class="tldr">Automating content delivery so writers can focus on the writing.</span>
         </span>
         <span class="year">2024</span>
-      </div>
-      <div class="work-row">
+      </a>
+      <a class="work-row" href="#" data-case-study="/work/lisbon-restaurant-group">
         <span class="idx">006</span>
         <span>
-          <span class="client">Lisbon Restaurant Group</span>
-          <span class="desc">Automating Google review replies across 4 locations in 5 languages.</span>
+          <span class="client">Lisbon Restaurant Group <span class="discipline">AI</span></span>
+          <span class="tldr">Automating Google review replies across 4 locations in 5 languages.</span>
         </span>
         <span class="year">2024</span>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -607,46 +650,82 @@
         <h2 class="section-title">Things we've made for <em>ourselves</em> and others.</h2>
         <p class="section-lead">Three products in market, three prompts in heavy rotation, five playthings that exist mainly because they made us laugh.</p>
       </div>
-      <div class="right"><a class="ghost" href="https://www.notion.so/2e6804529ed080358d7cfe5c9d86050d">See all 11 <span class="arrow">&rarr;</span></a></div>
     </div>
 
-    <div class="product-grid">
-      <a class="product-card" href="https://toneofvoice.app">
-        <span class="label">Product · Live</span>
-        <span class="name">tone<em>of</em>voice.app</span>
-        <span class="blurb">Generate professional tone-of-voice guidelines in minutes.</span>
-        <span class="meta"><span>toneofvoice.app</span><span class="arrow">&rarr;</span></span>
-      </a>
-      <a class="product-card" href="https://usefortress.vercel.app">
-        <span class="label">Product · Private alpha</span>
-        <span class="name">fortress</span>
-        <span class="blurb">Run a full content audit on your website and find what's quietly broken.</span>
-        <span class="meta"><span class="tag">alpha</span><span class="arrow">&rarr;</span></span>
-      </a>
-      <a class="product-card" href="https://joinhighway.vercel.app/">
-        <span class="label">Product · Waitlist</span>
-        <span class="name">highway</span>
-        <span class="blurb">Automate SEO-optimised articles on your site, without the slop.</span>
-        <span class="meta"><span class="tag">waitlist</span><span class="arrow">&rarr;</span></span>
-      </a>
-      <a class="product-card" href="https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118" target="_blank" rel="noopener">
-        <span class="label">Prompt</span>
-        <span class="name">/sound<em>like</em>me</span>
-        <span class="blurb">A prompt that makes AI write in your actual voice, not the corporate one.</span>
-        <span class="meta"><span>3 prompts</span><span class="arrow">&rarr;</span></span>
-      </a>
-      <a class="product-card" href="https://egotrip.vercel.app/">
-        <span class="label">Plaything</span>
-        <span class="name">egotrip</span>
-        <span class="blurb">A snobby AI travel agent who finds the sunniest cities near you.</span>
-        <span class="meta"><span>5 playthings</span><span class="arrow">&rarr;</span></span>
-      </a>
-      <a class="product-card" href="http://sassgpt.vercel.app/">
-        <span class="label">Plaything</span>
-        <span class="name">sassgpt</span>
-        <span class="blurb">A ChatGPT clone where the models have attitude. Sometimes too much.</span>
-        <span class="meta"><span>and more</span><span class="arrow">&rarr;</span></span>
-      </a>
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="carousel-track">
+        <a class="carousel-card" data-cat="product" href="https://toneofvoice.app">
+          <span class="label">Product · Live</span>
+          <span class="name">tone<em>of</em>voice.app</span>
+          <span class="blurb">Generate professional tone-of-voice guidelines in minutes.</span>
+          <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="product" href="https://usefortress.vercel.app">
+          <span class="label">Product · Private alpha</span>
+          <span class="name">fortress</span>
+          <span class="blurb">Run a full content audit on your website and find what's quietly broken.</span>
+          <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="product" href="https://joinhighway.vercel.app/">
+          <span class="label">Product · Waitlist</span>
+          <span class="name">highway</span>
+          <span class="blurb">Automate SEO-optimised articles on your site, without the slop.</span>
+          <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="prompt" href="https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118" target="_blank" rel="noopener">
+          <span class="label">Prompt</span>
+          <span class="name">/sound<em>like</em>me</span>
+          <span class="blurb">A prompt that makes AI write in your actual voice, not the corporate one.</span>
+          <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="prompt" href="https://www.notion.so/tahi/deslop-a60e4b10f9df43f3bf6ea366eed1b31f" target="_blank" rel="noopener">
+          <span class="label">Prompt</span>
+          <span class="name">/deslop</span>
+          <span class="blurb">A prompt to remove signs of AI writing.</span>
+          <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="prompt" href="https://www.notion.so/tahi/revolut-account-migration-dcdc2afa0c0940e289aca3761dc6b638" target="_blank" rel="noopener">
+          <span class="label">Prompt</span>
+          <span class="name">/revolut-account-migration</span>
+          <span class="blurb">A prompt to help you close your Revolut account and open a new local one.</span>
+          <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="plaything" href="http://sassgpt.vercel.app/">
+          <span class="label">Plaything</span>
+          <span class="name">sassgpt</span>
+          <span class="blurb">ChatGPT clone where the models have attitude. Sometimes too much.</span>
+          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="plaything" href="http://gravity-v0.vercel.app/">
+          <span class="label">Plaything</span>
+          <span class="name">gravity</span>
+          <span class="blurb">Clone of v0.dev that roasts your app ideas.</span>
+          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="plaything" href="https://egotrip.vercel.app/">
+          <span class="label">Plaything</span>
+          <span class="name">egotrip</span>
+          <span class="blurb">A snobby AI travel agent who finds the sunniest cities near you.</span>
+          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="plaything" href="https://onlyfans-gpu.vercel.app/">
+          <span class="label">Plaything · Mockup</span>
+          <span class="name">onlyfans</span>
+          <span class="blurb">Pre-loved GPU marketplace for discerning buyers.</span>
+          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
+        </a>
+        <a class="carousel-card" data-cat="plaything" href="http://alibi-saas.vercel.app/">
+          <span class="label">Plaything · Mockup</span>
+          <span class="name">alibi</span>
+          <span class="blurb">Client dispute app channelling a legal drama.</span>
+          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
+        </a>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="carousel-prev" aria-label="Previous">&larr;</button>
+        <span class="carousel-counter" id="carousel-counter">1 / 11</span>
+        <button class="carousel-btn" id="carousel-next" aria-label="Next">&rarr;</button>
+      </div>
     </div>
   </div>
 </section>
@@ -692,5 +771,81 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var track = document.getElementById('carousel-track');
+  var prev = document.getElementById('carousel-prev');
+  var next = document.getElementById('carousel-next');
+  var counter = document.getElementById('carousel-counter');
+  var cards = track.querySelectorAll('.carousel-card');
+  var total = cards.length;
+  var current = 0;
+
+  function scrollToCard(i) {
+    i = Math.max(0, Math.min(i, total - 1));
+    current = i;
+    cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    updateCounter();
+  }
+
+  function updateCounter() {
+    counter.textContent = (current + 1) + ' / ' + total;
+    prev.disabled = current === 0;
+    next.disabled = current === total - 1;
+  }
+
+  prev.addEventListener('click', function () { scrollToCard(current - 1); });
+  next.addEventListener('click', function () { scrollToCard(current + 1); });
+
+  // Sync counter on manual scroll/swipe
+  var scrollTimer;
+  track.addEventListener('scroll', function () {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () {
+      var trackLeft = track.scrollLeft;
+      var closest = 0;
+      var closestDist = Infinity;
+      for (var i = 0; i < total; i++) {
+        var dist = Math.abs(cards[i].offsetLeft - track.offsetLeft - trackLeft);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      }
+      current = closest;
+      updateCounter();
+    }, 80);
+  });
+
+  // Drag to scroll (desktop)
+  var isDragging = false;
+  var startX = 0;
+  var scrollStart = 0;
+  var didDrag = false;
+
+  track.addEventListener('mousedown', function (e) {
+    isDragging = true;
+    didDrag = false;
+    startX = e.pageX;
+    scrollStart = track.scrollLeft;
+    track.style.scrollSnapType = 'none';
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!isDragging) return;
+    var dx = e.pageX - startX;
+    if (Math.abs(dx) > 4) didDrag = true;
+    track.scrollLeft = scrollStart - dx;
+  });
+  window.addEventListener('mouseup', function () {
+    if (!isDragging) return;
+    isDragging = false;
+    track.style.scrollSnapType = 'x mandatory';
+  });
+
+  // Prevent click on links after drag
+  track.addEventListener('click', function (e) {
+    if (didDrag) { e.preventDefault(); didDrag = false; }
+  }, true);
+
+  updateCounter();
+})();
+</script>
 </body>
 </html>
