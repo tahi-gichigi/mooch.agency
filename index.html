@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mooch | UX research and AI automation</title>
+<title>Mooch - UX research and AI automation</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -378,6 +378,12 @@
     letter-spacing: -0.02em;
     color: var(--black);
     margin-top: 8px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  @media (max-width: 420px) {
+    .carousel-card .name { font-size: 30px; }
   }
   .carousel-card .name em { font-style: italic; }
   .carousel-card .blurb {
@@ -593,7 +599,7 @@
     </div>
 
     <div class="work-list">
-      <a class="work-row" href="#" onclick="return false" data-case-study="/work/gov-uk">
+      <a class="work-row" href="javascript:void(0)" data-case-study="/work/gov-uk">
         <span class="idx">001</span>
         <span>
           <span class="client">gov.uk <span class="discipline">UX</span></span>
@@ -601,7 +607,7 @@
         </span>
         <span class="year">2024</span>
       </a>
-      <a class="work-row" href="#" onclick="return false" data-case-study="/work/british-airways">
+      <a class="work-row" href="javascript:void(0)" data-case-study="/work/british-airways">
         <span class="idx">002</span>
         <span>
           <span class="client">British Airways <span class="discipline">UX</span></span>
@@ -609,7 +615,7 @@
         </span>
         <span class="year">2023</span>
       </a>
-      <a class="work-row" href="#" onclick="return false" data-case-study="/work/zksync">
+      <a class="work-row" href="javascript:void(0)" data-case-study="/work/zksync">
         <span class="idx">003</span>
         <span>
           <span class="client">zkSync <span class="discipline">UX</span></span>
@@ -617,7 +623,7 @@
         </span>
         <span class="year">2023</span>
       </a>
-      <a class="work-row" href="#" onclick="return false" data-case-study="/work/octant">
+      <a class="work-row" href="javascript:void(0)" data-case-study="/work/octant">
         <span class="idx">004</span>
         <span>
           <span class="client">Octant <span class="discipline">UX</span></span>
@@ -625,7 +631,7 @@
         </span>
         <span class="year">2023</span>
       </a>
-      <a class="work-row" href="#" onclick="return false" data-case-study="/work/big-debate-club">
+      <a class="work-row" href="javascript:void(0)" data-case-study="/work/big-debate-club">
         <span class="idx">005</span>
         <span>
           <span class="client">Big Debate Club <span class="discipline">AI</span></span>
@@ -633,7 +639,7 @@
         </span>
         <span class="year">2024</span>
       </a>
-      <a class="work-row" href="#" onclick="return false" data-case-study="/work/lisbon-restaurant-group">
+      <a class="work-row" href="javascript:void(0)" data-case-study="/work/lisbon-restaurant-group">
         <span class="idx">006</span>
         <span>
           <span class="client">Lisbon Restaurant Group <span class="discipline">AI</span></span>
@@ -830,6 +836,7 @@
   var didDrag = false;
 
   track.addEventListener('mousedown', function (e) {
+    if (prefersReducedMotion) return;
     isDragging = true;
     didDrag = false;
     startX = e.pageX;
