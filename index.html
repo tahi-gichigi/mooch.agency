@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mooch · UX research and AI automation</title>
+<title>Mooch | UX research and AI automation</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,9 @@
     --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
     --pad-x: clamp(20px, 5vw, 56px);
     --rhythm: clamp(80px, 12vw, 160px);
+    --cat-product: hsl(220, 15%, 97%);
+    --cat-prompt: hsl(270, 15%, 97%);
+    --cat-plaything: hsl(35, 15%, 97%);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -329,11 +332,6 @@
   }
 
   /* ───────── Carousel: Things we've made ───────── */
-  :root {
-    --cat-product: hsl(220, 15%, 97%);
-    --cat-prompt: hsl(270, 15%, 97%);
-    --cat-plaything: hsl(35, 15%, 97%);
-  }
   .carousel-wrap {
     position: relative;
   }
@@ -424,6 +422,11 @@
   }
   .carousel-btn:hover { border-color: var(--ink); background: var(--surface); }
   .carousel-btn:disabled { opacity: 0.3; cursor: default; }
+  .carousel-track:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .carousel-track:focus:not(:focus-visible) { outline: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track { scroll-snap-type: none; scroll-behavior: auto; }
+  }
   .carousel-counter {
     font-family: var(--mono);
     font-size: 11px;
@@ -590,7 +593,7 @@
     </div>
 
     <div class="work-list">
-      <a class="work-row" href="#" data-case-study="/work/gov-uk">
+      <a class="work-row" href="#" onclick="return false" data-case-study="/work/gov-uk">
         <span class="idx">001</span>
         <span>
           <span class="client">gov.uk <span class="discipline">UX</span></span>
@@ -598,7 +601,7 @@
         </span>
         <span class="year">2024</span>
       </a>
-      <a class="work-row" href="#" data-case-study="/work/british-airways">
+      <a class="work-row" href="#" onclick="return false" data-case-study="/work/british-airways">
         <span class="idx">002</span>
         <span>
           <span class="client">British Airways <span class="discipline">UX</span></span>
@@ -606,7 +609,7 @@
         </span>
         <span class="year">2023</span>
       </a>
-      <a class="work-row" href="#" data-case-study="/work/zksync">
+      <a class="work-row" href="#" onclick="return false" data-case-study="/work/zksync">
         <span class="idx">003</span>
         <span>
           <span class="client">zkSync <span class="discipline">UX</span></span>
@@ -614,7 +617,7 @@
         </span>
         <span class="year">2023</span>
       </a>
-      <a class="work-row" href="#" data-case-study="/work/octant">
+      <a class="work-row" href="#" onclick="return false" data-case-study="/work/octant">
         <span class="idx">004</span>
         <span>
           <span class="client">Octant <span class="discipline">UX</span></span>
@@ -622,7 +625,7 @@
         </span>
         <span class="year">2023</span>
       </a>
-      <a class="work-row" href="#" data-case-study="/work/big-debate-club">
+      <a class="work-row" href="#" onclick="return false" data-case-study="/work/big-debate-club">
         <span class="idx">005</span>
         <span>
           <span class="client">Big Debate Club <span class="discipline">AI</span></span>
@@ -630,7 +633,7 @@
         </span>
         <span class="year">2024</span>
       </a>
-      <a class="work-row" href="#" data-case-study="/work/lisbon-restaurant-group">
+      <a class="work-row" href="#" onclick="return false" data-case-study="/work/lisbon-restaurant-group">
         <span class="idx">006</span>
         <span>
           <span class="client">Lisbon Restaurant Group <span class="discipline">AI</span></span>
@@ -648,12 +651,12 @@
       <div>
         <div class="section-num"><strong>02</strong> Products &amp; Playthings <span class="rule"></span></div>
         <h2 class="section-title">Things we've made for <em>ourselves</em> and others.</h2>
-        <p class="section-lead">Three products in market, three prompts in heavy rotation, five playthings that exist mainly because they made us laugh.</p>
+        <p class="section-lead">Products, prompts, and playthings. Scroll through.</p>
       </div>
     </div>
 
-    <div class="carousel-wrap">
-      <div class="carousel-track" id="carousel-track">
+    <div class="carousel-wrap" role="region" aria-label="Things we've made">
+      <div class="carousel-track" id="carousel-track" tabindex="0">
         <a class="carousel-card" data-cat="product" href="https://toneofvoice.app">
           <span class="label">Product · Live</span>
           <span class="name">tone<em>of</em>voice.app</span>
@@ -690,13 +693,13 @@
           <span class="blurb">A prompt to help you close your Revolut account and open a new local one.</span>
           <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
         </a>
-        <a class="carousel-card" data-cat="plaything" href="http://sassgpt.vercel.app/">
+        <a class="carousel-card" data-cat="plaything" href="https://sassgpt.vercel.app/">
           <span class="label">Plaything</span>
           <span class="name">sassgpt</span>
           <span class="blurb">ChatGPT clone where the models have attitude. Sometimes too much.</span>
           <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
         </a>
-        <a class="carousel-card" data-cat="plaything" href="http://gravity-v0.vercel.app/">
+        <a class="carousel-card" data-cat="plaything" href="https://gravity-v0.vercel.app/">
           <span class="label">Plaything</span>
           <span class="name">gravity</span>
           <span class="blurb">Clone of v0.dev that roasts your app ideas.</span>
@@ -714,7 +717,7 @@
           <span class="blurb">Pre-loved GPU marketplace for discerning buyers.</span>
           <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
         </a>
-        <a class="carousel-card" data-cat="plaything" href="http://alibi-saas.vercel.app/">
+        <a class="carousel-card" data-cat="plaything" href="https://alibi-saas.vercel.app/">
           <span class="label">Plaything · Mockup</span>
           <span class="name">alibi</span>
           <span class="blurb">Client dispute app channelling a legal drama.</span>
@@ -780,11 +783,12 @@
   var cards = track.querySelectorAll('.carousel-card');
   var total = cards.length;
   var current = 0;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function scrollToCard(i) {
     i = Math.max(0, Math.min(i, total - 1));
     current = i;
-    cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    cards[i].scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'start' });
     updateCounter();
   }
 
@@ -796,6 +800,11 @@
 
   prev.addEventListener('click', function () { scrollToCard(current - 1); });
   next.addEventListener('click', function () { scrollToCard(current + 1); });
+
+  track.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollToCard(current - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollToCard(current + 1); }
+  });
 
   // Sync counter on manual scroll/swipe
   var scrollTimer;
