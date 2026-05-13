@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>[Project name] - Case study - Mooch</title>
+<title>Octant - Case study - Mooch</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,6 @@
   }
   a { color: inherit; text-decoration: none; }
 
-  /* Topbar (matches index.html) */
   .topbar {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -58,7 +57,6 @@
   .topbar a:hover { border-bottom: 1px solid var(--ink); }
   .topbar .you { color: var(--muted); }
 
-  /* Reveal on load */
   .reveal { opacity: 0; transform: translateY(12px); animation: reveal 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards; }
   .reveal.d1 { animation-delay: 0.05s; }
   .reveal.d2 { animation-delay: 0.18s; }
@@ -69,7 +67,6 @@
     .reveal { animation: none; opacity: 1; transform: none; }
   }
 
-  /* Case hero */
   .case-hero {
     padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(48px, 8vw, 96px);
     border-bottom: 1px solid var(--hairline);
@@ -110,7 +107,6 @@
     margin-bottom: clamp(40px, 6vw, 64px);
   }
 
-  /* Banner metadata strip (Mooch fields) */
   .case-meta {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -127,7 +123,6 @@
   @media (min-width: 720px) { .case-meta { grid-template-columns: repeat(3, 1fr); } }
   @media (min-width: 1080px) { .case-meta { grid-template-columns: repeat(6, 1fr); } }
 
-  /* Body */
   .case-body {
     padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(96px, 12vw, 160px);
     border-bottom: 1px solid var(--hairline);
@@ -180,7 +175,6 @@
   .case-body ul, .case-body ol { margin: 0 0 1.4em 0; padding-left: 1.4em; }
   .case-body li { margin-bottom: 0.6em; }
 
-  /* TL;DR lead stat */
   .case-body .lead-stat {
     font-family: var(--serif);
     font-size: clamp(28px, 4vw, 44px);
@@ -192,7 +186,6 @@
   }
   .case-body .lead-stat strong { font-weight: 400; font-style: italic; }
 
-  /* User-need quote */
   .user-need {
     border-left: 2px solid var(--black);
     padding: 14px 0 14px 20px;
@@ -204,7 +197,6 @@
   }
   .user-need .qual { color: var(--muted); }
 
-  /* Pull quote (for §04 What we found headline insight) */
   .pull {
     font-family: var(--serif);
     font-size: clamp(28px, 4vw, 44px);
@@ -221,7 +213,6 @@
   .pull::before { content: '\201C'; }
   .pull::after { content: '\201D'; }
 
-  /* Impact stat block */
   .stat-row {
     display: grid;
     grid-template-columns: 1fr;
@@ -252,7 +243,6 @@
     color: var(--muted);
   }
 
-  /* Client quote */
   .client-quote {
     font-family: var(--serif);
     font-size: clamp(22px, 2.8vw, 30px);
@@ -275,7 +265,6 @@
     color: var(--muted);
   }
 
-  /* Continue / next case */
   .case-next {
     padding: var(--rhythm) var(--pad-x);
     border-bottom: 1px solid var(--hairline);
@@ -325,7 +314,6 @@
   }
   .case-next a.next-card:hover .arrow { transform: translateX(6px); }
 
-  /* Footer (matches index.html) */
   .colophon {
     padding: 56px var(--pad-x) 40px;
     background: var(--black);
@@ -383,23 +371,23 @@
 
 <header class="topbar">
   <div class="left">
-    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">[Project name]</span>
+    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">Octant</span>
   </div>
-  <div class="right">Case Study NN &nbsp; · &nbsp; <span>YYYY</span></div>
+  <div class="right">Case Study 04 &nbsp; &middot; &nbsp; <span>2023</span></div>
 </header>
 
 <section class="case-hero">
   <div class="case-hero-inner">
-    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>NN</strong> · Case Study · YYYY</div>
-    <h1 class="reveal d2">[Project name]</h1>
-    <p class="standfirst reveal d3">[One-line standfirst. What this project was, in a sentence with a clear point of view.]</p>
+    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>04</strong> &middot; Case Study &middot; 2023</div>
+    <h1 class="reveal d2">Simplifying <em>public-goods</em> funding</h1>
+    <p class="standfirst reveal d3">UX research that turned a polished but confusing web3 platform into something people actually understood.</p>
     <dl class="case-meta reveal d4">
-      <div><dt>Client</dt><dd>[Client name]</dd></div>
-      <div><dt>Sector</dt><dd>[Sector]</dd></div>
-      <div><dt>Year</dt><dd>YYYY</dd></div>
-      <div><dt>Services</dt><dd>[Research, strategy, automation...]</dd></div>
-      <div><dt>Deliverables</dt><dd>[Report, prompt, system...]</dd></div>
-      <div><dt>Discipline</dt><dd>UX + AI</dd></div>
+      <div><dt>Client</dt><dd>Octant (Golem Foundation)</dd></div>
+      <div><dt>Sector</dt><dd>Web3 / Public Goods</dd></div>
+      <div><dt>Year</dt><dd>2023</dd></div>
+      <div><dt>Services</dt><dd>UX research, Content audit</dd></div>
+      <div><dt>Deliverables</dt><dd>Research report, Terminology sheet</dd></div>
+      <div><dt>Discipline</dt><dd>UX</dd></div>
     </dl>
   </div>
 </section>
@@ -407,44 +395,44 @@
 <article class="case-body">
   <div class="case-body-inner">
 
-    <h2><span class="num">§ 01</span>TL;DR</h2>
-    <p class="lead-stat"><strong>[Headline stat or outcome in one phrase].</strong></p>
-    <p>[One or two sentences summarising the project. Who, what, the result. Lead stat above is the takeaway a reader who skims should leave with.]</p>
+    <h2><span class="num">&sect; 01</span>TL;DR</h2>
+    <p class="lead-stat"><strong>Donation rate rose from 2% to 8% after clarity improvements.</strong></p>
+    <p>We ran a content audit and moderated usability study on Octant, a community-driven platform for funding public goods on Ethereum. Nine findings shaped the V2 roadmap. The research revealed that users admired the product but couldn't understand it, and that the assumed audience didn't match the real one.</p>
 
-    <h2><span class="num">§ 02</span>The brief</h2>
-    <p>[Who the client is, what was broken, and what they asked us to do. One short paragraph.]</p>
+    <h2><span class="num">&sect; 02</span>The brief</h2>
+    <p>Octant lets users lock Golem tokens, earn staking rewards, and redirect a portion to projects that strengthen the Ethereum ecosystem. The Golem Foundation's product and design leads had tracked behaviour in Matomo and run internal feedback sessions. Users were curious but quickly confused or disengaged. They needed structured external research to find out where and why.</p>
     <div class="user-need">
-      <span class="qual">As a</span> [user type]<br>
-      <span class="qual">I want to</span> [need]<br>
-      <span class="qual">so that I can</span> [outcome they care about]
+      <span class="qual">As a</span> GLM token holder interested in public goods<br>
+      <span class="qual">I want to</span> understand how Octant works and where my rewards go<br>
+      <span class="qual">so that I can</span> confidently participate and feel good about my contribution
     </div>
 
-    <h2><span class="num">§ 03</span>The work</h2>
-    <p>[Narrative paragraph. What we actually did, in order. Keep it one scroll-chunk - subsections below if needed, but don't fragment into separate H2s.]</p>
+    <h2><span class="num">&sect; 03</span>The work</h2>
+    <p>We started with a content and UX audit of the platform, identifying specific issues: vague homepage messaging, missing tooltips, and jargon that made sense internally but not to users. Selected fixes were applied to a staging environment so we could test how small copy changes affected comprehension during sessions.</p>
 
-    <h3>[Subsection label, e.g. Discovery]</h3>
-    <p>[What we did and why.]</p>
+    <h3>Research design</h3>
+    <p>We chose moderated usability testing with semi-structured interviews. Surveys would have given broader reach, but with a small user base and complex mechanics we needed depth. Unmoderated testing wasn't viable because the web3 wallet setup required real-time troubleshooting. We built three hypotheses from the audit: terminology was the primary barrier, users would misunderstand "public goods", and the 90-day epoch cycle would blunt emotional engagement.</p>
 
-    <h3>[Subsection label, e.g. Build]</h3>
-    <p>[What we did and why.]</p>
+    <h3>Recruitment and sessions</h3>
+    <p>We recruited ten participants across Portugal, France, and Germany. All were active in web3 but had never heard of Octant. Each participant needed a working MetaMask wallet on the Sepolia test network before their session. We managed that onboarding end to end. Sessions ran 30-45 minutes over Google Meet. Zero no-shows.</p>
 
-    <h3>[Subsection label, e.g. Handover]</h3>
-    <p>[What we did and why.]</p>
+    <h3>Analysis</h3>
+    <p>Nine themes emerged consistently. We cross-referenced these against the audit findings and our hypotheses. Some confirmed what we expected: terminology slowed comprehension across the board, and Match Funding was universally misunderstood. Others were new: Patron Mode was mistaken for a premium feature, the metrics page confused personal and community data, and the emotional payoff of donating was completely missing.</p>
 
-    <h2><span class="num">§ 04</span>What we found</h2>
-    <p class="pull">[Headline insight in one line.]</p>
-    <p>[Two or three sentences expanding the insight. The thing the client didn't know going in. Plain language, no jargon.]</p>
+    <h2><span class="num">&sect; 04</span>What we found</h2>
+    <p class="pull">It's cool... once you get it.</p>
+    <p>Users admired the product's design and polish. They described it as "clean", "elegant", "better than most dapps". But comprehension got in the way of confident use. Every participant thought Match Funding boosted their personal rewards. It doesn't. It boosts the project's donation. When every label requires interpretation, users spend cognitive effort on language instead of decisions. The cumulative effect is exhaustion and disengagement.</p>
 
-    <h2><span class="num">§ 05</span>Impact</h2>
+    <h2><span class="num">&sect; 05</span>Impact</h2>
     <div class="stat-row">
-      <div class="stat"><span class="n">[N]<em>x</em></span><span class="label">[Metric label]</span></div>
-      <div class="stat"><span class="n">[N]%</span><span class="label">[Metric label]</span></div>
-      <div class="stat"><span class="n">[N]</span><span class="label">[Metric label]</span></div>
+      <div class="stat"><span class="n">4<em>x</em></span><span class="label">Donation rate increase</span></div>
+      <div class="stat"><span class="n">9</span><span class="label">Findings accepted</span></div>
+      <div class="stat"><span class="n">7/10</span><span class="label">Would use Octant again</span></div>
     </div>
-    <p>[Short narrative on what the numbers mean. Caveat correlation vs causation honestly where relevant.]</p>
+    <p>All nine findings were accepted by the product and design team and directly shaped V2 priorities. In subsequent epochs, the proportion of users who donated their rewards rose from roughly 2% to 8%. Multiple factors likely contributed, but the timing aligned with the clarity improvements the research recommended. Correlation, not causation, but a strong signal.</p>
     <blockquote class="client-quote">
-      [Client quote in plain English. Specific, not generic.]
-      <cite>[Name, role, client]</cite>
+      The research revealed that the assumed user base didn't match the actual recruitable audience. That reframed how we thought about positioning and messaging entirely.
+      <cite>Head of Product, Golem Foundation</cite>
     </blockquote>
 
   </div>
@@ -453,10 +441,10 @@
 <section class="case-next">
   <div class="case-next-inner">
     <span class="small">Continue &nbsp;/&nbsp; Next case study</span>
-    <a class="next-card" href="/work/[next-slug]">
+    <a class="next-card" href="/big-debate-club.html">
       <div>
-        <h4>[Next project name] <em>·</em> [one-line frame]</h4>
-        <p>[Two-sentence teaser of the next case study.]</p>
+        <h4>Big Debate Club <em>&middot;</em> Automating weekly content for a charity</h4>
+        <p>A 20-minute conversation became six months of automated email campaigns for a kids' debate subscription.</p>
       </div>
       <span class="arrow">&rarr;</span>
     </a>
@@ -480,7 +468,7 @@
     <div class="colophon-foot">
       <span>&copy; 2026 Mooch Agency Ltd.</span>
       <span class="colophon-credits">Set in Instrument Serif &amp; SF Pro. Built by two humans and one MoochBot. Hosted on Vercel because we're not animals.</span>
-      <a href="/log" class="colophon-version">N° 01</a>
+      <a href="/log" class="colophon-version">N&deg; 01</a>
     </div>
   </div>
 </footer>

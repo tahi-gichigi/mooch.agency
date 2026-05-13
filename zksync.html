@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>[Project name] - Case study - Mooch</title>
+<title>zkSync - Case study - Mooch</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,6 @@
   }
   a { color: inherit; text-decoration: none; }
 
-  /* Topbar (matches index.html) */
   .topbar {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -58,7 +57,6 @@
   .topbar a:hover { border-bottom: 1px solid var(--ink); }
   .topbar .you { color: var(--muted); }
 
-  /* Reveal on load */
   .reveal { opacity: 0; transform: translateY(12px); animation: reveal 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards; }
   .reveal.d1 { animation-delay: 0.05s; }
   .reveal.d2 { animation-delay: 0.18s; }
@@ -69,7 +67,6 @@
     .reveal { animation: none; opacity: 1; transform: none; }
   }
 
-  /* Case hero */
   .case-hero {
     padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(48px, 8vw, 96px);
     border-bottom: 1px solid var(--hairline);
@@ -110,7 +107,6 @@
     margin-bottom: clamp(40px, 6vw, 64px);
   }
 
-  /* Banner metadata strip (Mooch fields) */
   .case-meta {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -127,7 +123,6 @@
   @media (min-width: 720px) { .case-meta { grid-template-columns: repeat(3, 1fr); } }
   @media (min-width: 1080px) { .case-meta { grid-template-columns: repeat(6, 1fr); } }
 
-  /* Body */
   .case-body {
     padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(96px, 12vw, 160px);
     border-bottom: 1px solid var(--hairline);
@@ -180,7 +175,6 @@
   .case-body ul, .case-body ol { margin: 0 0 1.4em 0; padding-left: 1.4em; }
   .case-body li { margin-bottom: 0.6em; }
 
-  /* TL;DR lead stat */
   .case-body .lead-stat {
     font-family: var(--serif);
     font-size: clamp(28px, 4vw, 44px);
@@ -192,7 +186,6 @@
   }
   .case-body .lead-stat strong { font-weight: 400; font-style: italic; }
 
-  /* User-need quote */
   .user-need {
     border-left: 2px solid var(--black);
     padding: 14px 0 14px 20px;
@@ -204,7 +197,6 @@
   }
   .user-need .qual { color: var(--muted); }
 
-  /* Pull quote (for §04 What we found headline insight) */
   .pull {
     font-family: var(--serif);
     font-size: clamp(28px, 4vw, 44px);
@@ -221,7 +213,6 @@
   .pull::before { content: '\201C'; }
   .pull::after { content: '\201D'; }
 
-  /* Impact stat block */
   .stat-row {
     display: grid;
     grid-template-columns: 1fr;
@@ -252,7 +243,6 @@
     color: var(--muted);
   }
 
-  /* Client quote */
   .client-quote {
     font-family: var(--serif);
     font-size: clamp(22px, 2.8vw, 30px);
@@ -275,7 +265,6 @@
     color: var(--muted);
   }
 
-  /* Continue / next case */
   .case-next {
     padding: var(--rhythm) var(--pad-x);
     border-bottom: 1px solid var(--hairline);
@@ -325,7 +314,6 @@
   }
   .case-next a.next-card:hover .arrow { transform: translateX(6px); }
 
-  /* Footer (matches index.html) */
   .colophon {
     padding: 56px var(--pad-x) 40px;
     background: var(--black);
@@ -383,23 +371,23 @@
 
 <header class="topbar">
   <div class="left">
-    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">[Project name]</span>
+    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">zkSync</span>
   </div>
-  <div class="right">Case Study NN &nbsp; · &nbsp; <span>YYYY</span></div>
+  <div class="right">Case Study 03 &nbsp; &middot; &nbsp; <span>2023</span></div>
 </header>
 
 <section class="case-hero">
   <div class="case-hero-inner">
-    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>NN</strong> · Case Study · YYYY</div>
-    <h1 class="reveal d2">[Project name]</h1>
-    <p class="standfirst reveal d3">[One-line standfirst. What this project was, in a sentence with a clear point of view.]</p>
+    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>03</strong> &middot; Case Study &middot; 2023</div>
+    <h1 class="reveal d2">Overhauling content for an Ethereum <em>L2</em> launch</h1>
+    <p class="standfirst reveal d3">A complete content, voice, and information architecture rebuild for zkSync Era, ready for the network's public launch.</p>
     <dl class="case-meta reveal d4">
-      <div><dt>Client</dt><dd>[Client name]</dd></div>
-      <div><dt>Sector</dt><dd>[Sector]</dd></div>
-      <div><dt>Year</dt><dd>YYYY</dd></div>
-      <div><dt>Services</dt><dd>[Research, strategy, automation...]</dd></div>
-      <div><dt>Deliverables</dt><dd>[Report, prompt, system...]</dd></div>
-      <div><dt>Discipline</dt><dd>UX + AI</dd></div>
+      <div><dt>Client</dt><dd>zkSync</dd></div>
+      <div><dt>Sector</dt><dd>Web3, Ethereum L2</dd></div>
+      <div><dt>Year</dt><dd>2023</dd></div>
+      <div><dt>Services</dt><dd>Content strategy, Brand voice, Information architecture</dd></div>
+      <div><dt>Deliverables</dt><dd>25+ website pages, Style guide, Messaging</dd></div>
+      <div><dt>Discipline</dt><dd>UX</dd></div>
     </dl>
   </div>
 </section>
@@ -407,44 +395,47 @@
 <article class="case-body">
   <div class="case-body-inner">
 
-    <h2><span class="num">§ 01</span>TL;DR</h2>
-    <p class="lead-stat"><strong>[Headline stat or outcome in one phrase].</strong></p>
-    <p>[One or two sentences summarising the project. Who, what, the result. Lead stat above is the takeaway a reader who skims should leave with.]</p>
+    <h2><span class="num">&sect; 01</span>TL;DR</h2>
+    <p class="lead-stat"><strong>15+ media mentions in week one, 200+ apps built in six months.</strong></p>
+    <p>A complete content overhaul for zkSync's Era network launch: new brand voice, new information architecture, and 25+ pages of website copy. Shipped on time for the launch and ready for the developers it was built for.</p>
 
-    <h2><span class="num">§ 02</span>The brief</h2>
-    <p>[Who the client is, what was broken, and what they asked us to do. One short paragraph.]</p>
+    <h2><span class="num">&sect; 02</span>The brief</h2>
+    <p>zkSync is an Ethereum Layer 2 that lets developers build fast, low-cost applications while inheriting Ethereum's security. In early 2023, the team was preparing to launch Era, the next major version of the network and the first to open the platform to all developers. The existing site had no hierarchy, was overloaded with text, and used confusing titles. Developers were bouncing before they understood what zkSync could do for them. The CEO wanted a site that told the story without drowning the audience in jargon.</p>
     <div class="user-need">
-      <span class="qual">As a</span> [user type]<br>
-      <span class="qual">I want to</span> [need]<br>
-      <span class="qual">so that I can</span> [outcome they care about]
+      <span class="qual">As a</span> web3 developer or technical team lead<br>
+      <span class="qual">I want to</span> understand the complete zkSync offering<br>
+      <span class="qual">so that I can</span> decide whether to build my application here
     </div>
 
-    <h2><span class="num">§ 03</span>The work</h2>
-    <p>[Narrative paragraph. What we actually did, in order. Keep it one scroll-chunk - subsections below if needed, but don't fragment into separate H2s.]</p>
+    <h2><span class="num">&sect; 03</span>The work</h2>
+    <p>We ran a four-phase engagement: audit, value proposition, information architecture, and drafting. The launch date was fixed, so phases ran in parallel where possible, with work-in-progress shared with the CEO and marketing team weekly.</p>
 
-    <h3>[Subsection label, e.g. Discovery]</h3>
-    <p>[What we did and why.]</p>
+    <h3>Audit</h3>
+    <p>We audited the old site and found four core issues: no content hierarchy, paragraphs over 80 words on the homepage, no clear narrative beyond a feature list, and confusing titles like "5 magical INGREDIENTS" as a section heading. The diagnosis was simple: developers couldn't tell what mattered most. Everything competed for attention.</p>
 
-    <h3>[Subsection label, e.g. Build]</h3>
-    <p>[What we did and why.]</p>
+    <h3>Value proposition</h3>
+    <p>We pulled everything we could find on brand values, USPs, and positioning: pitch decks, blog posts, Discord conversations, technical docs. After several rounds of workshopping, we distilled zkSync's story into four messages: we stand for freedom, we scale Ethereum, we're serious about security, and we enable a new era of UX. Each one became the spine of a section.</p>
 
-    <h3>[Subsection label, e.g. Handover]</h3>
-    <p>[What we did and why.]</p>
+    <h3>Information architecture</h3>
+    <p>The old site had over 40 pages with no clear hierarchy. We mapped every page, identified redundancies, and proposed a simpler structure organised around the four value pillars. Nav depth went from four levels to two. We walked stakeholders through the new IA in FigJam to win buy-in before drafting started.</p>
 
-    <h2><span class="num">§ 04</span>What we found</h2>
-    <p class="pull">[Headline insight in one line.]</p>
-    <p>[Two or three sentences expanding the insight. The thing the client didn't know going in. Plain language, no jargon.]</p>
+    <h3>Drafting</h3>
+    <p>We started with the homepage and encouraged feedback before moving onto child pages. Each draft went through two or three rounds with the marketing team. The biggest debates were about tone: how technical could we go without losing newcomers? We landed on a voice that assumed familiarity with Ethereum but didn't require deep ZK knowledge.</p>
 
-    <h2><span class="num">§ 05</span>Impact</h2>
+    <h2><span class="num">&sect; 04</span>What we found</h2>
+    <p class="pull">Developers couldn't tell what mattered most.</p>
+    <p>The technical audience wasn't asking for less detail. They were asking for hierarchy. When everything is listed with equal weight, the reader has to do the prioritisation work themselves. Strong opinion at the top, supporting detail underneath, repeated at every level: that was the shape that let zkSync's actual story show through.</p>
+
+    <h2><span class="num">&sect; 05</span>Impact</h2>
     <div class="stat-row">
-      <div class="stat"><span class="n">[N]<em>x</em></span><span class="label">[Metric label]</span></div>
-      <div class="stat"><span class="n">[N]%</span><span class="label">[Metric label]</span></div>
-      <div class="stat"><span class="n">[N]</span><span class="label">[Metric label]</span></div>
+      <div class="stat"><span class="n">15<em>+</em></span><span class="label">Media mentions, week one</span></div>
+      <div class="stat"><span class="n">200<em>+</em></span><span class="label">Apps built in six months</span></div>
+      <div class="stat"><span class="n">$400<em>m</em></span><span class="label">AUM on zkSync</span></div>
     </div>
-    <p>[Short narrative on what the numbers mean. Caveat correlation vs causation honestly where relevant.]</p>
+    <p>The new site launched alongside zkSync Era in March 2023, ready for the influx of developers. We also delivered launch articles and supported the team through the first week of comms. The content and IA work shaped how developers and investors made sense of the network for the rest of the year.</p>
     <blockquote class="client-quote">
-      [Client quote in plain English. Specific, not generic.]
-      <cite>[Name, role, client]</cite>
+      We'd been trying to explain zkSync for years, but it always came out too technical or too vague. Mooch got it on the first call. They translated the vision in my head into words I couldn't find myself.
+      <cite>CEO, zkSync</cite>
     </blockquote>
 
   </div>
@@ -453,10 +444,10 @@
 <section class="case-next">
   <div class="case-next-inner">
     <span class="small">Continue &nbsp;/&nbsp; Next case study</span>
-    <a class="next-card" href="/work/[next-slug]">
+    <a class="next-card" href="/octant.html">
       <div>
-        <h4>[Next project name] <em>·</em> [one-line frame]</h4>
-        <p>[Two-sentence teaser of the next case study.]</p>
+        <h4>Octant <em>&middot;</em> UX research for public-goods funding</h4>
+        <p>Simplifying a web3 funding platform so users actually understand where their money goes.</p>
       </div>
       <span class="arrow">&rarr;</span>
     </a>
@@ -480,7 +471,7 @@
     <div class="colophon-foot">
       <span>&copy; 2026 Mooch Agency Ltd.</span>
       <span class="colophon-credits">Set in Instrument Serif &amp; SF Pro. Built by two humans and one MoochBot. Hosted on Vercel because we're not animals.</span>
-      <a href="/log" class="colophon-version">N° 01</a>
+      <a href="/log" class="colophon-version">N&deg; 01</a>
     </div>
   </div>
 </footer>
