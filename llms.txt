@@ -1,0 +1,24 @@
+# Mooch
+
+> UX research and AI automation studio based in London and Lisbon. A husband-and-wife team of two.
+
+We figure out what people actually need, then build the AI to deliver it. Most of our clients come to us for one and stay for both.
+
+## Contact
+
+- Email: hey@mooch.agency
+- X: @tahigichigi
+- Substack: moochagency.substack.com
+
+## Case studies
+
+- [gov.uk](https://mooch.agency/gov-uk): UX research for gov.uk services. Accessibility audits, user testing, and service design for government digital products.
+- [Octant](https://mooch.agency/octant): UX research and product strategy for Octant, a web3 public goods funding platform.
+- [British Airways](https://mooch.agency/british-airways): UX research for British Airways digital products.
+- [zkSync](https://mooch.agency/zksync): UX research for zkSync, an Ethereum Layer 2 scaling protocol.
+- [Big Debate Club](https://mooch.agency/big-debate-club): Brand and product development for Big Debate Club, a debate platform for young people.
+- [Contrabando](https://mooch.agency/contrabando): AI-powered review automation for a Lisbon restaurant group.
+
+## Products
+
+- [toneofvoice.app](https://toneofvoice.app): AI-powered tone of voice analysis tool.

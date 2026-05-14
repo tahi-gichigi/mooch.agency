@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 - Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --ink: #1d1d1f;
+    --paper: #ffffff;
+    --muted: #86868b;
+    --hairline: #d2d2d7;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+    --pad-x: clamp(20px, 5vw, 56px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Topbar */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar .num { color: var(--ink); text-decoration: none; }
+  .topbar .num:hover { border-bottom: 1px solid var(--ink); }
+
+  /* 404 content */
+  .lost {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px var(--pad-x);
+    text-align: center;
+  }
+  .lost-code {
+    font-family: var(--serif);
+    font-size: clamp(72px, 15vw, 160px);
+    line-height: 1;
+    color: var(--black);
+    letter-spacing: -0.02em;
+  }
+  .lost-message {
+    font-size: 17px;
+    color: var(--muted);
+    margin-top: 16px;
+    max-width: 32ch;
+  }
+  .lost-link {
+    display: inline-block;
+    margin-top: 32px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 10px 24px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .lost-link:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Footer */
+  .colophon {
+    padding: 32px var(--pad-x);
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .topbar .right { display: none; }
+    .topbar .left { justify-self: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><a href="/log" class="num">N° 01</a> &nbsp; · &nbsp; MOOCH.AGENCY</div>
+  <div class="right"><span>LONDON &nbsp; · &nbsp; LISBON</span></div>
+</header>
+
+<main class="lost">
+  <div class="lost-code">404</div>
+  <p class="lost-message">Nothing here. Might have moved, might never have existed. Either way, the homepage is a safer bet.</p>
+  <a class="lost-link" href="/">Back to Mooch <span>&rarr;</span></a>
+</main>
+
+<footer class="colophon">
+  <span>&copy; 2026 Mooch Agency Ltd.</span>
+</footer>
+
+</body>
+</html>
