@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mooch - AI automation and UX agency</title>
+<title>Mooch. AI automation and UX.</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-<meta name="description" content="AI automation and UX agency based in London and Lisbon. Lean and long-term focused. We help teams make things their customers really want and use AI to compound the benefits.">
+<meta name="description" content="A two-person UX and AI automation agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mooch.agency">
-<meta property="og:title" content="Mooch - AI automation and UX agency">
-<meta property="og:description" content="AI automation and UX agency based in London and Lisbon. Lean and long-term focused. We help teams make things their customers really want and use AI to compound the benefits.">
-<meta property="og:image" content="https://mooch.agency/og-image.png">
+<meta property="og:title" content="Mooch. AI automation and UX.">
+<meta property="og:description" content="A two-person agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta property="og:image" content="https://mooch.agency/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mooch - AI automation and UX agency">
-<meta name="twitter:description" content="AI automation and UX agency based in London and Lisbon. Lean and long-term focused.">
-<meta name="twitter:image" content="https://mooch.agency/og-image.png">
+<meta name="twitter:title" content="Mooch. AI automation and UX.">
+<meta name="twitter:description" content="A two-person agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta name="twitter:image" content="https://mooch.agency/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -33,9 +33,9 @@
     --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
     --pad-x: clamp(20px, 5vw, 56px);
     --rhythm: clamp(80px, 12vw, 160px);
-    --cat-product: hsl(220, 15%, 97%);
-    --cat-prompt: hsl(270, 15%, 97%);
-    --cat-plaything: hsl(35, 15%, 97%);
+    --cat-product: hsl(220, 30%, 94%);
+    --cat-prompt: hsl(270, 30%, 94%);
+    --cat-plaything: hsl(35, 40%, 93%);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -343,39 +343,30 @@
     .work-row .discipline { margin-left: 8px; }
   }
 
-  /* ───────── Carousel: Things we've made ───────── */
-  .carousel-wrap {
-    position: relative;
-  }
-  .carousel-track {
-    display: flex;
+  /* ───────── Bento: Things we've made ───────── */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(180px, auto);
     gap: 1px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    cursor: grab;
+    max-width: 900px;
   }
-  .carousel-track:active { cursor: grabbing; }
-  .carousel-track::-webkit-scrollbar { display: none; }
-  .carousel-card {
-    flex: 0 0 min(360px, 85vw);
-    scroll-snap-align: start;
-    padding: 36px 32px;
+  .bento-card {
+    padding: 28px 24px;
+    border: 1px solid var(--hairline);
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    min-height: 260px;
-    border: 1px solid var(--hairline);
+    gap: 8px;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s ease;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
   }
-  .carousel-card:hover { border-color: var(--muted); }
-  .carousel-card[data-cat="product"] { background: var(--cat-product); }
-  .carousel-card[data-cat="prompt"] { background: var(--cat-prompt); }
-  .carousel-card[data-cat="plaything"] { background: var(--cat-plaything); }
-  .carousel-card .label {
+  .bento-card:hover { border-color: var(--muted); }
+  .bento-card[data-cat="product"] { background: var(--cat-product); }
+  .bento-card[data-cat="prompt"] { background: var(--cat-prompt); }
+  .bento-card[data-cat="plaything"] { background: var(--cat-plaything); }
+  .bento-card .label {
     font-family: var(--mono);
     font-size: 10px;
     text-transform: uppercase;
@@ -383,73 +374,51 @@
     color: var(--ink);
     font-weight: 600;
   }
-  .carousel-card .name {
+  .bento-card .name {
     font-family: var(--serif);
-    font-size: 36px;
+    font-size: 24px;
     line-height: 1;
     letter-spacing: -0.02em;
     color: var(--black);
-    margin-top: 8px;
+    margin-top: 4px;
     overflow-wrap: anywhere;
     word-break: break-word;
     hyphens: auto;
   }
-  @media (max-width: 420px) {
-    .carousel-card .name { font-size: 30px; }
-  }
-  .carousel-card .name em { font-style: italic; }
-  .carousel-card .blurb {
-    font-size: 15px;
+  .bento-card .name em { font-style: italic; }
+  .bento-card .blurb {
+    font-size: 13px;
     line-height: 1.5;
-    color: var(--ink);
-    max-width: 32ch;
+    color: var(--muted);
+    max-width: 28ch;
   }
-  .carousel-card .cta {
+  .bento-card .cta {
     margin-top: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--muted);
-    padding-top: 24px;
-  }
-  .carousel-card .cta .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
-  .carousel-card:hover .cta .arrow { transform: translateX(4px); }
-  .carousel-nav {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 16px;
-    margin-top: 24px;
+    gap: 6px;
   }
-  .carousel-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid var(--hairline);
-    background: var(--paper);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    color: var(--ink);
-    transition: border-color 0.15s ease, background 0.15s ease;
+  .bento-card .cta .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
+  .bento-card:hover .cta .arrow { transform: translateX(4px); }
+  .bento-card.hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    padding: 36px 32px;
   }
-  .carousel-btn:hover { border-color: var(--ink); background: var(--surface); }
-  .carousel-btn:disabled { opacity: 0.3; cursor: default; }
-  .carousel-track:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .carousel-track:focus:not(:focus-visible) { outline: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .carousel-track { scroll-snap-type: none; scroll-behavior: auto; }
-  }
-  .carousel-counter {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--muted);
+  .bento-card.hero .name { font-size: 48px; margin-top: 8px; }
+  .bento-card.hero .blurb { font-size: 15px; color: var(--ink); max-width: 32ch; margin-top: 4px; }
+  .bento-card.hero .cta { font-size: 11px; }
+  .bento-card.wide { grid-column: span 2; }
+  @media (max-width: 640px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-card.hero { grid-column: span 1; grid-row: span 1; }
+    .bento-card.wide { grid-column: span 1; }
+    .bento-card.hero .name { font-size: 36px; }
   }
 
   /* ───────── About / Contact split ───────── */
@@ -670,79 +639,60 @@
     <div class="section-head">
       <div>
         <div class="section-num"><strong>02</strong> Products &amp; Playthings <span class="rule"></span></div>
-        <h2 class="section-title">Things we've made for <em>ourselves</em> and others.</h2>
-        <p class="section-lead">Products, prompts, and playthings. Scroll through.</p>
+        <h2 class="section-title">Things we've made.</h2>
+        <p class="section-lead">Products we ship, prompts you can steal, things we built for fun.</p>
       </div>
     </div>
 
-    <div class="carousel-wrap" role="region" aria-label="Things we've made">
-      <div class="carousel-track" id="carousel-track" tabindex="0">
-        <a class="carousel-card" data-cat="product" href="https://toneofvoice.app">
-          <span class="label">Product · Live</span>
-          <span class="name">tone<em>of</em>voice.app</span>
-          <span class="blurb">Generate professional tone-of-voice guidelines in minutes.</span>
-          <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="product" href="https://usefortress.vercel.app">
-          <span class="label">Product · Private alpha</span>
-          <span class="name">fortress</span>
-          <span class="blurb">Run a full content audit on your website and find what's quietly broken.</span>
-          <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="product" href="https://joinhighway.vercel.app/">
-          <span class="label">Product · Waitlist</span>
-          <span class="name">highway</span>
-          <span class="blurb">Automate SEO-optimised articles on your site, without the slop.</span>
-          <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="prompt" href="https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118" target="_blank" rel="noopener">
-          <span class="label">Prompt</span>
-          <span class="name">/sound<em>like</em>me</span>
-          <span class="blurb">A prompt that makes AI write in your actual voice, not the corporate one.</span>
-          <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="prompt" href="https://www.notion.so/tahi/deslop-a60e4b10f9df43f3bf6ea366eed1b31f" target="_blank" rel="noopener">
-          <span class="label">Prompt</span>
-          <span class="name">/deslop</span>
-          <span class="blurb">A prompt to remove signs of AI writing.</span>
-          <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="plaything" href="https://sassgpt.vercel.app/">
-          <span class="label">Plaything</span>
-          <span class="name">sassgpt</span>
-          <span class="blurb">ChatGPT clone where the models have attitude. Sometimes too much.</span>
-          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="plaything" href="https://gravity-v0.vercel.app/">
-          <span class="label">Plaything</span>
-          <span class="name">gravity</span>
-          <span class="blurb">Clone of v0.dev that roasts your app ideas.</span>
-          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="plaything" href="https://egotrip.vercel.app/">
-          <span class="label">Plaything</span>
-          <span class="name">egotrip</span>
-          <span class="blurb">A snobby AI travel agent who finds the sunniest cities near you.</span>
-          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="plaything" href="https://onlyfans-gpu.vercel.app/">
-          <span class="label">Plaything · Mockup</span>
-          <span class="name">onlyfans</span>
-          <span class="blurb">Pre-loved GPU marketplace for discerning buyers.</span>
-          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
-        </a>
-        <a class="carousel-card" data-cat="plaything" href="https://alibi-saas.vercel.app/">
-          <span class="label">Plaything · Mockup</span>
-          <span class="name">alibi</span>
-          <span class="blurb">Client dispute app channelling a legal drama.</span>
-          <span class="cta"><span>Play with it</span><span class="arrow">&rarr;</span></span>
-        </a>
-      </div>
-      <div class="carousel-nav">
-        <button class="carousel-btn" id="carousel-prev" aria-label="Previous">&larr;</button>
-        <span class="carousel-counter" id="carousel-counter">1 / 11</span>
-        <button class="carousel-btn" id="carousel-next" aria-label="Next">&rarr;</button>
-      </div>
+    <div class="bento-grid">
+      <a class="bento-card hero" data-cat="product" href="https://toneofvoice.app">
+        <span class="label">Product &middot; Live</span>
+        <span class="name">tone<em>of</em>voice.app</span>
+        <span class="blurb">Generate professional tone-of-voice guidelines in minutes. Used by 200+ teams.</span>
+        <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="product" href="https://usefortress.vercel.app">
+        <span class="label">Product &middot; Alpha</span>
+        <span class="name">fortress</span>
+        <span class="blurb">Content audit for your whole site.</span>
+        <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="product" href="https://joinhighway.vercel.app/">
+        <span class="label">Product &middot; Waitlist</span>
+        <span class="name">highway</span>
+        <span class="blurb">SEO articles, no slop.</span>
+        <span class="cta"><span>Join waitlist</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="prompt" href="https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118" target="_blank" rel="noopener">
+        <span class="label">Prompt</span>
+        <span class="name">/sound<em>like</em>me</span>
+        <span class="blurb">AI that writes in your voice.</span>
+        <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="prompt" href="https://www.notion.so/tahi/deslop-a60e4b10f9df43f3bf6ea366eed1b31f" target="_blank" rel="noopener">
+        <span class="label">Prompt</span>
+        <span class="name">/deslop</span>
+        <span class="blurb">Strip AI tells from any draft.</span>
+        <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="plaything" href="https://sassgpt.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">sassgpt</span>
+        <span class="blurb">ChatGPT with attitude.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card wide" data-cat="plaything" href="https://egotrip.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">egotrip</span>
+        <span class="blurb">Snobby AI travel agent who finds the sunniest cities near you.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="plaything" href="https://gravity-v0.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">gravity</span>
+        <span class="blurb">v0 clone that roasts your ideas.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
     </div>
   </div>
 </section>
@@ -789,88 +739,5 @@
   </div>
 </footer>
 
-<script>
-(function () {
-  var track = document.getElementById('carousel-track');
-  var prev = document.getElementById('carousel-prev');
-  var next = document.getElementById('carousel-next');
-  var counter = document.getElementById('carousel-counter');
-  var cards = track.querySelectorAll('.carousel-card');
-  var total = cards.length;
-  var current = 0;
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function scrollToCard(i) {
-    i = Math.max(0, Math.min(i, total - 1));
-    current = i;
-    cards[i].scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'start' });
-    updateCounter();
-  }
-
-  function updateCounter() {
-    counter.textContent = (current + 1) + ' / ' + total;
-    prev.disabled = current === 0;
-    next.disabled = current === total - 1;
-  }
-
-  prev.addEventListener('click', function () { scrollToCard(current - 1); });
-  next.addEventListener('click', function () { scrollToCard(current + 1); });
-
-  track.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollToCard(current - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); scrollToCard(current + 1); }
-  });
-
-  // Sync counter on manual scroll/swipe
-  var scrollTimer;
-  track.addEventListener('scroll', function () {
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(function () {
-      var trackLeft = track.scrollLeft;
-      var closest = 0;
-      var closestDist = Infinity;
-      for (var i = 0; i < total; i++) {
-        var dist = Math.abs(cards[i].offsetLeft - track.offsetLeft - trackLeft);
-        if (dist < closestDist) { closestDist = dist; closest = i; }
-      }
-      current = closest;
-      updateCounter();
-    }, 80);
-  });
-
-  // Drag to scroll (desktop)
-  var isDragging = false;
-  var startX = 0;
-  var scrollStart = 0;
-  var didDrag = false;
-
-  track.addEventListener('mousedown', function (e) {
-    if (prefersReducedMotion) return;
-    isDragging = true;
-    didDrag = false;
-    startX = e.pageX;
-    scrollStart = track.scrollLeft;
-    track.style.scrollSnapType = 'none';
-  });
-  window.addEventListener('mousemove', function (e) {
-    if (!isDragging) return;
-    var dx = e.pageX - startX;
-    if (Math.abs(dx) > 4) didDrag = true;
-    track.scrollLeft = scrollStart - dx;
-  });
-  window.addEventListener('mouseup', function () {
-    if (!isDragging) return;
-    isDragging = false;
-    track.style.scrollSnapType = 'x mandatory';
-  });
-
-  // Prevent click on links after drag
-  track.addEventListener('click', function (e) {
-    if (didDrag) { e.preventDefault(); didDrag = false; }
-  }, true);
-
-  updateCounter();
-})();
-</script>
 </body>
 </html>
