@@ -108,6 +108,7 @@
     letter-spacing: -0.025em;
     color: var(--black);
     margin-bottom: clamp(40px, 6vw, 72px);
+    text-wrap: balance;
   }
   .hero h1 em {
     font-style: italic;
@@ -125,6 +126,7 @@
     font-weight: 500;
     color: var(--ink);
     max-width: 38ch;
+    text-wrap: pretty;
   }
   .hero-actions {
     display: flex;
@@ -149,6 +151,7 @@
     transition: transform 0.2s ease, background 0.15s ease;
   }
   .pill:hover { background: var(--ink); transform: translateY(-1px); }
+  .pill:active { transform: scale(0.96); }
   .pill .arrow { transition: transform 0.2s ease; }
   .pill:hover .arrow { transform: translateX(3px); }
 
@@ -163,9 +166,10 @@
     font-size: 14px;
     font-weight: 500;
     border: 1px solid var(--hairline);
-    transition: border-color 0.15s ease, color 0.15s ease;
+    transition: border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
   }
   .ghost:hover { border-color: var(--ink); color: var(--black); }
+  .ghost:active { transform: scale(0.96); }
 
   /* ───────── Marquee ───────── */
   .marquee {
@@ -243,6 +247,7 @@
     line-height: 0.95;
     letter-spacing: -0.02em;
     color: var(--black);
+    text-wrap: balance;
   }
   .section-title em { font-style: italic; }
   .section-lead {
@@ -251,6 +256,7 @@
     color: var(--muted);
     max-width: 48ch;
     margin-top: 12px;
+    text-wrap: pretty;
   }
 
   @media (min-width: 880px) {
@@ -442,6 +448,7 @@
     line-height: 0.95;
     letter-spacing: -0.02em;
     color: var(--black);
+    text-wrap: balance;
   }
   .closer-block h3 em { font-style: italic; }
   .closer-block p {
@@ -449,6 +456,7 @@
     line-height: 1.55;
     color: var(--ink);
     max-width: 48ch;
+    text-wrap: pretty;
   }
   .closer-block .small {
     font-family: var(--mono);

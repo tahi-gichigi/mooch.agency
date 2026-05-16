@@ -79,6 +79,7 @@
     color: var(--muted);
     margin-top: 16px;
     max-width: 32ch;
+    text-wrap: pretty;
   }
   .lost-link {
     display: inline-block;
@@ -91,13 +92,14 @@
     border: 1px solid var(--hairline);
     border-radius: 999px;
     padding: 10px 24px;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
   }
   .lost-link:hover {
     background: var(--ink);
     border-color: var(--ink);
     color: var(--paper);
   }
+  .lost-link:active { transform: scale(0.96); }
 
   /* Footer */
   .colophon {
