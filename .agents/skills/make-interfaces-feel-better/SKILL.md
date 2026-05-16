@@ -86,6 +86,7 @@ Interactive elements need at least 40×40px hit area. Extend with a pseudo-eleme
 
 | Mistake | Fix |
 | --- | --- |
+| `text-wrap: balance` still wraps to 3+ lines | The container `max-width` is too narrow — balance distributes whatever lines the box forces, it doesn't reduce them. Widen or remove the cap so content naturally reaches 2 lines, then balance. |
 | Same border radius on parent and child | Calculate `outerRadius = innerRadius + padding` |
 | Icons look off-center | Adjust optically with padding or fix SVG directly |
 | Hard borders between sections | Use layered `box-shadow` with transparency |
