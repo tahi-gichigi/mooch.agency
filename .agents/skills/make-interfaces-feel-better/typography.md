@@ -30,6 +30,22 @@ h1 {
 }
 ```
 
+```css
+/* Bad — balance on an element with a max-width too narrow for the content */
+.lead-stat {
+  font-size: clamp(28px, 4vw, 44px);
+  max-width: 22ch; /* squeezes a 60-char sentence into ~440px → 3 cramped lines */
+  text-wrap: balance; /* can't help — the container is the problem */
+}
+
+/* Good — remove the narrow cap so content settles into 2 balanced lines */
+.lead-stat {
+  font-size: clamp(28px, 4vw, 44px);
+  /* no max-width, or one wide enough for content to naturally reach 2 lines */
+  text-wrap: balance;
+}
+```
+
 **Tailwind:** `text-balance`
 
 ### text-wrap: pretty
@@ -61,6 +77,8 @@ p, li, figcaption, blockquote {
 | Headings, titles where even distribution matters | `text-wrap: balance` |
 | Short-to-medium text — paragraphs, descriptions, captions, UI text | `text-wrap: pretty` |
 | Long text (10+ lines), code blocks, pre-formatted text | Neither — leave default |
+
+> **Important:** `text-wrap: balance` only works when the container is wide enough for the content to settle into a small number of lines. If a `max-width` is too narrow for the text, the browser is forced into more lines than intended — and `balance` distributes those cramped lines evenly rather than fixing them. Always check whether a narrow `max-width` is the real cause of awkward wrapping before reaching for `text-wrap`.
 
 ## Font Smoothing (macOS)
 
