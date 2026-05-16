@@ -198,6 +198,7 @@
     color: var(--black);
     margin: 8px 0 24px;
     max-width: 22ch;
+    text-wrap: balance;
   }
   .case-body .lead-stat strong { font-weight: 400; font-style: italic; }
 
@@ -209,6 +210,7 @@
     font-size: 18px;
     line-height: 1.55;
     color: var(--ink);
+    text-wrap: pretty;
   }
   .user-need .qual { color: var(--muted); }
 
@@ -223,6 +225,7 @@
     text-align: left;
     max-width: 100%;
     text-indent: -0.4em;
+    text-wrap: balance;
     padding-left: 0.4em;
   }
   .pull::before { content: '\201C'; }
@@ -268,6 +271,7 @@
     padding: 12px 0 12px 24px;
     margin: 40px 0;
     max-width: 100%;
+    text-wrap: balance;
   }
   .client-quote cite {
     display: block;
@@ -303,9 +307,10 @@
     padding: 24px 0;
     border-top: 1px solid var(--hairline);
     border-bottom: 1px solid var(--hairline);
-    transition: padding-left 0.2s ease;
+    transition: padding-left 0.2s ease, transform 0.1s ease;
   }
   .case-next a.next-card:hover { padding-left: 8px; }
+  .case-next a.next-card:active { transform: scale(0.96); }
   .case-next a.next-card h3 {
     font-family: var(--serif);
     font-weight: 400;
