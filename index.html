@@ -366,9 +366,10 @@
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, transform 0.1s ease;
   }
   .bento-card:hover { border-color: var(--muted); }
+  .bento-card:active { transform: scale(0.96); }
   .bento-card[data-cat="product"] { background: var(--cat-product); }
   .bento-card[data-cat="prompt"] { background: var(--cat-prompt); }
   .bento-card[data-cat="plaything"] { background: var(--cat-plaything); }
