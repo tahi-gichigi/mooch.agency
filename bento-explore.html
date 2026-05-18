@@ -193,12 +193,12 @@
   .c-hero .bl   { font-size: 15px; color: var(--ink); max-width: 32ch; margin-top: 4px; }
   .c-hero .ct   { font-size: 11px; }
 
-  .c-wide3      { grid-column: span 3; padding: 36px 32px; } /* 4-col: hero wide */
+  .c-wide3      { grid-column: span 3; padding: 36px 32px; }
   .c-wide3 .nm  { font-size: 40px; margin-top: 8px; }
   .c-wide3 .bl  { font-size: 15px; color: var(--ink); max-width: 52ch; margin-top: 4px; }
   .c-wide3 .ct  { font-size: 11px; }
 
-  .c-w2         { grid-column: span 2; } /* wide 2 cols */
+  .c-w2         { grid-column: span 2; }
 
   /* Legend */
   .legend {
@@ -271,16 +271,16 @@ const C = {
   contacthigh:  { c:'play',    lbl:'Plaything',           nm:'contact high',            bl:'Reminds you who you met and where.',                                               ct:'Play',         href:'https://contacthigh.vercel.app' },
 };
 
-const CURRENT = ['tov','fortress','highway','soundlikeme','deslop','sassgpt','openclaws','gravity'];
-const ALL     = ['tov','fortress','highway','soundlikeme','deslop','sassgpt','openclaws','gravity','sitegeist','generationx','alibi','samantha','maestro','onlyfans','alwayseve','contacthigh'];
+const ALL = ['tov','fortress','highway','soundlikeme','deslop','sassgpt','openclaws','gravity','sitegeist','generationx','alibi','samantha','maestro','onlyfans','alwayseve','contacthigh'];
 
 const CONFIGS = [
   {
     id:'1a', sol:1,
-    title:'3 cols · full width · 8 cards',
-    desc:'Minimum viable fix — remove the 900px cap. Existing layout and card set unchanged; the grid fills the full 1320px content column.',
-    cols:3, cards:CURRENT,
-    mods:{ tov:'hero', openclaws:'w2' }
+    title:'3 cols · full width · 9 cards',
+    desc:'Minimum viable fix — remove the 900px cap. Onlyfans fills the empty slot in the last row, giving every row a full complement of three cards.',
+    cols:3,
+    cards:['tov','fortress','highway','soundlikeme','deslop','sassgpt','openclaws','onlyfans','gravity'],
+    mods:{ tov:'hero' }
   },
   {
     id:'1b', sol:1,
@@ -330,8 +330,6 @@ function renderSection(cfg) {
   const gridCls = `bento-grid g-${cfg.cols}`;
   const cards = cfg.cards.map(id => renderCard(id, cfg.mods[id] || null)).join('\n');
   const sBadge = cfg.sol === 1 ? 'badge-s1' : 'badge-s2';
-  const cardCount = cfg.cards.length;
-  const colCount = cfg.cols;
   return `
 <section class="explore-section" id="cfg-${cfg.id}">
   <div class="section-inner">
@@ -339,8 +337,8 @@ function renderSection(cfg) {
       <div class="explore-badges">
         <span class="badge badge-id">${cfg.id.toUpperCase()}</span>
         <span class="badge ${sBadge}">Solution ${cfg.sol}</span>
-        <span class="badge badge-neutral">${colCount} cols</span>
-        <span class="badge badge-neutral">${cardCount} cards</span>
+        <span class="badge badge-neutral">${cfg.cols} cols</span>
+        <span class="badge badge-neutral">${cfg.cards.length} cards</span>
       </div>
       <h2 class="explore-section-title">${cfg.title}</h2>
       <p class="explore-section-desc">${cfg.desc}</p>
