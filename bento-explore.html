@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bento exploration · Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --ink: #1d1d1f;
+    --paper: #ffffff;
+    --surface: #fbfbfd;
+    --muted: #6e6e73;
+    --hairline: #d2d2d7;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+    --pad-x: clamp(20px, 5vw, 56px);
+    --rhythm: clamp(60px, 8vw, 120px);
+    --cat-product: hsl(220, 30%, 94%);
+    --cat-prompt: hsl(270, 30%, 94%);
+    --cat-plaything: hsl(35, 40%, 93%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body { font-family: var(--sans); font-size: 17px; line-height: 1.5; color: var(--ink); background: var(--paper); overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---- Sticky header ---- */
+  .explore-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--hairline);
+    padding: 0 var(--pad-x);
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .explore-back {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .explore-back:hover { color: var(--ink); }
+  .explore-header-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .explore-nav {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .explore-nav a {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 5px 10px;
+    border: 1px solid var(--hairline);
+    border-radius: 980px;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .explore-nav a:hover { border-color: var(--ink); color: var(--ink); }
+  .explore-nav a.s1 { border-color: hsl(220,30%,78%); color: hsl(220,40%,50%); }
+  .explore-nav a.s1:hover { background: hsl(220,30%,94%); border-color: hsl(220,40%,55%); color: hsl(220,40%,35%); }
+  .explore-nav a.s2 { border-color: hsl(270,30%,78%); color: hsl(270,40%,50%); }
+  .explore-nav a.s2:hover { background: hsl(270,30%,94%); border-color: hsl(270,40%,55%); color: hsl(270,40%,35%); }
+
+  /* ---- Section ---- */
+  .explore-section {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .explore-section:nth-child(even) { background: var(--surface); }
+  .section-inner { max-width: 1320px; margin: 0 auto; }
+
+  .explore-meta { margin-bottom: 40px; }
+  .explore-badges { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 3px 10px;
+    border-radius: 980px;
+    border: 1px solid transparent;
+  }
+  .badge-id { background: var(--ink); color: var(--paper); letter-spacing: 0.1em; }
+  .badge-s1 { background: hsl(220,30%,94%); border-color: hsl(220,30%,82%); color: hsl(220,40%,38%); }
+  .badge-s2 { background: hsl(270,30%,94%); border-color: hsl(270,30%,82%); color: hsl(270,40%,38%); }
+  .badge-neutral { background: var(--surface); border-color: var(--hairline); color: var(--muted); }
+
+  .explore-section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3.2vw, 46px);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 10px;
+    text-wrap: balance;
+  }
+  .explore-section-title em { font-style: italic; }
+  .explore-section-desc {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+
+  /* ---- Bento core ---- */
+  .bento-grid {
+    display: grid;
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1px;
+  }
+  .g-3 { grid-template-columns: repeat(3, 1fr); }
+  .g-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .bc {
+    padding: 28px 24px;
+    border: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .bc:hover { border-color: var(--muted); }
+  .bc:active { transform: scale(0.96); }
+  .bc[data-c="product"] { background: var(--cat-product); }
+  .bc[data-c="prompt"]  { background: var(--cat-prompt); }
+  .bc[data-c="play"]    { background: var(--cat-plaything); }
+
+  .bc .lbl {
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--ink); font-weight: 600;
+  }
+  .bc .nm {
+    font-family: var(--serif); font-size: 24px; line-height: 1;
+    letter-spacing: -0.02em; color: var(--black); margin-top: 4px;
+    overflow-wrap: anywhere; word-break: break-word;
+  }
+  .bc .nm em { font-style: italic; }
+  .bc .bl {
+    font-size: 13px; line-height: 1.5; color: var(--muted); max-width: 28ch;
+  }
+  .bc .ct {
+    margin-top: auto;
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .bc .ct .ar { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
+  .bc:hover .ct .ar { transform: translateX(4px); }
+
+  /* span modifiers */
+  .c-hero       { grid-column: span 2; grid-row: span 2; padding: 36px 32px; }
+  .c-hero .nm   { font-size: 48px; margin-top: 8px; }
+  .c-hero .bl   { font-size: 15px; color: var(--ink); max-width: 32ch; margin-top: 4px; }
+  .c-hero .ct   { font-size: 11px; }
+
+  .c-wide3      { grid-column: span 3; padding: 36px 32px; } /* 4-col: hero wide */
+  .c-wide3 .nm  { font-size: 40px; margin-top: 8px; }
+  .c-wide3 .bl  { font-size: 15px; color: var(--ink); max-width: 52ch; margin-top: 4px; }
+  .c-wide3 .ct  { font-size: 11px; }
+
+  .c-w2         { grid-column: span 2; } /* wide 2 cols */
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid var(--hairline);
+  }
+  .sw-product  { background: var(--cat-product); }
+  .sw-prompt   { background: var(--cat-prompt); }
+  .sw-play     { background: var(--cat-plaything); }
+
+  /* responsive */
+  @media (max-width: 680px) {
+    .g-3, .g-4 { grid-template-columns: 1fr 1fr; }
+    .c-hero, .c-wide3 { grid-column: span 2 !important; grid-row: span 1 !important; }
+    .c-hero .nm, .c-wide3 .nm { font-size: 28px; }
+    .c-w2 { grid-column: span 2; }
+  }
+  @media (max-width: 420px) {
+    .g-3, .g-4 { grid-template-columns: 1fr; }
+    .c-hero, .c-wide3, .c-w2 { grid-column: span 1 !important; }
+    .explore-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="explore-header">
+  <a href="/" class="explore-back">← mooch.agency</a>
+  <span class="explore-header-label">Bento — design exploration</span>
+  <nav class="explore-nav" id="nav"></nav>
+</header>
+
+<div id="app"></div>
+
+<script>
+const C = {
+  tov:          { c:'product', lbl:'Product · Live',    nm:'tone<em>of</em>voice.app', bl:'Generate professional tone-of-voice guidelines in minutes. Used by 200+ teams.', ct:'Try it',       href:'https://toneofvoice.app' },
+  fortress:     { c:'product', lbl:'Product · Alpha',   nm:'fortress',                bl:'Content audit for your whole site.',                                               ct:'Try it',       href:'https://usefortress.vercel.app' },
+  highway:      { c:'product', lbl:'Product · Waitlist',nm:'highway',                 bl:'SEO articles, no slop.',                                                           ct:'Join waitlist',href:'https://joinhighway.vercel.app/' },
+  soundlikeme:  { c:'prompt',  lbl:'Prompt',              nm:'/sound<em>like</em>me',   bl:'AI that writes in your voice.',                                                    ct:'Steal it',     href:'https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118' },
+  deslop:       { c:'prompt',  lbl:'Prompt',              nm:'/deslop',                 bl:'Strip AI tells from any draft.',                                                   ct:'Steal it',     href:'https://www.notion.so/tahi/deslop-a60e4b10f9df43f3bf6ea366eed1b31f' },
+  sassgpt:      { c:'play',    lbl:'Plaything',           nm:'sassgpt',                 bl:'ChatGPT with attitude.',                                                           ct:'Play',         href:'https://sassgpt.vercel.app/' },
+  openclaws:    { c:'play',    lbl:'Plaything',           nm:'openclaws',               bl:'A €999 polymer clip that holds your MacBook lid open.',                            ct:'Play',         href:'https://openclaws.app/' },
+  gravity:      { c:'play',    lbl:'Plaything',           nm:'gravity',                 bl:'v0 clone that roasts your ideas.',                                                 ct:'Play',         href:'https://gravity-v0.vercel.app/' },
+  sitegeist:    { c:'play',    lbl:'Plaything',           nm:'sitegeist',               bl:'Neo-gothic ghost who finds your dead links.',                                       ct:'Play',         href:'https://sitegeist.vercel.app' },
+  generationx:  { c:'play',    lbl:'Plaything',           nm:'generation-x',            bl:'Preview how X crops your images before you post.',                                  ct:'Play',         href:'https://generation-x.vercel.app' },
+  alibi:        { c:'play',    lbl:'Plaything',           nm:'alibi',                   bl:'Client dispute tracker with the heart of a legal drama.',                          ct:'Play',         href:'https://alibi-saas.vercel.app' },
+  samantha:     { c:'play',    lbl:'Plaything',           nm:'samantha',                bl:'Reads your saved articles in a soothing voice.',                                   ct:'Listen',       href:'https://samantha01.vercel.app' },
+  maestro:      { c:'play',    lbl:'Plaything',           nm:'maestro',                 bl:'Infinite music. Composed for you.',                                                ct:'Listen',       href:'https://maestro99.vercel.app' },
+  onlyfans:     { c:'play',    lbl:'Plaything',           nm:'only<em>fans</em>',       bl:'A pre-loved GPU marketplace for discerning buyers.',                               ct:'Browse',       href:'https://onlyfans-gpu.vercel.app' },
+  alwayseve:    { c:'play',    lbl:'Plaything',           nm:'always evening',          bl:'Two AIs host a podcast about what it means to be human.',                          ct:'Listen',       href:'https://always-evening.vercel.app' },
+  contacthigh:  { c:'play',    lbl:'Plaything',           nm:'contact high',            bl:'Reminds you who you met and where.',                                               ct:'Play',         href:'https://contacthigh.vercel.app' },
+};
+
+const CURRENT = ['tov','fortress','highway','soundlikeme','deslop','sassgpt','openclaws','gravity'];
+const ALL     = ['tov','fortress','highway','soundlikeme','deslop','sassgpt','openclaws','gravity','sitegeist','generationx','alibi','samantha','maestro','onlyfans','alwayseve','contacthigh'];
+
+const CONFIGS = [
+  {
+    id:'1a', sol:1,
+    title:'3 cols · full width · 8 cards',
+    desc:'Minimum viable fix — remove the 900px cap. Existing layout and card set unchanged; the grid fills the full 1320px content column.',
+    cols:3, cards:CURRENT,
+    mods:{ tov:'hero', openclaws:'w2' }
+  },
+  {
+    id:'1b', sol:1,
+    title:'3 cols · full width · full inventory',
+    desc:'Same 3-column approach with all 16 products, prompts, and playthings. Tests how the grid scales to a richer set.',
+    cols:3, cards:ALL,
+    mods:{ tov:'hero', openclaws:'w2', alwayseve:'w2' }
+  },
+  {
+    id:'2a', sol:2,
+    title:'4 cols · hero 2×2 · full inventory',
+    desc:'One extra column at full width. toneofvoice keeps its 2×2 anchor. More cards fit per row; individual cards are narrower.',
+    cols:4, cards:ALL,
+    mods:{ tov:'hero', openclaws:'w2', alwayseve:'w2' }
+  },
+  {
+    id:'2b', sol:2,
+    title:'4 cols · hero 3×1 · full inventory',
+    desc:'toneofvoice spans 3 of 4 columns as a wide cinematic opener, then the grid settles into an even 4-column rhythm below.',
+    cols:4, cards:ALL,
+    mods:{ tov:'wide3', openclaws:'w2', alwayseve:'w2' }
+  },
+  {
+    id:'2c', sol:2,
+    title:'4 cols · two spotlights · full inventory',
+    desc:'toneofvoice and maestro both get 2×2 hero treatment. Two anchors add visual rhythm across a larger inventory.',
+    cols:4, cards:ALL,
+    mods:{ tov:'hero', maestro:'hero', openclaws:'w2', alwayseve:'w2' }
+  },
+];
+
+function renderCard(id, mod) {
+  const d = C[id];
+  let spanCls = '';
+  if (mod === 'hero')  spanCls = 'c-hero';
+  if (mod === 'wide3') spanCls = 'c-wide3';
+  if (mod === 'w2')    spanCls = 'c-w2';
+  return `<a class="bc ${spanCls}" data-c="${d.c}" href="${d.href}" target="_blank" rel="noopener">
+  <span class="lbl">${d.lbl}</span>
+  <span class="nm">${d.nm}</span>
+  <span class="bl">${d.bl}</span>
+  <span class="ct"><span>${d.ct}</span><span class="ar">→</span></span>
+</a>`;
+}
+
+function renderSection(cfg) {
+  const gridCls = `bento-grid g-${cfg.cols}`;
+  const cards = cfg.cards.map(id => renderCard(id, cfg.mods[id] || null)).join('\n');
+  const sBadge = cfg.sol === 1 ? 'badge-s1' : 'badge-s2';
+  const cardCount = cfg.cards.length;
+  const colCount = cfg.cols;
+  return `
+<section class="explore-section" id="cfg-${cfg.id}">
+  <div class="section-inner">
+    <div class="explore-meta">
+      <div class="explore-badges">
+        <span class="badge badge-id">${cfg.id.toUpperCase()}</span>
+        <span class="badge ${sBadge}">Solution ${cfg.sol}</span>
+        <span class="badge badge-neutral">${colCount} cols</span>
+        <span class="badge badge-neutral">${cardCount} cards</span>
+      </div>
+      <h2 class="explore-section-title">${cfg.title}</h2>
+      <p class="explore-section-desc">${cfg.desc}</p>
+    </div>
+    <div class="${gridCls}">
+${cards}
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch sw-product"></div>Product</div>
+      <div class="legend-item"><div class="legend-swatch sw-prompt"></div>Prompt</div>
+      <div class="legend-item"><div class="legend-swatch sw-play"></div>Plaything</div>
+    </div>
+  </div>
+</section>`;
+}
+
+document.getElementById('app').innerHTML = CONFIGS.map(renderSection).join('');
+
+const nav = document.getElementById('nav');
+CONFIGS.forEach(cfg => {
+  const a = document.createElement('a');
+  a.href = `#cfg-${cfg.id}`;
+  a.textContent = cfg.id.toUpperCase();
+  a.className = `s${cfg.sol}`;
+  nav.appendChild(a);
+});
+</script>
+</body>
+</html>
