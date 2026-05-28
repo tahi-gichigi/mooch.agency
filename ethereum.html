@@ -236,6 +236,45 @@
     max-width: 100%;
   }
 
+  .phase-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 32px;
+    border-top: 1px solid var(--hairline);
+  }
+  .phase-list li {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 20px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+    margin: 0;
+  }
+  .phase-n {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    font-style: italic;
+  }
+  .phase-body { display: block; }
+  .phase-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .phase-body p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
   .stat-row {
     display: grid;
     grid-template-columns: 1fr;
@@ -431,7 +470,7 @@
   <div class="case-hero-inner">
     <div class="eyebrow reveal d1"><span class="rule"></span> <strong>05</strong> &middot; Case Study &middot; 2025</div>
     <h1 class="reveal d2">Plain-English rewrites for <em>ethereum.org</em></h1>
-    <p class="standfirst reveal d3">Rewriting the core informational layer of Ethereum's front door without losing technical accuracy.</p>
+    <p class="standfirst reveal d3">Rewriting Ethereum's front door without losing technical accuracy.</p>
     <dl class="case-meta reveal d4">
       <div><dt>Client</dt><dd>Ethereum Foundation</dd></div>
       <div><dt>Sector</dt><dd>Web3 / Blockchain</dd></div>
@@ -451,7 +490,8 @@
     <p>We rewrote the core informational layer of ethereum.org for the Ethereum Foundation. Seven plus pages delivered with a repeatable system for translating deeply technical ideas into plain English without losing accuracy.</p>
 
     <h2><span class="num">&sect; 02</span>The brief</h2>
-    <p>The Ethereum Foundation was started by Vitalik Buterin and other co-founders of Ethereum. It exists to support Ethereum, the open-source blockchain network that secures hundreds of billions of dollars and powers thousands of decentralised applications. <a href="https://ethereum.org/">ethereum.org</a> is the front door. It's where newcomers land first, where developers check facts, and where the wider crypto industry takes its lead on terminology.</p>
+    <p>The Ethereum Foundation was started by Vitalik Buterin and other co-founders of Ethereum. It exists to support Ethereum, the open-source blockchain network that secures hundreds of billions of dollars and powers thousands of decentralised applications.</p>
+    <p><a href="https://ethereum.org/">ethereum.org</a> is the front door. It's where newcomers land first, where developers check facts, and where the wider crypto industry takes its lead on terminology.</p>
     <p>We worked directly with the Foundation's content team, led by Jakub Konopka, to rewrite the core informational pages on the site. The brief was simple to state but difficult to deliver: lose the jargon but keep the technical accuracy.</p>
     <div class="user-need">
       <span class="qual">As</span> someone curious about Ethereum for the first time<br>
@@ -462,14 +502,30 @@
 
     <h2><span class="num">&sect; 03</span>The work</h2>
     <p>The core pages on ethereum.org had drifted. Some read like internal docs. Some were written years ago and didn't reflect the network as it works today. A few were rewritten more than once, but the result was either too technical or too vague.</p>
-    <p>The Foundation needed a partner who could write plain English without losing technical accuracy, work inside their style guide, and stand up to expert review from their own contributors. Fortunately for us, we'd worked in the ecosystem before: overhauling content for Ethereum L2 <a href="/zksync">zkSync</a> ahead of their network launch, and simplifying Ethereum public goods funding for <a href="/octant">Octant</a>.</p>
+    <p>The Foundation needed a partner who could write plain English without losing technical accuracy, work inside their style guide, and stand up to expert review from their own contributors.</p>
+    <p>Fortunately for us, we'd worked in the ecosystem before: overhauling content for Ethereum L2 <a href="/zksync">zkSync</a> ahead of their network launch, and simplifying Ethereum public goods funding for <a href="/octant">Octant</a>.</p>
     <p>We ran a five-phase process for each page, repeated across the project:</p>
-    <ol>
-      <li><strong>Audit:</strong> review the existing live page, identify gaps against search intent and competitor pages.</li>
-      <li><strong>SEO brief:</strong> target keyword, audience intent, current page issues, ethereum.org's unique content edge.</li>
-      <li><strong>Outline:</strong> approved H1/H2 structure before any drafting to help de-risk content production.</li>
-      <li><strong>Draft:</strong> full page copy, written to the ethereum.org style guide, with internal links and meta tags.</li>
-      <li><strong>Expert review:</strong> revisions based on feedback from Foundation reviewers and subject-matter experts.</li>
+    <ol class="phase-list">
+      <li>
+        <span class="phase-n">01</span>
+        <div class="phase-body"><span class="phase-label">Audit</span><p>Review the existing live page, identify gaps against search intent and competitor pages.</p></div>
+      </li>
+      <li>
+        <span class="phase-n">02</span>
+        <div class="phase-body"><span class="phase-label">SEO brief</span><p>Target keyword, audience intent, current page issues, ethereum.org's unique content edge.</p></div>
+      </li>
+      <li>
+        <span class="phase-n">03</span>
+        <div class="phase-body"><span class="phase-label">Outline</span><p>Approved H1/H2 structure before any drafting to help de-risk content production.</p></div>
+      </li>
+      <li>
+        <span class="phase-n">04</span>
+        <div class="phase-body"><span class="phase-label">Draft</span><p>Full page copy, written to the ethereum.org style guide, with internal links and meta tags.</p></div>
+      </li>
+      <li>
+        <span class="phase-n">05</span>
+        <div class="phase-body"><span class="phase-label">Expert review</span><p>Revisions based on feedback from Foundation reviewers and subject-matter experts.</p></div>
+      </li>
     </ol>
     <p>This is the same operating system we use today on other clients. We built it on ethereum.org first.</p>
 
