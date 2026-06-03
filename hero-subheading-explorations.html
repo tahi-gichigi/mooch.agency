@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero subheading explorations — mooch.agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* Mirror the live site tokens so these read as real */
+  :root {
+    --black: #000000;
+    --ink: #1d1d1f;
+    --paper: #ffffff;
+    --surface: #fbfbfd;
+    --muted: #6e6e73;
+    --hairline: #d2d2d7;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    line-height: 1.5;
+    padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 56px);
+  }
+
+  .page-head { max-width: 760px; margin: 0 auto clamp(48px, 8vw, 96px); }
+  .page-head .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .page-head .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--ink); }
+  .page-head h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: 20px;
+  }
+  .page-head p { color: var(--muted); font-size: 16px; max-width: 60ch; }
+  .page-head code { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+
+  .explorations { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; }
+  .exp {
+    padding: clamp(40px, 6vw, 72px) 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .exp-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 28px;
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .exp-label .n { color: var(--ink); }
+  .exp-label .name { color: var(--ink); letter-spacing: 0.06em; }
+  .exp-label .note { text-transform: none; letter-spacing: 0; color: var(--muted); font-size: 12px; }
+  .stage { max-width: 720px; }
+
+  /* Shared base for the deck so widths match the live hero */
+  .deck { max-width: 40ch; }
+
+  /* ── 01 Refined sans (closest to current, tuned rhythm) ── */
+  .e1 .deck {
+    font-family: var(--sans);
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    font-weight: 500;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .e1 .lead { color: var(--black); }
+  .e1 .tail { color: var(--muted); }
+
+  /* ── 02 Editorial: serif lead, mono caption tail ── */
+  .e2 .lead {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    max-width: 22ch;
+    margin-bottom: 22px;
+    text-wrap: balance;
+  }
+  .e2 .tail {
+    display: block;
+    font-family: var(--mono);
+    font-size: clamp(12px, 1.3vw, 14px);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+    max-width: 52ch;
+  }
+
+  /* ── 03 Structural two-tier: big serif statement + small mono support ── */
+  .e3 .lead {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    max-width: 16ch;
+    margin-bottom: 28px;
+  }
+  .e3 .tail {
+    display: block;
+    font-family: var(--sans);
+    font-size: clamp(16px, 1.8vw, 19px);
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    font-weight: 450;
+    color: var(--ink);
+    max-width: 40ch;
+    padding-left: 18px;
+    border-left: 1px solid var(--hairline);
+  }
+
+  /* ── 04 Spec sheet: monospace, label + value rows (Lumon / GitHub-coded) ── */
+  .e4 .deck { max-width: 60ch; }
+  .e4 .row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: baseline;
+  }
+  .e4 .row:first-child { border-top: 1px solid var(--hairline); }
+  .e4 .k {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .e4 .v {
+    font-family: var(--sans);
+    font-size: clamp(17px, 1.8vw, 21px);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ── 05 Emphasis weave: sans body, key phrases in italic serif ── */
+  .e5 .deck {
+    font-family: var(--sans);
+    font-size: clamp(21px, 2.6vw, 30px);
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    font-weight: 450;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .e5 em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.12em;
+    letter-spacing: 0;
+    color: var(--black);
+  }
+
+  /* ── 06 Pull-quote: oversized italic serif, MSCHF-minimal ── */
+  .e6 .deck {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(30px, 4.6vw, 52px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    max-width: 22ch;
+  }
+  .e6 .tail { font-style: normal; color: var(--muted); }
+
+  /* Per-word staggered reveal (matches the live site mechanism) */
+  .reveal-words .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.5em);
+    animation: wordReveal 0.6s cubic-bezier(0.2, 0, 0.2, 1) both;
+    animation-delay: var(--word-delay, 0s);
+    will-change: transform, opacity;
+  }
+  @keyframes wordReveal { to { opacity: 1; transform: translateY(0); } }
+
+  .replay {
+    margin-top: 32px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--hairline);
+    border-radius: 980px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .replay:hover { border-color: var(--ink); color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-words .word { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="eyebrow">Hero subheading · 6 explorations</div>
+  <h1>Pick a direction.</h1>
+  <p>Six on-brand takes on the hero subheading, all using the live site fonts (Instrument Serif, SF Pro, monospace) and tokens. Copy is identical across every option:
+  <br><br><code>An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want and use AI to compound the benefits.</code></p>
+</div>
+
+<div class="explorations">
+
+  <!-- 01 -->
+  <section class="exp e1">
+    <div class="exp-label"><span class="n">01</span><span class="name">Refined sans</span><span class="note">Closest to today. Tighter rhythm, darker lead clause, muted second sentence for depth. Lowest risk.</span></div>
+    <div class="stage">
+      <p class="deck"><span class="lead">An AI automation and UX agency that's lean and long-term focused.</span> <span class="tail">We help teams make things their customers really want and use AI to compound the benefits.</span></p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="exp e2">
+    <div class="exp-label"><span class="n">02</span><span class="name">Editorial</span><span class="note">Serif lead as the statement, monospace caption as the proof. Echoes the H1 typeface for cohesion.</span></div>
+    <div class="stage">
+      <div class="deck">
+        <span class="lead">An AI automation and UX agency that's lean and long-term focused.</span>
+        <span class="tail">We help teams make things their customers really want and use AI to compound the benefits.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="exp e3">
+    <div class="exp-label"><span class="n">03</span><span class="name">Structural</span><span class="note">Big italic serif statement, supporting sentence set off by a hairline rule. Most hierarchy.</span></div>
+    <div class="stage">
+      <div class="deck">
+        <span class="lead">An AI automation and UX agency that's lean and long-term focused.</span>
+        <span class="tail">We help teams make things their customers really want and use AI to compound the benefits.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="exp e4">
+    <div class="exp-label"><span class="n">04</span><span class="name">Spec sheet</span><span class="note">Monospace labels, sans values. Lumon / GitHub-coded restraint. "Never wink at the audience".</span></div>
+    <div class="stage">
+      <div class="deck">
+        <div class="row"><span class="k">Who</span><span class="v">An AI automation and UX agency.</span></div>
+        <div class="row"><span class="k">How</span><span class="v">Lean and long-term focused.</span></div>
+        <div class="row"><span class="k">What</span><span class="v">We help teams make things their customers really want and use AI to compound the benefits.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="exp e5">
+    <div class="exp-label"><span class="n">05</span><span class="name">Emphasis weave</span><span class="note">Sans body with key phrases swapped to italic serif. Brings the serif into the deck without a full switch.</span></div>
+    <div class="stage">
+      <p class="deck">An <em>AI automation and UX</em> agency that's <em>lean and long-term focused</em>. We help teams make things their customers really want and use AI to <em>compound the benefits</em>.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="exp e6">
+    <div class="exp-label"><span class="n">06</span><span class="name">Pull-quote</span><span class="note">Whole deck as an oversized italic serif statement. MSCHF-minimal. Sell first, explain never.</span></div>
+    <div class="stage">
+      <p class="deck">An AI automation and UX agency that's lean and long-term focused. <span class="tail">We help teams make things their customers really want and use AI to compound the benefits.</span></p>
+    </div>
+  </section>
+
+</div>
+
+<div class="explorations">
+  <button class="replay" id="replay">Replay word stagger</button>
+</div>
+
+<script>
+  // Per-word staggered reveal — same mechanism as the live site, applied to
+  // every exploration so reviewers see the motion in context.
+  // We split only leaf text nodes so nested <span>/<em> structure is preserved.
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var counter;
+
+    function splitNode(node) {
+      // Recurse into elements; wrap words in text nodes.
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          var parts = child.textContent.split(/(\s+)/);
+          var frag = document.createDocumentFragment();
+          parts.forEach(function (p) {
+            if (p.trim() === '') { frag.appendChild(document.createTextNode(p)); return; }
+            var span = document.createElement('span');
+            span.className = 'word';
+            span.textContent = p;
+            span.style.setProperty('--word-delay', (counter * 0.04).toFixed(2) + 's');
+            counter++;
+            frag.appendChild(span);
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          splitNode(child);
+        }
+      });
+    }
+
+    function run() {
+      document.querySelectorAll('.deck').forEach(function (deck) {
+        counter = 0;
+        splitNode(deck);
+        if (reduce) {
+          deck.querySelectorAll('.word').forEach(function (w) { w.style.animation = 'none'; });
+        }
+      });
+    }
+
+    run();
+
+    document.getElementById('replay').addEventListener('click', function () {
+      document.querySelectorAll('.deck .word').forEach(function (w) {
+        w.style.animation = 'none';
+        void w.offsetWidth; // reflow to restart
+        w.style.animation = '';
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
