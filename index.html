@@ -813,11 +813,22 @@
   // Custom track() events for Vercel Analytics.
   // Fires after DOM is ready; uses the va() queue so events are held until the
   // analytics script loads.
+  // Reads an element's own text, ignoring nested elements (e.g. the
+  // .discipline tag inside .client, or the arrow span inside a CTA).
+  function ownText(el) {
+    if (!el) return '';
+    return Array.prototype.filter
+      .call(el.childNodes, function (n) { return n.nodeType === Node.TEXT_NODE; })
+      .map(function (n) { return n.textContent; })
+      .join('')
+      .trim();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
-    // Hero CTAs
+    // Hero CTAs. Custom fields must sit under `data` per the Vercel API.
     document.querySelectorAll('.hero-actions a').forEach(function (a) {
       a.addEventListener('click', function () {
-        window.va('event', { name: 'hero_cta', label: a.textContent.trim() });
+        window.va('event', { name: 'hero_cta', data: { label: ownText(a) } });
       });
     });
 
@@ -825,15 +836,15 @@
     document.querySelectorAll('.bento-card').forEach(function (card) {
       card.addEventListener('click', function () {
         var name = card.querySelector('.name');
-        window.va('event', { name: 'bento_click', item: name ? name.textContent.trim() : card.href });
+        window.va('event', { name: 'bento_click', data: { item: name ? name.textContent.trim() : card.href } });
       });
     });
 
     // Work list rows
     document.querySelectorAll('.work-row').forEach(function (row) {
       row.addEventListener('click', function () {
-        var title = row.querySelector('.client');
-        window.va('event', { name: 'work_click', client: title ? title.textContent.trim() : row.href });
+        var client = ownText(row.querySelector('.client'));
+        window.va('event', { name: 'work_click', data: { client: client || row.href } });
       });
     });
   });
