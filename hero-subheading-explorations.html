@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Hero subheading explorations — mooch.agency</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -197,6 +198,255 @@
   }
   .e6 .tail { font-style: normal; color: var(--muted); }
 
+  /* ─────────────────────────────────────────────────────────────
+     07–12 · values-driven directions. Each maps to a Mooch value.
+     ───────────────────────────────────────────────────────────── */
+
+  /* ── 07 Decision modes: "decide slow, deliver fast" ──
+     Sentence 1 = the slow, considered positioning (airy serif).
+     Sentence 2 = the fast delivery (tight sans). Mode tags in the margin. */
+  .e7 .deck { max-width: 46ch; display: grid; gap: clamp(26px, 3vw, 34px); }
+  .e7 .mode { display: grid; grid-template-columns: clamp(60px, 9vw, 88px) 1fr; gap: clamp(14px, 2vw, 22px); align-items: start; }
+  .e7 .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    padding-top: 0.55em;
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+  }
+  .e7 .tag::after { content: ''; height: 1px; flex: 1; background: var(--hairline); }
+  .e7 .slow {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 38px);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .e7 .fast {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.42;
+    letter-spacing: -0.004em;
+    color: var(--ink);
+    max-width: 44ch;
+  }
+
+  /* ── 08 Institutional plaque: Lumon-coded, never winks ──
+     Centered, double-hairline frame, cold mono kicker. Lobby-plate energy. */
+  .e8 .stage { max-width: 100%; }
+  .e8 .deck { max-width: 620px; margin-inline: auto; }
+  .e8 .plate {
+    position: relative;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    padding: clamp(40px, 5.5vw, 60px) clamp(28px, 5vw, 56px);
+  }
+  .e8 .plate::before {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 1px solid var(--hairline);
+    pointer-events: none;
+  }
+  .e8 .kicker {
+    position: relative;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+  .e8 .statement {
+    position: relative;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 3.2vw, 36px);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    text-wrap: balance;
+    margin: 0 auto 18px;
+    max-width: 26ch;
+  }
+  .e8 .sub {
+    position: relative;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 48ch;
+    margin-inline: auto;
+  }
+
+  /* ── 09 A note from us: "talk to people like they're people" ──
+     Warm regular serif, letter-like measure, founder sign-off. */
+  .e9 .deck {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 3vw, 33px);
+    line-height: 1.32;
+    letter-spacing: -0.004em;
+    color: var(--ink);
+    max-width: 30ch;
+  }
+  .e9 .sig {
+    display: block;
+    margin-top: 26px;
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+  }
+  .e9 .sig::before {
+    content: '';
+    display: inline-block;
+    width: 26px; height: 1px;
+    background: var(--hairline);
+    vertical-align: middle;
+    margin-right: 12px;
+  }
+
+  /* ── 10 Lab annotation: "think long term" / research-lab worldview ──
+     Sans statement, key phrases footnoted like a research document. */
+  .e10 .deck {
+    font-family: var(--sans);
+    font-size: clamp(18px, 2vw, 23px);
+    line-height: 1.5;
+    letter-spacing: -0.008em;
+    font-weight: 450;
+    color: var(--ink);
+    max-width: 42ch;
+  }
+  .e10 .anno { border-bottom: 1px dotted var(--hairline); }
+  .e10 sup {
+    font-family: var(--mono);
+    font-size: 0.58em;
+    color: var(--muted);
+    vertical-align: super;
+    line-height: 0;
+    margin-left: 1px;
+  }
+  .e10 .notes {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--hairline);
+    display: grid;
+    gap: 12px;
+    max-width: 54ch;
+  }
+  .e10 .fn {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+  }
+  .e10 .fn .num { color: var(--ink); }
+
+  /* ── 11 Reductive drop: MSCHF "sell first, explain never" ──
+     Big serif sell line. The explainer stays hidden until you ask for it. */
+  .e11 .stage { cursor: pointer; outline: none; }
+  .e11 .deck { max-width: 28ch; }
+  .e11 .sell {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4.4vw, 50px);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .e11 .explain {
+    font-family: var(--sans);
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 44ch;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: 0;
+    transition: max-height 0.5s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.4s ease, margin-top 0.5s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  .e11 .stage:hover .explain,
+  .e11 .stage:focus-within .explain,
+  .e11 .stage.open .explain {
+    max-height: 9em;
+    opacity: 1;
+    margin-top: 22px;
+  }
+  .e11 .hint {
+    display: inline-block;
+    margin-top: 22px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    transition: opacity 0.3s ease;
+  }
+  .e11 .stage:hover .hint,
+  .e11 .stage:focus-within .hint,
+  .e11 .stage.open .hint { opacity: 0; }
+
+  /* ── 12 One slide: "less is best, one simple slide over 10" ──
+     The whole deck as a single keynote frame. Maximum negative space. */
+  .e12 .stage { max-width: 100%; }
+  .e12 .deck { max-width: 880px; margin-inline: auto; }
+  .e12 .slide {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    min-height: 300px;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: clamp(28px, 5vw, 72px);
+  }
+  .e12 .brandmark {
+    position: absolute;
+    top: clamp(14px, 2vw, 22px);
+    left: clamp(16px, 2.4vw, 26px);
+    font-family: var(--serif);
+    font-size: clamp(16px, 1.8vw, 20px);
+    color: var(--ink);
+  }
+  .e12 .slide-no {
+    position: absolute;
+    bottom: clamp(14px, 2vw, 20px);
+    right: clamp(16px, 2.4vw, 26px);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .e12 .statement {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 3.4vw, 40px);
+    line-height: 1.16;
+    letter-spacing: -0.012em;
+    color: var(--black);
+    max-width: 24ch;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 640px) {
+    .e12 .slide { aspect-ratio: auto; min-height: 340px; }
+  }
+
   /* Per-word staggered reveal (matches the live site mechanism) */
   .reveal-words .word {
     display: inline-block;
@@ -232,9 +482,9 @@
 <body>
 
 <div class="page-head">
-  <div class="eyebrow">Hero subheading · 6 explorations</div>
+  <div class="eyebrow">Hero subheading · 12 explorations</div>
   <h1>Pick a direction.</h1>
-  <p>Six on-brand takes on the hero subheading, all using the live site fonts (Instrument Serif, SF Pro, monospace) and tokens. Copy is identical across every option:
+  <p>Twelve on-brand takes on the hero subheading, all using the live site fonts (Instrument Serif, SF Pro, monospace) and tokens. Options 01 to 06 explore typographic hierarchy. Options 07 to 12 each map to a Mooch value: decide slow / deliver fast, worldview-as-brand, talk to people like people, think long term, sell first explain never, less is best. Core copy is identical across every option:
   <br><br><code>An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want and use AI to compound the benefits.</code></p>
 </div>
 
@@ -298,6 +548,81 @@
     </div>
   </section>
 
+  <!-- 07 -->
+  <section class="exp e7">
+    <div class="exp-label"><span class="n">07</span><span class="name">Decision modes</span><span class="note">Value: decide slow, deliver fast. The considered positioning reads as a slow serif; the delivery snaps in as tight sans. Two operating modes, made visible.</span></div>
+    <div class="stage">
+      <div class="deck">
+        <div class="mode">
+          <span class="tag">Decide</span>
+          <p class="slow">An AI automation and UX agency that's lean and long-term focused.</p>
+        </div>
+        <div class="mode">
+          <span class="tag">Deliver</span>
+          <p class="fast">We help teams make things their customers really want and use AI to compound the benefits.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="exp e8">
+    <div class="exp-label"><span class="n">08</span><span class="name">Institutional plaque</span><span class="note">Inspiration: Lumon worldbuilding. A cold, double-framed lobby plate that never winks at the audience. The only centred option.</span></div>
+    <div class="stage">
+      <div class="deck">
+        <div class="plate">
+          <div class="kicker">Mooch.agency · Est. MMXXIV</div>
+          <p class="statement">An AI automation and UX agency that's lean and long-term focused.</p>
+          <p class="sub">We help teams make things their customers really want and use AI to compound the benefits.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="exp e9">
+    <div class="exp-label"><span class="n">09</span><span class="name">A note from us</span><span class="note">Value: talk to people like they're people. Warm regular serif at a letter-like measure, signed by the founders. Sign-off is scaffolding, not copy.</span></div>
+    <div class="stage">
+      <p class="deck">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want and use AI to compound the benefits.<span class="sig">Tahi &amp; Natalie, Mooch</span></p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="exp e10">
+    <div class="exp-label"><span class="n">10</span><span class="name">Lab annotation</span><span class="note">Value: think long term (Vollebak research-lab worldview). Key phrases footnoted like a research document. Statement copy is identical; footnotes are illustrative annotation.</span></div>
+    <div class="stage">
+      <p class="deck">An AI automation and UX agency that's lean and <span class="anno">long-term focused<sup>1</sup></span>. We help teams make things their customers really want and use AI to <span class="anno">compound the benefits<sup>2</sup></span>.</p>
+      <div class="notes">
+        <div class="fn"><span class="num">1</span><span>Built to hold up over years, not sprints. We optimise for the long arc.</span></div>
+        <div class="fn"><span class="num">2</span><span>Each automation makes the next one cheaper. Gains stack instead of reset.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="exp e11">
+    <div class="exp-label"><span class="n">11</span><span class="name">Reductive drop</span><span class="note">Inspiration: MSCHF. Sell first, explain never. The positioning lands big; the explainer stays hidden until you hover, focus, or tap.</span></div>
+    <div class="stage" tabindex="0" role="button" aria-label="Reveal the rest of the subheading">
+      <p class="deck"><span class="sell">An AI automation and UX agency that's lean and long-term focused.</span></p>
+      <p class="explain">We help teams make things their customers really want and use AI to compound the benefits.</p>
+      <span class="hint">[ hover to read the rest ]</span>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="exp e12">
+    <div class="exp-label"><span class="n">12</span><span class="name">One slide</span><span class="note">Value: less is best, one simple slide over 10. The whole deck as a single keynote frame, all negative space. Be intentional with what fills it.</span></div>
+    <div class="stage">
+      <div class="deck">
+        <div class="slide">
+          <span class="brandmark">Mooch.</span>
+          <p class="statement">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want and use AI to compound the benefits.</p>
+          <span class="slide-no">01 / 01</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <div class="explorations">
@@ -351,6 +676,15 @@
         w.style.animation = 'none';
         void w.offsetWidth; // reflow to restart
         w.style.animation = '';
+      });
+    });
+
+    // 11 · MSCHF "sell first, explain never": tap/click toggles the explainer
+    // for touch devices where hover and focus-within don't fire.
+    document.querySelectorAll('.e11 .stage').forEach(function (stage) {
+      stage.addEventListener('click', function () { stage.classList.toggle('open'); });
+      stage.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); stage.classList.toggle('open'); }
       });
     });
   })();

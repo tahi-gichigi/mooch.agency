@@ -587,8 +587,8 @@
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>gov.uk</span><span>British Airways</span><span>zkSync</span><span>Octant</span><span>Ethereum Foundation</span><span>Big Debate Club</span><span>Lisbon Restaurant Group</span>
-    <span>gov.uk</span><span>British Airways</span><span>zkSync</span><span>Octant</span><span>Ethereum Foundation</span><span>Big Debate Club</span><span>Lisbon Restaurant Group</span>
+    <span>Product design</span><span>Qualitative user research</span><span>Brand tone of voice</span><span>AI workflow automation</span><span>Agent design &amp; orchestration</span><span>Internal tooling &amp; ops automation</span>
+    <span>Product design</span><span>Qualitative user research</span><span>Brand tone of voice</span><span>AI workflow automation</span><span>Agent design &amp; orchestration</span><span>Internal tooling &amp; ops automation</span>
   </div>
 </div>
 
@@ -793,6 +793,36 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+
+<script>
+  // Custom track() events for Vercel Analytics.
+  // Fires after DOM is ready; uses the va() queue so events are held until the
+  // analytics script loads.
+  document.addEventListener('DOMContentLoaded', function () {
+    // Hero CTAs
+    document.querySelectorAll('.hero-actions a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        window.va('event', { name: 'hero_cta', label: a.textContent.trim() });
+      });
+    });
+
+    // Bento grid cards
+    document.querySelectorAll('.bento-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var name = card.querySelector('.name');
+        window.va('event', { name: 'bento_click', item: name ? name.textContent.trim() : card.href });
+      });
+    });
+
+    // Work list rows
+    document.querySelectorAll('.work-row').forEach(function (row) {
+      row.addEventListener('click', function () {
+        var title = row.querySelector('.client');
+        window.va('event', { name: 'work_click', client: title ? title.textContent.trim() : row.href });
+      });
+    });
+  });
+</script>
 
 <!-- Vercel Speed Insights (static-site install). Activates once Speed Insights is
      enabled on the project; script served at /_vercel/speed-insights/script.js -->
