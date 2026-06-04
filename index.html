@@ -38,7 +38,7 @@
        delivering = crisp, decisive response (hover, press, CTAs). */
     --ease-decide: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-deliver: cubic-bezier(0.2, 0, 0, 1);
-    --t-decide: 0.9s;
+    --t-decide: 1.25s;
     --t-deliver: 0.15s;
     --cat-product: hsl(220, 30%, 94%);
     --cat-prompt: hsl(270, 30%, 94%);
@@ -550,7 +550,7 @@
     opacity: 0;
     transform: translateY(0.4em);
     filter: blur(4px);
-    animation: wordReveal 0.7s var(--ease-decide) both;
+    animation: wordReveal 0.85s var(--ease-decide) both;
     animation-delay: var(--word-delay, 0s);
     will-change: transform, opacity, filter;
   }
@@ -849,13 +849,23 @@
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.work-list, .bento-grid').forEach(function (group) {
-      var sel = group.classList.contains('work-list') ? '.work-row' : '.bento-card';
-      group.querySelectorAll(sel).forEach(function (el, i) {
-        el.classList.add('rise');
-        // Cap the stagger so later items never lag noticeably behind.
-        el.style.setProperty('--rise-delay', Math.min(i, 5) * 70 + 'ms');
-        io.observe(el);
+    // [container, child] — each container's children settle in, staggered.
+    // Section headers and the about/contact blocks reveal on the same beat as
+    // the work and bento items, so the whole page arrives deliberately.
+    var groups = [
+      ['.section-head > div', ':scope > *'], // section number, title, lead
+      ['.work-list', '.work-row'],
+      ['.bento-grid', '.bento-card'],
+      ['.closer-inner', '.closer-block'],    // about + contact
+    ];
+    groups.forEach(function (pair) {
+      document.querySelectorAll(pair[0]).forEach(function (group) {
+        group.querySelectorAll(pair[1]).forEach(function (el, i) {
+          el.classList.add('rise');
+          // Cap the stagger so later items never lag noticeably behind.
+          el.style.setProperty('--rise-delay', Math.min(i, 5) * 80 + 'ms');
+          io.observe(el);
+        });
       });
     });
   })();
