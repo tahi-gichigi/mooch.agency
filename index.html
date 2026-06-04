@@ -33,6 +33,13 @@
     --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
     --pad-x: clamp(20px, 5vw, 56px);
     --rhythm: clamp(80px, 12vw, 160px);
+    /* Two motion modes, after "decide slow, deliver fast":
+       deciding = slow, considered settle (arrival, reveals);
+       delivering = crisp, decisive response (hover, press, CTAs). */
+    --ease-decide: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-deliver: cubic-bezier(0.2, 0, 0, 1);
+    --t-decide: 0.9s;
+    --t-deliver: 0.15s;
     --cat-product: hsl(220, 30%, 94%);
     --cat-prompt: hsl(270, 30%, 94%);
     --cat-plaything: hsl(35, 40%, 93%);
@@ -148,11 +155,11 @@
     font-weight: 500;
     letter-spacing: -0.005em;
     border: 1px solid var(--black);
-    transition: transform 0.2s ease, background 0.15s ease;
+    transition: transform var(--t-deliver) var(--ease-deliver), background var(--t-deliver) var(--ease-deliver);
   }
   .pill:hover { background: var(--ink); transform: translateY(-1px); }
   .pill:active { transform: scale(0.96); }
-  .pill .arrow { transition: transform 0.2s ease; }
+  .pill .arrow { transition: transform var(--t-deliver) var(--ease-deliver); }
   .pill:hover .arrow { transform: translateX(3px); }
 
   .ghost {
@@ -166,7 +173,7 @@
     font-size: 14px;
     font-weight: 500;
     border: 1px solid var(--hairline);
-    transition: border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    transition: border-color var(--t-deliver) var(--ease-deliver), color var(--t-deliver) var(--ease-deliver), transform var(--t-deliver) var(--ease-deliver);
   }
   .ghost:hover { border-color: var(--ink); color: var(--black); }
   .ghost:active { transform: scale(0.96); }
@@ -277,13 +284,15 @@
     gap: 24px;
     padding: 28px 4px;
     border-bottom: 1px solid var(--hairline);
-    transition: background 0.2s ease;
+    transition: background var(--t-deliver) var(--ease-deliver);
     position: relative;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
   }
   .work-row:hover { background: var(--surface); }
+  /* Delivery beat: the title leans toward you the instant you point at it */
+  .work-row:hover .client { transform: translateX(8px); }
   .work-row .idx {
     font-family: var(--mono);
     font-size: 12px;
@@ -296,7 +305,7 @@
     line-height: 1;
     letter-spacing: -0.02em;
     color: var(--black);
-    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    transition: transform var(--t-deliver) var(--ease-deliver);
     transform-origin: left center;
     display: block;
   }
@@ -414,7 +423,7 @@
     align-items: center;
     gap: 6px;
   }
-  .bento-card .cta .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
+  .bento-card .cta .arrow { font-size: 14px; color: var(--ink); transition: transform var(--t-deliver) var(--ease-deliver); }
   .bento-card:hover .cta .arrow { transform: translateX(4px); }
   .bento-card.wide { grid-column: span 2; }
   /* Primary flagship tiles: 1×2 tall with enlarged content so they draw the eye */
@@ -527,31 +536,47 @@
   .colophon-version { color: var(--muted); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
   .colophon-version:hover { border-bottom-color: var(--paper); color: var(--paper); }
 
-  /* ───────── Reveal on load ───────── */
-  .reveal { opacity: 0; transform: translateY(12px); animation: reveal 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards; }
+  /* ───────── Reveal on load (deciding: slow, considered settle) ───────── */
+  .reveal { opacity: 0; transform: translateY(14px); filter: blur(4px); animation: reveal var(--t-decide) var(--ease-decide) forwards; }
   .reveal.d1 { animation-delay: 0.05s; }
   .reveal.d2 { animation-delay: 0.18s; }
   .reveal.d3 { animation-delay: 0.32s; }
   .reveal.d4 { animation-delay: 0.46s; }
-  @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+  @keyframes reveal { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
-  /* Per-word staggered reveal for the hero subheading */
+  /* Per-word staggered reveal for the hero subheading — each word resolves into focus */
   .reveal-words .word {
     display: inline-block;
     opacity: 0;
-    transform: translateY(0.5em);
-    animation: wordReveal 0.6s cubic-bezier(0.2, 0, 0.2, 1) both;
+    transform: translateY(0.4em);
+    filter: blur(4px);
+    animation: wordReveal 0.7s var(--ease-decide) both;
     animation-delay: var(--word-delay, 0s);
-    will-change: transform, opacity;
+    will-change: transform, opacity, filter;
   }
-  @keyframes wordReveal { to { opacity: 1; transform: translateY(0); } }
+  @keyframes wordReveal { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
   .hero-deck .deck-lead { color: var(--black); }
   .hero-deck .deck-tail { color: var(--muted); }
 
+  /* Scroll reveal (deciding): below-fold content settles deliberately as you arrive.
+     The .rise class is added by JS only when motion is allowed, so no-JS and
+     reduced-motion visitors always see content in its final, visible state. */
+  .rise {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+    transition: opacity var(--t-decide) var(--ease-decide),
+                transform var(--t-decide) var(--ease-decide),
+                filter var(--t-decide) var(--ease-decide);
+    transition-delay: var(--rise-delay, 0ms);
+  }
+  .rise.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
-    .reveal { animation: none; opacity: 1; transform: none; }
-    .reveal-words .word { animation: none; opacity: 1; transform: none; }
+    .reveal { animation: none; opacity: 1; transform: none; filter: none; }
+    .reveal-words .word { animation: none; opacity: 1; transform: none; filter: none; }
+    .rise { opacity: 1; transform: none; filter: none; transition: none; }
   }
 
   /* ───────── Mobile topbar ───────── */
@@ -806,6 +831,32 @@
         });
       }
       splitNode(el);
+    });
+  })();
+
+  // Scroll reveal for below-fold content (work rows, bento cards).
+  // Deciding motion: each item settles deliberately as it enters the viewport.
+  // The .rise class is only applied here, so if JS is off or the visitor prefers
+  // reduced motion, content is served fully visible — never trapped at opacity 0.
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.work-list, .bento-grid').forEach(function (group) {
+      var sel = group.classList.contains('work-list') ? '.work-row' : '.bento-card';
+      group.querySelectorAll(sel).forEach(function (el, i) {
+        el.classList.add('rise');
+        // Cap the stagger so later items never lag noticeably behind.
+        el.style.setProperty('--rise-delay', Math.min(i, 5) * 70 + 'ms');
+        io.observe(el);
+      });
     });
   })();
 </script>
