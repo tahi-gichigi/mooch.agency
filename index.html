@@ -331,6 +331,11 @@
     margin-left: 12px;
     vertical-align: middle;
   }
+  /* AI work reads as an outline pill so UX (solid) vs AI (outline) is clear at a glance */
+  .work-row .discipline[data-disc="ai"] {
+    background: transparent;
+    color: var(--black);
+  }
   .work-row .tldr {
     display: block;
     font-family: var(--sans);
@@ -604,7 +609,7 @@
       <a class="work-row" href="/gov-uk.html">
         <span class="idx">001</span>
         <span>
-          <span class="client">gov.uk <span class="discipline">UX</span></span>
+          <span class="client">gov.uk <span class="discipline" data-disc="ux">UX</span></span>
           <span class="tldr">Designing government digital services that millions of people rely on every day.</span>
         </span>
         <span class="year">2021</span>
@@ -612,7 +617,7 @@
       <a class="work-row" href="/british-airways.html">
         <span class="idx">002</span>
         <span>
-          <span class="client">British Airways <span class="discipline">UX</span></span>
+          <span class="client">British Airways <span class="discipline" data-disc="ux">UX</span></span>
           <span class="tldr">Bringing British heritage into the 2020s through clearer in-flight content.</span>
         </span>
         <span class="year">2024</span>
@@ -621,7 +626,7 @@
       <a class="work-row" href="/octant.html">
         <span class="idx">003</span>
         <span>
-          <span class="client">Octant <span class="discipline">UX</span></span>
+          <span class="client">Octant <span class="discipline" data-disc="ux">UX</span></span>
           <span class="tldr">Simplifying public-goods funding on Ethereum without losing the politics.</span>
         </span>
         <span class="year">2023</span>
@@ -629,7 +634,7 @@
       <a class="work-row" href="/ethereum.html">
         <span class="idx">004</span>
         <span>
-          <span class="client">Ethereum Foundation <span class="discipline">UX</span></span>
+          <span class="client">Ethereum Foundation <span class="discipline" data-disc="ux">UX</span></span>
           <span class="tldr">Plain-English rewrites for the core informational layer of ethereum.org.</span>
         </span>
         <span class="year">2025</span>
@@ -637,7 +642,7 @@
       <a class="work-row" href="/big-debate-club.html">
         <span class="idx">005</span>
         <span>
-          <span class="client">Big Debate Club <span class="discipline">AI</span></span>
+          <span class="client">Big Debate Club <span class="discipline" data-disc="ai">AI</span></span>
           <span class="tldr">Automating content delivery so writers can focus on the writing.</span>
         </span>
         <span class="year">2026</span>
@@ -645,7 +650,7 @@
       <a class="work-row" href="/contrabando.html">
         <span class="idx">006</span>
         <span>
-          <span class="client">Lisbon Restaurant Group <span class="discipline">AI</span></span>
+          <span class="client">Lisbon Restaurant Group <span class="discipline" data-disc="ai">AI</span></span>
           <span class="tldr">Automating Google review replies across 4 locations in 5 languages.</span>
         </span>
         <span class="year">2026</span>
