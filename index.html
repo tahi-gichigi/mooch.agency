@@ -849,21 +849,26 @@
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    // [container, child] — each container's children settle in, staggered.
-    // Section headers and the about/contact blocks reveal on the same beat as
-    // the work and bento items, so the whole page arrives deliberately.
+    // Each group's children settle in, staggered, on the same 80ms beat so the
+    // whole page arrives deliberately. `cap` limits how far the stagger grows so
+    // later items never lag noticeably behind.
+    //
+    // The closer is `1fr 1fr` on desktop, so about and contact sit side by side
+    // and cross the viewport threshold together — revealing each block as one
+    // unit looked like a simultaneous pop. Instead we split each block into its
+    // semantic chunks (label, heading, paragraphs, button) and run a single
+    // continuous counter across both, so contact's chunks follow about's.
     var groups = [
-      ['.section-head > div', ':scope > *'], // section number, title, lead
-      ['.work-list', '.work-row'],
-      ['.bento-grid', '.bento-card'],
-      ['.closer-inner', '.closer-block'],    // about + contact
+      { container: '.section-head > div', child: ':scope > *', cap: 5 }, // number, title, lead
+      { container: '.work-list', child: '.work-row', cap: 5 },
+      { container: '.bento-grid', child: '.bento-card', cap: 5 },
+      { container: '.closer-inner', child: '.closer-block > *', cap: 8 }, // about then contact
     ];
-    groups.forEach(function (pair) {
-      document.querySelectorAll(pair[0]).forEach(function (group) {
-        group.querySelectorAll(pair[1]).forEach(function (el, i) {
+    groups.forEach(function (g) {
+      document.querySelectorAll(g.container).forEach(function (group) {
+        group.querySelectorAll(g.child).forEach(function (el, i) {
           el.classList.add('rise');
-          // Cap the stagger so later items never lag noticeably behind.
-          el.style.setProperty('--rise-delay', Math.min(i, 5) * 80 + 'ms');
+          el.style.setProperty('--rise-delay', Math.min(i, g.cap) * 80 + 'ms');
           io.observe(el);
         });
       });
