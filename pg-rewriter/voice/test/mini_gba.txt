@@ -1,0 +1,5 @@
+"Hack" means two things that seem to contradict each other. One sense is a clumsy, ugly fix. The other is a neat, clever trick. You'd think those can't both be right.
+
+But look closer. A lot of the time the clever move is clever because it's a quick way out of a constraint. Quick ways are often crude. So cleverness and ugliness often come together. That doesn't mean every clever thing is ugly, or that every ugly thing is clever. It just means the split isn't as clean as it first appears.
+
+So the contradiction mostly melts away. A hack is often ugly because it was born of necessity — and it's often clever for the same reason.

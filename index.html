@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mooch. AI automation and UX.</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<meta name="description" content="A two-person UX and AI automation agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mooch.agency">
+<meta property="og:title" content="Mooch. AI automation and UX.">
+<meta property="og:description" content="A two-person agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta property="og:image" content="https://mooch.agency/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mooch. AI automation and UX.">
+<meta name="twitter:description" content="A two-person agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta name="twitter:image" content="https://mooch.agency/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/ui.css">
+<style>
+  /* Tokens are shared: see tokens.css. */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ───────── Topbar ───────── */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar .num { color: var(--ink); text-decoration: none; }
+  .topbar .num:hover { border-bottom: 1px solid var(--ink); }
+
+  /* ───────── Hero ───────── */
+  .hero {
+    position: relative;
+    padding: clamp(80px, 14vw, 180px) var(--pad-x) clamp(80px, 12vw, 140px);
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 13vw, 200px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(40px, 6vw, 72px);
+    text-wrap: balance;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--ink);
+  }
+  .hero-meta {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero-deck {
+    font-family: var(--sans);
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 38ch;
+    text-wrap: pretty;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  /* Buttons (.pill / .ghost) are shared: see ui.css. */
+
+  /* ───────── Marquee ───────── */
+  .marquee {
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+    overflow: hidden;
+    padding: 22px 0;
+    position: relative;
+  }
+  .marquee::before, .marquee::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .marquee::before { left: 0; background: linear-gradient(90deg, var(--surface), transparent); }
+  .marquee::after { right: 0; background: linear-gradient(270deg, var(--surface), transparent); }
+  .marquee-track {
+    display: flex;
+    gap: 64px;
+    width: max-content;
+    animation: scroll 38s linear infinite;
+  }
+  .marquee-track span {
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 64px;
+  }
+  .marquee-track span::after {
+    content: '✦';
+    font-family: var(--sans);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ───────── Section frame ───────── */
+  .section {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .section-inner { max-width: 1320px; margin: 0 auto; }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num strong { color: var(--ink); font-weight: 600; }
+  .section-num .rule { flex: 1; height: 1px; background: var(--hairline); max-width: 80px; }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .section-title em { font-style: italic; }
+  .section-lead {
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 48ch;
+    margin-top: 12px;
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 880px) {
+    .section-head {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+    }
+    .section-head .right { text-align: right; }
+  }
+
+  /* ───────── Work, editorial list ───────── */
+  .work-list { border-top: 1px solid var(--hairline); }
+  .work-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: baseline;
+    gap: 24px;
+    padding: 28px 4px;
+    border-bottom: 1px solid var(--hairline);
+    transition: background var(--t-deliver) var(--ease-deliver);
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .work-row:hover { background: var(--surface); }
+  /* Delivery beat: the title leans toward you the instant you point at it */
+  .work-row:hover .client { transform: translateX(8px); }
+  .work-row .idx {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .work-row .client {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4.5vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    transition: transform var(--t-deliver) var(--ease-deliver);
+    transform-origin: left center;
+    display: block;
+  }
+  .work-row .desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 52ch;
+    margin-top: 8px;
+    display: block;
+  }
+  .work-row .year {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    align-self: baseline;
+    padding-top: 16px;
+    white-space: nowrap;
+  }
+  /* Shares the canonical pill-badge spec; UX fills solid, AI stays outline so the
+     two disciplines read apart at a glance. */
+  .work-row .discipline {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--paper);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 4px 12px;
+    border-radius: 980px;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+  .work-row .discipline[data-disc="ai"] {
+    background: transparent;
+    color: var(--ink);
+  }
+  .work-row .tldr {
+    display: block;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  @media (max-width: 720px) {
+    .work-row {
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      padding: 22px 0;
+    }
+    .work-row .year { grid-column: 2; padding-top: 4px; }
+    .work-row .discipline { margin-left: 8px; }
+  }
+
+  /* ───────── Bento: Things we've made ───────── */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1px;
+  }
+  .bento-card {
+    padding: 28px 24px;
+    border: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .bento-card:hover { border-color: var(--muted); }
+  .bento-card:active { transform: scale(0.96); }
+  .bento-card[data-cat="product"] { background: var(--cat-product); }
+  .bento-card[data-cat="prompt"] { background: var(--cat-prompt); }
+  .bento-card[data-cat="plaything"] { background: var(--cat-plaything); }
+  .bento-card .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .bento-card .name {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-top: 4px;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+  .bento-card .name em { font-style: italic; }
+  .bento-card .blurb {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 34ch;
+    text-wrap: pretty;
+  }
+  .bento-card .cta {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bento-card .cta .arrow { font-size: 14px; color: var(--ink); transition: transform var(--t-deliver) var(--ease-deliver); }
+  .bento-card:hover .cta .arrow { transform: translateX(4px); }
+  .bento-card.wide { grid-column: span 2; }
+  /* Primary flagship tiles: 1×2 tall with enlarged content so they draw the eye */
+  .bento-card.tall { grid-row: span 2; padding: 36px 32px; }
+  .bento-card.tall .name { font-size: 48px; margin-top: 8px; }
+  .bento-card.tall .blurb { font-size: 15px; color: var(--ink); max-width: 34ch; margin-top: 4px; text-wrap: pretty; }
+  .bento-card.tall .cta { font-size: 11px; margin-top: 16px; }
+  @media (max-width: 640px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-card.wide { grid-column: span 1; }
+    .bento-card.tall { grid-row: span 1; }
+    .bento-card.tall .name { font-size: 36px; }
+  }
+
+  /* ───────── Offers: How to work with us ───────── */
+  /* Featured index: the AI Automation Setup wedge is featured as a tinted hero,
+     the other two sit as numbered rows. Reads as a menu of entry points, not a
+     tiered plan picker. See offer layout explorations for the rationale. */
+
+  /* Canonical pill badge: reused for the "Start here" flag and the case-study
+     discipline tags so badge styling is consistent site-wide. */
+  .pill-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 980px;
+    padding: 4px 12px;
+  }
+
+  .fi-kicker { display: none; } /* section lead already frames the offers */
+  /* These are spans inside an <a>; force block so they stack. */
+  .fi-cat, .fi-name, .fi-blurb { display: block; }
+  .fi-name { text-wrap: balance; }
+  .fi-blurb { text-wrap: pretty; }
+  .fi-hero .fi-foot { display: flex; }
+  .fi-hero {
+    display: block;
+    background: var(--cat-ai);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: clamp(28px, 4vw, 40px);
+    margin-bottom: 8px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .fi-hero:hover { border-color: var(--muted); }
+  @media (prefers-reduced-motion: no-preference) { .fi-hero:hover { transform: translateY(-2px); } }
+  .fi-hero:focus-visible, .fi-row:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .fi-badge { margin-bottom: 16px; }
+  .fi-cat {
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--ink); font-weight: 600; margin-bottom: 8px;
+  }
+  .fi-hero .fi-name { font-family: var(--serif); font-size: clamp(34px, 5vw, 48px); line-height: 1; letter-spacing: -0.02em; color: var(--black); margin-bottom: 12px; }
+  .fi-name em { font-style: italic; }
+  .fi-hero .fi-blurb { font-size: 15px; line-height: 1.5; color: var(--ink); opacity: 0.75; max-width: 44ch; margin-bottom: 20px; }
+  .fi-foot { display: flex; align-items: baseline; gap: 16px; }
+  .fi-price { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .fi-act { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .fi-act .arrow { font-size: 14px; color: var(--ink); transition: transform 0.2s ease; }
+  .fi-hero:hover .fi-act .arrow, .fi-row:hover .fi-act .arrow { transform: translateX(4px); }
+  .fi-row {
+    display: grid;
+    grid-template-columns: 48px minmax(0,1fr) auto;
+    gap: clamp(16px, 3vw, 32px);
+    align-items: center;
+    padding: 24px 0;
+    border-top: 1px solid var(--hairline);
+    text-decoration: none; color: inherit;
+    transition: background 0.15s ease;
+  }
+  .fi-row:first-of-type { margin-top: 12px; }
+  .fi-row:hover { background: var(--surface); }
+  .fi-num { font-family: var(--mono); font-size: 13px; color: var(--muted); align-self: start; padding-top: 2px; }
+  .fi-row .fi-cat { font-weight: 400; color: var(--muted); }
+  .fi-row .fi-name { font-family: var(--serif); font-size: clamp(22px, 3.2vw, 26px); line-height: 1; letter-spacing: -0.015em; color: var(--black); margin: 6px 0 8px; }
+  .fi-row .fi-blurb { font-size: 13px; line-height: 1.5; color: var(--muted); max-width: 42ch; }
+  .fi-end { text-align: right; white-space: nowrap; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+  @media (max-width: 600px) {
+    .fi-row { grid-template-columns: 36px 1fr; }
+    .fi-end { grid-column: 2; text-align: left; align-items: flex-start; }
+  }
+
+  /* ───────── About / Contact split ───────── */
+  .closer {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .closer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .closer-block { display: flex; flex-direction: column; gap: 20px; }
+  .closer-block h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .closer-block h3 em { font-style: italic; }
+  .closer-block p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 48ch;
+    text-wrap: pretty;
+  }
+  .closer-block .small {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .closer-block .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+  @media (min-width: 880px) {
+    .closer-inner { grid-template-columns: 1fr 1fr; gap: 80px; }
+  }
+
+  /* ───────── Footer ───────── */
+  .colophon {
+    padding: 56px var(--pad-x) 40px;
+    background: var(--black);
+    color: var(--paper);
+    --muted: #8e8e93; /* lighter muted for dark bg, passes WCAG AA */
+  }
+  .colophon-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .colophon-mark {
+    font-family: var(--serif);
+    font-size: clamp(72px, 16vw, 240px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .colophon-mark em { font-style: italic; color: var(--muted); }
+  .colophon-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding-top: 36px;
+    border-top: 1px solid #2a2a2c;
+  }
+  .colophon-col h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .colophon-col a {
+    display: block;
+    width: fit-content;
+    color: var(--paper);
+    font-size: 14px;
+    letter-spacing: -0.005em;
+    padding: 5px 0;
+    opacity: 0.82;
+    transition: opacity 0.15s ease;
+  }
+  .colophon-col a:hover { opacity: 1; }
+  .colophon-col a:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  @media (max-width: 720px) {
+    .colophon-nav { grid-template-columns: repeat(2, 1fr); gap: 28px 20px; }
+  }
+  .colophon-foot {
+    border-top: 1px solid #2a2a2c;
+    margin-top: 36px;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .colophon-credits { max-width: 48ch; text-align: center; }
+  .colophon-version { color: var(--muted); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-version:hover { border-bottom-color: var(--paper); color: var(--paper); }
+
+  /* Reveal, word-stagger and scroll-rise motion is shared: see motion.css. */
+  .hero-deck .deck-lead { color: var(--black); }
+  .hero-deck .deck-tail { color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+
+  /* ───────── Mobile topbar ───────── */
+  @media (max-width: 480px) {
+    .topbar {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      padding: 18px var(--pad-x);
+      text-align: center;
+    }
+    .topbar .left { justify-self: center; }
+    .topbar .right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><span class="num">N&deg; 01</span> &nbsp; &middot; &nbsp; MOOCH.AGENCY</div>
+  <div class="right"><span class="cities">LONDON &nbsp; &middot; &nbsp; LISBON</span></div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-eyebrow reveal d1">AI automation &amp; UX</div>
+    <h1 class="reveal d2">Hey, we're <em>Mooch</em>.</h1>
+  </div>
+  <div class="hero-meta">
+    <div class="hero-deck reveal-words" data-stagger><span class="deck-lead">An AI automation and UX agency that's lean and long-term focused.</span> <span class="deck-tail">We help teams make things their customers really want and use AI to compound the benefits.</span></div>
+    <div class="hero-actions reveal d4">
+      <a class="pill" href="#work">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Product design</span><span>Qualitative user research</span><span>Brand tone of voice</span><span>AI workflow automation</span><span>Agent design &amp; orchestration</span><span>Internal tooling &amp; ops automation</span>
+    <span>Product design</span><span>Qualitative user research</span><span>Brand tone of voice</span><span>AI workflow automation</span><span>Agent design &amp; orchestration</span><span>Internal tooling &amp; ops automation</span>
+  </div>
+</div>
+
+<section class="section" id="work">
+  <div class="section-inner">
+    <div class="section-head">
+      <div data-reveal="child: :scope > *; cap: 5">
+        <div class="section-num"><strong>01</strong> Selected Work <span class="rule"></span></div>
+        <h2 class="section-title">Work we've <em>done</em>.</h2>
+      </div>
+    </div>
+
+    <div class="work-list" data-reveal="child: .work-row; cap: 5">
+      <a class="work-row" href="/gov-uk.html">
+        <span class="idx">001</span>
+        <span>
+          <span class="client">gov.uk <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Designing government digital services that millions of people rely on every day.</span>
+        </span>
+        <span class="year">2021</span>
+      </a>
+      <a class="work-row" href="/british-airways.html">
+        <span class="idx">002</span>
+        <span>
+          <span class="client">British Airways <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Bringing British heritage into the 2020s through clearer in-flight content.</span>
+        </span>
+        <span class="year">2024</span>
+      </a>
+      <!-- zkSync hidden -->
+      <a class="work-row" href="/octant.html">
+        <span class="idx">003</span>
+        <span>
+          <span class="client">Octant <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Simplifying public-goods funding on Ethereum without losing the politics.</span>
+        </span>
+        <span class="year">2023</span>
+      </a>
+      <a class="work-row" href="/ethereum.html">
+        <span class="idx">004</span>
+        <span>
+          <span class="client">Ethereum Foundation <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Plain-English rewrites for the core informational layer of ethereum.org.</span>
+        </span>
+        <span class="year">2025</span>
+      </a>
+      <a class="work-row" href="/big-debate-club.html">
+        <span class="idx">005</span>
+        <span>
+          <span class="client">Big Debate Club <span class="discipline" data-disc="ai">AI</span></span>
+          <span class="tldr">Automating content delivery so writers can focus on the writing.</span>
+        </span>
+        <span class="year">2026</span>
+      </a>
+      <a class="work-row" href="/contrabando.html">
+        <span class="idx">006</span>
+        <span>
+          <span class="client">Lisbon Restaurant Group <span class="discipline" data-disc="ai">AI</span></span>
+          <span class="tldr">Automating Google review replies across 4 locations in 5 languages.</span>
+        </span>
+        <span class="year">2026</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="section-inner">
+    <div class="section-head">
+      <div data-reveal="child: :scope > *; cap: 5">
+        <div class="section-num"><strong>02</strong> Products &amp; Playthings <span class="rule"></span></div>
+        <h2 class="section-title">Things we've made.</h2>
+        <p class="section-lead">Products we ship, prompts you can steal, things we built for fun.</p>
+      </div>
+    </div>
+
+    <div class="bento-grid" data-reveal="child: .bento-card; cap: 5">
+      <a class="bento-card tall" data-cat="product" href="https://toneofvoice.app">
+        <span class="label">Product &middot; Live</span>
+        <span class="name">tone<em>of</em>voice.app</span>
+        <span class="blurb">Generate professional tone-of-voice guidelines in minutes. Used by 200+ teams.</span>
+        <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card tall" data-cat="product" href="https://joinhighway.vercel.app/">
+        <span class="label">Product &middot; Waitlist</span>
+        <span class="name">highway</span>
+        <span class="blurb">Self-driving content, without the slop.</span>
+        <span class="cta"><span>Join waitlist</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="product" href="https://usefortress.vercel.app">
+        <span class="label">Product &middot; Alpha</span>
+        <span class="name">fortress</span>
+        <span class="blurb">Content audit for your whole site.</span>
+        <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="product" href="https://samantha.mooch.agency">
+        <span class="label">Product &middot; Live</span>
+        <span class="name">samantha</span>
+        <span class="blurb">She reads the web out loud, just for you.</span>
+        <span class="cta"><span>Try it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="prompt" href="https://github.com/gichigi/claude-doggy-dogg" target="_blank" rel="noopener">
+        <span class="label">Prompt</span>
+        <span class="name">claude-doggy-dogg</span>
+        <span class="blurb">Make Claude Code talk like Snoop Dogg.</span>
+        <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="prompt" href="https://www.notion.so/tahi/deslop-a60e4b10f9df43f3bf6ea366eed1b31f" target="_blank" rel="noopener">
+        <span class="label">Prompt</span>
+        <span class="name">/deslop</span>
+        <span class="blurb">Strip AI tells from any draft.</span>
+        <span class="cta"><span>Steal it</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="plaything" href="/paulgraham">
+        <span class="label">Plaything</span>
+        <span class="name">Write like <em>Paul Graham</em></span>
+        <span class="blurb">Rewrite your writing in Paul Graham's voice, with a Voice Score.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="plaything" href="https://sassgpt.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">sassgpt</span>
+        <span class="blurb">ChatGPT with attitude.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="plaything" href="https://theopenclaws.com/">
+        <span class="label">Plaything</span>
+        <span class="name">openclaws</span>
+        <span class="blurb">A &euro;999 polymer clip that holds your MacBook lid open.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
+      <a class="bento-card" data-cat="plaything" href="https://gravity-v0.vercel.app/">
+        <span class="label">Plaything</span>
+        <span class="name">gravity</span>
+        <span class="blurb">v0 clone that roasts your ideas.</span>
+        <span class="cta"><span>Play</span><span class="arrow">&rarr;</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="offers">
+  <div class="section-inner">
+    <div class="section-head">
+      <div data-reveal="child: :scope > *; cap: 5">
+        <div class="section-num"><strong>03</strong> How to work with us <span class="rule"></span></div>
+        <h2 class="section-title">Packaged ways to <em>start</em>.</h2>
+        <p class="section-lead">Fixed-scope offers, so you can buy a thing instead of scoping a project. Bigger work always starts with one of these.</p>
+      </div>
+    </div>
+
+    <div class="offer-index" data-reveal="child: :scope > *; cap: 5">
+      <a class="fi-hero" data-cat="ai" href="mailto:hey@mooch.agency?subject=AI%20Automation%20Setup%20%E2%80%94%20let%27s%20book%20one%20in&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20book%20an%20AI%20Automation%20Setup.%0A%0AHere%27s%20a%20bit%20of%20context%20on%20the%20workflow%20I%27d%20like%20to%20tackle%3A%0A%0A%5BDescribe%20the%20repetitive%20task%20or%20process%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
+        <span class="pill-badge fi-badge">Start here</span>
+        <span class="fi-cat">Fixed scope</span>
+        <span class="fi-name">AI Automation <em>Setup</em></span>
+        <span class="fi-blurb">We find your single highest-leverage AI automation and ship it end to end. Discovery, build and handover included.</span>
+        <span class="fi-foot">
+          <span class="fi-price">From &euro;2,500</span>
+          <span class="fi-act"><span>Book AI Setup</span><span class="arrow">&rarr;</span></span>
+        </span>
+      </a>
+
+      <a class="fi-row" data-cat="audit" href="mailto:hey@mooch.agency?subject=Content%20%26%20UX%20Audit%20%E2%80%94%20interested&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20get%20a%20Content%20%26%20UX%20Audit.%0A%0AHere%27s%20a%20bit%20of%20context%20on%20what%20we%27re%20working%20with%3A%0A%0A%5BDescribe%20your%20site%20or%20the%20area%20you%27d%20like%20audited%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
+        <span class="fi-num">01</span>
+        <span>
+          <span class="fi-cat">Whole site</span>
+          <span class="fi-name">Content &amp; UX <em>Audit</em></span>
+          <span class="fi-blurb">A full review of your site's content and UX, with a prioritised list of fixes.</span>
+        </span>
+        <span class="fi-end">
+          <span class="fi-price">From &euro;5,000</span>
+          <span class="fi-act"><span>Get an audit</span><span class="arrow">&rarr;</span></span>
+        </span>
+      </a>
+
+      <a class="fi-row" data-cat="ux" href="mailto:hey@mooch.agency?subject=UX%20Research%20Sprint%20%E2%80%94%20let%27s%20talk&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20run%20a%20UX%20Research%20Sprint.%0A%0AHere%27s%20what%20we%27re%20trying%20to%20figure%20out%3A%0A%0A%5BWhat%20decision%20or%20product%20question%20needs%20answering%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
+        <span class="fi-num">02</span>
+        <span>
+          <span class="fi-cat">One week</span>
+          <span class="fi-name">UX Research <em>Sprint</em></span>
+          <span class="fi-blurb">One week of focused user research that tells you what to build next, and what to drop.</span>
+        </span>
+        <span class="fi-end">
+          <span class="fi-price">From &euro;15,000</span>
+          <span class="fi-act"><span>Start a sprint</span><span class="arrow">&rarr;</span></span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="closer" id="about">
+  <div class="closer-inner" data-reveal="child: .closer-block > *; cap: 8">
+    <div class="closer-block">
+      <span class="small">04 / About</span>
+      <h3>A husband-and-wife team of <em>two</em>, working from London &amp; Lisbon.</h3>
+      <p>We're an AI automation and UX agency. We help teams make things their customers really want and use AI to compound the benefits. Most of our clients come to us for one and stay for both.</p>
+      <p>We started Mooch because we wanted to work on things we care about, with people we like, from anywhere in the world. So far, so good.</p>
+    </div>
+    <div class="closer-block" id="contact">
+      <span class="small">Get in touch</span>
+      <h3>A new project. A small idea. A chat over <em>coffee</em>.</h3>
+      <p>All welcome. We reply to everything that isn't a sales email, usually within a day.</p>
+      <div class="actions">
+        <a class="pill" href="mailto:hey@mooch.agency">hey@mooch.agency <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-mark">Mooch<em>.</em></div>
+
+    <nav class="colophon-nav" aria-label="Footer">
+      <div class="colophon-col">
+        <h4>Studio</h4>
+        <a href="#work">Work we've done</a>
+        <a href="#offers">Ways to start</a>
+        <a href="/ready">AI readiness check</a>
+        <a href="#about">About</a>
+      </div>
+      <div class="colophon-col">
+        <h4>Products</h4>
+        <a href="https://toneofvoice.app">tone of voice</a>
+        <a href="https://joinhighway.vercel.app/">highway</a>
+        <a href="https://usefortress.vercel.app">fortress</a>
+        <a href="https://samantha.mooch.agency">samantha</a>
+      </div>
+      <div class="colophon-col">
+        <h4>Playthings</h4>
+        <a href="/paulgraham">Write like Paul Graham</a>
+        <a href="https://sassgpt.vercel.app/">sassgpt</a>
+        <a href="https://gravity-v0.vercel.app/">gravity</a>
+        <a href="https://theopenclaws.com/">openclaws</a>
+      </div>
+      <div class="colophon-col">
+        <h4>Connect</h4>
+        <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+        <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+        <a href="https://moochagency.substack.com">Substack</a>
+      </div>
+    </nav>
+
+    <div class="colophon-foot">
+      <span>&copy; 2026 Mooch Agency Ltd.</span>
+      <span class="colophon-credits">Built by two humans and a Moochbot</span>
+      <span class="colophon-version">N&deg; 01</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/motion.js"></script>
+
+<!-- Vercel Web Analytics (static-site install). Activates once Web Analytics is
+     enabled on the mooch.agency Vercel project; script served at /_vercel/insights/script.js -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<script>
+  // Custom track() events for Vercel Analytics.
+  // Fires after DOM is ready; uses the va() queue so events are held until the
+  // analytics script loads.
+  // Reads an element's own text, ignoring nested elements (e.g. the
+  // .discipline tag inside .client, or the arrow span inside a CTA).
+  function ownText(el) {
+    if (!el) return '';
+    return Array.prototype.filter
+      .call(el.childNodes, function (n) { return n.nodeType === Node.TEXT_NODE; })
+      .map(function (n) { return n.textContent; })
+      .join('')
+      .trim();
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Hero CTAs. Custom fields must sit under `data` per the Vercel API.
+    document.querySelectorAll('.hero-actions a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        window.va('event', { name: 'hero_cta', data: { label: ownText(a) } });
+      });
+    });
+
+    // Bento grid cards
+    document.querySelectorAll('.bento-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var name = card.querySelector('.name');
+        window.va('event', { name: 'bento_click', data: { item: name ? name.textContent.trim() : card.href } });
+      });
+    });
+
+    // Offer index (How to work with us): featured hero + numbered rows
+    document.querySelectorAll('.fi-hero, .fi-row').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var name = card.querySelector('.fi-name');
+        window.va('event', { name: 'offer_click', data: { offer: name ? name.textContent.trim() : card.href } });
+      });
+    });
+
+    // Work list rows
+    document.querySelectorAll('.work-row').forEach(function (row) {
+      row.addEventListener('click', function () {
+        var client = ownText(row.querySelector('.client'));
+        window.va('event', { name: 'work_click', data: { client: client || row.href } });
+      });
+    });
+  });
+</script>
+
+<!-- Vercel Speed Insights (static-site install). Activates once Speed Insights is
+     enabled on the project; script served at /_vercel/speed-insights/script.js -->
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
+</body>
+</html>

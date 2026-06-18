@@ -1,0 +1,45 @@
+# Mooch
+
+> UX research and AI automation studio based in London and Lisbon. A husband-and-wife team, lean and mighty.
+
+We figure out what people actually need, then build the AI to deliver it. Most of our clients come to us for one and stay for both.
+
+## Contact
+
+- Email: hey@mooch.agency
+- X: [@tahigichigi](https://x.com/tahigichigi)
+- Substack: [moochagency.substack.com](https://moochagency.substack.com)
+
+## Case studies
+
+- [gov.uk](https://mooch.agency/gov-uk): UX research for gov.uk services. Accessibility audits, user testing, and service design for government digital products.
+- [Octant](https://mooch.agency/octant): UX research and product strategy for Octant, a web3 public goods funding platform.
+- [British Airways](https://mooch.agency/british-airways): UX research for British Airways digital products.
+- [zkSync](https://mooch.agency/zksync): UX research for zkSync, an Ethereum Layer 2 scaling protocol.
+- [Big Debate Club](https://mooch.agency/big-debate-club): Brand and product development for Big Debate Club, a debate platform for young people.
+- [Contrabando](https://mooch.agency/contrabando): AI-powered review automation for a Lisbon restaurant group.
+
+## Products
+
+- [toneofvoice.app](https://toneofvoice.app): Generate professional tone of voice guidelines.
+- [fortress](https://usefortress.vercel.app): Run a full content audit on your website. Private alpha.
+- [highway](https://joinhighway.vercel.app): Automate SEO-optimised articles on your site. Waitlist.
+
+## Prompts
+
+- [/soundlikeme](https://www.notion.so/tahi/soundlikeme-310804529ed08136a4c5e0a82cb6c118): A prompt to make AI write in your voice.
+- [/deslop](https://www.notion.so/tahi/deslop-a60e4b10f9df43f3bf6ea366eed1b31f): A prompt to remove signs of AI writing.
+- [/revolut-account-migration](https://www.notion.so/tahi/revolut-account-migration-dcdc2afa0c0940e289aca3761dc6b638): A prompt to help you close your Revolut account and open a new local one, with less headache.
+
+## Playthings
+
+- [sassgpt](https://sassgpt.vercel.app): ChatGPT clone where the models have attitude.
+- [gravity](https://gravity-v0.vercel.app): Clone of v0.dev that roasts your app ideas.
+- [egotrip](https://egotrip.vercel.app): A snobby AI travel agent who finds the sunniest cities near you.
+- [onlyfans](https://onlyfans-gpu.vercel.app): Pre-loved GPU marketplace for discerning buyers. Mockup.
+- [alibi](https://alibi-saas.vercel.app): Client dispute app channelling a legal drama. Mockup.
+- [write like paul graham](https://paulgraham.mooch.agency): Paste your writing, get it back in Paul Graham's voice. Built from 208 of his essays.
+
+## Optional
+
+- [Changelog](https://mooch.agency/log): Site changelog, written by MoochBot.

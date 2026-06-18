@@ -1,0 +1,56 @@
+/* Mooch motion system — entrance and stagger animation, single source of truth.
+   Timing tokens live in tokens.css; this file is palette-agnostic and references
+   var(--ink) etc. defined per page. Every animated state degrades to fully
+   visible under reduced motion. */
+
+/* Reveal on load: the "deciding" slow, considered blur settle. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(4px);
+  animation: reveal var(--t-decide) var(--ease-decide) forwards;
+}
+.reveal.d1 { animation-delay: 0.06s; }
+.reveal.d2 { animation-delay: 0.23s; }
+.reveal.d3 { animation-delay: 0.40s; }
+.reveal.d4 { animation-delay: 0.58s; }
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Per-word staggered reveal for hero subheadings: each word resolves into focus.
+   The --word-delay is set per word by motion.js. */
+.reveal-words .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  filter: blur(4px);
+  animation: wordReveal 1.06s var(--ease-decide) both;
+  animation-delay: var(--word-delay, 0s);
+  will-change: transform, opacity, filter;
+}
+@keyframes wordReveal {
+  from { opacity: 0; transform: translateY(0.4em); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Scroll reveal: below-fold content settles deliberately as it arrives.
+   The .rise class is added by motion.js only when motion is allowed, so no-JS and
+   reduced-motion visitors always see content in its final, visible state. */
+.rise {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(4px);
+  transition: opacity var(--t-decide) var(--ease-decide),
+              transform var(--t-decide) var(--ease-decide),
+              filter var(--t-decide) var(--ease-decide);
+  transition-delay: var(--rise-delay, 0ms);
+}
+.rise.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; opacity: 1; transform: none; filter: none; }
+  .reveal-words .word { animation: none; opacity: 1; transform: none; filter: none; }
+  .rise { opacity: 1; transform: none; filter: none; transition: none; }
+}

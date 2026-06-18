@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI readiness self-audit &middot; Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<meta name="description" content="A 2-minute self-audit. Answer 6 questions about your UX research and AI automation, get a readiness score and 3 specific next steps. No email, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mooch.agency/ready">
+<meta property="og:title" content="AI readiness self-audit &middot; Mooch">
+<meta property="og:description" content="Answer 6 questions, get a readiness score and 3 specific next steps. No email, no signup.">
+<meta property="og:image" content="https://mooch.agency/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI readiness self-audit &middot; Mooch">
+<meta name="twitter:description" content="Answer 6 questions, get a readiness score and 3 specific next steps. No email, no signup.">
+<meta name="twitter:image" content="https://mooch.agency/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/ui.css">
+<style>
+  /* Tokens are shared: see tokens.css. Buttons: ui.css. Reveal: motion.css. */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ───────── Topbar ───────── */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar .num { color: var(--ink); }
+  .topbar .back { color: var(--ink); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .topbar .back:hover { border-bottom-color: var(--ink); }
+
+  /* ───────── Hero ───────── */
+  .hero {
+    padding: clamp(64px, 11vw, 140px) var(--pad-x) clamp(48px, 7vw, 88px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hero-grid { max-width: 1320px; margin: 0 auto; }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--ink); }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(48px, 9vw, 120px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(28px, 4vw, 44px);
+    text-wrap: balance;
+  }
+  .hero h1 em { font-style: italic; }
+  .hero-deck {
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 46ch;
+    text-wrap: pretty;
+  }
+  .hero-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 24px;
+  }
+
+  /* ───────── Quiz frame ───────── */
+  .quiz { padding: var(--rhythm) var(--pad-x); }
+  .quiz-inner { max-width: 760px; margin: 0 auto; }
+
+  .progress {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .progress .rule { flex: 1; height: 1px; background: var(--hairline); position: relative; }
+  .progress .rule::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: var(--fill, 0%);
+    background: var(--ink);
+    transition: width 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  /* Tabular figures stop the counter nudging the rule sideways as it ticks 0 -> 6. */
+  .progress strong { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ───────── A single question ───────── */
+  /* border: none resets the fieldset default; border-top then adds back the hairline separator. */
+  .question { border: none; border-top: 1px solid var(--hairline); padding: 40px 0; }
+  .question:first-of-type { border-top: none; padding-top: 0; }
+  /* legend is hoisted to the top of its fieldset by all browsers; put qnum inside it
+     so the eyebrow always renders above the question heading. */
+  .question legend { display: block; padding: 0; margin-bottom: 24px; }
+  .question .qnum {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .question .qtext {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 4vw, 38px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 24px;
+    text-wrap: balance;
+  }
+  .options { display: flex; flex-direction: column; gap: 1px; }
+  /* Each option is a label wrapping a hidden radio. Hairline borders, pill-less,
+     selection shown by ink border + dot, in keeping with the editorial look. */
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .option:hover { border-color: var(--muted); background: var(--surface); }
+  .option:hover .dot { border-color: var(--muted); }
+  .option input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .option .dot {
+    flex: 0 0 auto;
+    width: 16px; height: 16px;
+    border: 1px solid var(--muted); /* --hairline fails WCAG non-text contrast at 1.51:1; --muted passes at ~5:1 */
+    border-radius: 50%;
+    margin-top: 3px;
+    position: relative;
+    /* Only animate the properties that change, never `transition: all`. */
+    transition: border-color 0.15s ease;
+  }
+  .option .dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--black);
+    transform: scale(0);
+    transition: transform 0.15s ease;
+  }
+  .option .otext { font-size: 16px; line-height: 1.45; color: var(--ink); }
+  .option input:checked ~ .dot { border-color: var(--black); }
+  .option input:checked ~ .dot::after { transform: scale(1); }
+  .option:has(input:checked) { border-color: var(--black); background: var(--surface); }
+  /* Ring the whole row on keyboard focus, not just the dot, so the target is unmistakable. */
+  .option:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* ───────── Result actions ───────── */
+  .quiz-foot {
+    border-top: 1px solid var(--hairline);
+    margin-top: 8px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* keep the natural-width pill from stretching in the column */
+    gap: 16px;
+  }
+  .helper {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  /* Buttons (.pill / .ghost) are shared: see ui.css. */
+
+  /* ───────── Result panel ───────── */
+  .result { display: none; }
+  .result.show { display: block; }
+  /* Staggered reveal: animate semantic chunks, not the whole panel, so the result
+     unfolds head -> steps -> CTA. Each chunk waits on --d (set inline per block). */
+  .result.show .reveal {
+    animation: reveal var(--t-decide) var(--ease-decide) both;
+    animation-delay: var(--d, 0s);
+    will-change: transform, opacity, filter;
+  }
+  .result-head { border-bottom: 1px solid var(--hairline); padding-bottom: 40px; margin-bottom: 40px; }
+  /* Result title is the focus target on submit; keep its ring tidy and never bare. */
+  .result-title:focus { outline: none; }
+  .result-title:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 2px; }
+  .result-band {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .result-score {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(72px, 16vw, 160px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--black);
+    /* Tabular figures: the count-up animates the number, so lock glyph width to stop jitter. */
+    font-variant-numeric: tabular-nums;
+  }
+  .result-score .denom { color: var(--muted); font-size: 0.4em; letter-spacing: -0.02em; }
+  .result-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-top: 20px;
+    text-wrap: balance;
+  }
+  .result-title em { font-style: italic; }
+  .result-summary {
+    font-size: clamp(17px, 1.8vw, 19px);
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 52ch;
+    margin-top: 16px;
+    text-wrap: pretty;
+  }
+  .result-weakspot {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 14px;
+  }
+  .steps-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .step { border-top: 1px solid var(--hairline); padding: 22px 0; display: grid; grid-template-columns: 40px 1fr; gap: 16px; }
+  .step .idx { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; padding-top: 4px; }
+  .step .body h4 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(20px, 2.6vw, 26px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    margin-bottom: 6px;
+    text-wrap: balance;
+  }
+  .step .body p { font-size: 15px; line-height: 1.55; color: var(--muted); max-width: 52ch; text-wrap: pretty; }
+
+  .result-cta {
+    border-top: 1px solid var(--hairline);
+    margin-top: 8px;
+    padding-top: 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .result-cta .lead {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 4vw, 38px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .result-cta .lead em { font-style: italic; }
+  /* Natural-width CTAs sitting side by side, matching the homepage hero actions. */
+  .result-cta .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .result-cta .fallback-email {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .result-cta .fallback-email a { color: var(--ink); border-bottom: 1px solid var(--hairline); transition: border-color 0.15s ease; }
+  .result-cta .fallback-email a:hover { border-bottom-color: var(--ink); }
+
+  /* The entrance reveal (the "deciding" slow blur settle) lives in motion.css; the
+     .question and .result reveals below reuse its @keyframes. Exit stays gentle and
+     quick (quizOut), so dismissal feels lighter than arrival. */
+  @keyframes quizOut { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-6px); } }
+  .quiz-leaving { animation: quizOut 0.28s cubic-bezier(0.4, 0, 1, 1) both; }
+
+  /* Per-question stagger on first paint, so the form assembles rather than snapping in. */
+  .question { animation: reveal var(--t-decide) var(--ease-decide) both; animation-delay: var(--qd, 0s); will-change: transform, opacity, filter; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .result.show .reveal,
+    .question,
+    .quiz-leaving { animation: none; }
+    .progress .rule::after { transition: none; }
+  }
+
+  /* ───────── Footer ───────── */
+  .colophon {
+    padding: 56px var(--pad-x) 40px;
+    background: var(--black);
+    color: var(--paper);
+    --muted: #8e8e93;
+  }
+  .colophon-inner { max-width: 1320px; margin: 0 auto; display: grid; gap: 36px; }
+  .colophon-mark { font-family: var(--serif); font-size: clamp(72px, 16vw, 240px); line-height: 0.85; letter-spacing: -0.04em; }
+  .colophon-mark em { font-style: italic; color: var(--muted); }
+  .colophon-links {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    padding-top: 36px; border-top: 1px solid #2a2a2c;
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .colophon-links a { color: var(--paper); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-links a:hover { border-bottom-color: var(--paper); }
+  .colophon-sep { color: var(--muted); font-size: 10px; }
+  .colophon-foot {
+    border-top: 1px solid #2a2a2c; margin-top: 36px; padding-top: 20px;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted);
+  }
+  .colophon-credits { max-width: 48ch; text-align: center; }
+
+  @media (max-width: 480px) {
+    .topbar { grid-template-columns: 1fr; justify-items: center; padding: 18px var(--pad-x); text-align: center; }
+    .topbar .left { justify-self: center; }
+    .topbar .right { display: none; }
+    .step { grid-template-columns: 1fr; gap: 6px; }
+    .step .idx { padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><a class="back" href="/">&larr; MOOCH.AGENCY</a></div>
+  <div class="right"><span class="num">SELF-AUDIT</span></div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-eyebrow">AI readiness self-audit</div>
+    <h1>Are you ready to <em>automate</em>, or just keen?</h1>
+    <p class="hero-deck">6 questions on how you research, build and run things today. You get a readiness score and 3 next steps tuned to where you actually are.</p>
+    <p class="hero-note">2 minutes &middot; No email &middot; Nothing saved</p>
+  </div>
+</section>
+
+<section class="quiz">
+  <div class="quiz-inner">
+
+    <!-- Quiz view -->
+    <div id="quizView">
+      <div class="progress">
+        <!-- aria-live so the count is announced as each question is answered. -->
+        <span aria-live="polite"><strong id="answered">0</strong> of 6 answered</span>
+        <span class="rule" id="progressRule" style="--fill: 0%"></span>
+      </div>
+
+      <form id="quizForm"><!-- Questions injected by JS from the QUESTIONS model --></form>
+
+      <div class="quiz-foot">
+        <span class="helper" id="footHelper">Answer all 6 to see your score.</span>
+        <button class="pill" id="scoreBtn" type="button" aria-disabled="true">See my readiness score <span class="arrow">&rarr;</span></button>
+      </div>
+    </div>
+
+    <!-- Result view. Focus moves to #resultTitle on submit (tabindex=-1), which
+         announces the band to screen readers, so no panel-wide aria-live needed. -->
+    <div class="result" id="resultView">
+      <div class="result-head reveal" style="--d: 0s">
+        <div class="result-band" id="resultBand"></div>
+        <div class="result-score"><span id="resultScore">0</span><span class="denom">/100</span></div>
+        <h2 class="result-title" id="resultTitle" tabindex="-1"></h2>
+        <p class="result-summary" id="resultSummary"></p>
+        <p class="result-weakspot" id="resultWeakspot"></p>
+      </div>
+
+      <div class="reveal" style="--d: 0.125s">
+        <div class="steps-label">Your next 3 moves</div>
+        <div id="resultSteps"></div>
+      </div>
+
+      <div class="result-cta reveal" style="--d: 0.25s">
+        <div class="lead" id="ctaLead"></div>
+        <div class="actions">
+          <a class="pill" id="bookCta" href="mailto:hey@mooch.agency">Chat to us <span class="arrow">&rarr;</span></a>
+          <button class="ghost" id="retakeBtn" type="button">Retake the audit</button>
+        </div>
+        <p class="fallback-email">No mail app? Email <a href="mailto:hey@mooch.agency">hey@mooch.agency</a> and mention your score.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-mark">Mooch<em>.</em></div>
+    <div class="colophon-links">
+      <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://moochagency.substack.com">Substack</a>
+    </div>
+    <div class="colophon-foot">
+      <span>&copy; 2026 Mooch Agency Ltd.</span>
+      <span class="colophon-credits">Built by two humans and a Moochbot</span>
+      <span><a class="back" href="/" style="color:var(--muted)">Back to mooch.agency</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ────────────────────────────────────────────────────────────
+   AI readiness self-audit
+   Pure client-side. No backend, no storage, no email gate.
+
+   Model:
+   - 6 questions. Angle: how a team researches, decides, builds and
+     runs work today, and where AI could compound it. Not "do you use AI".
+   - Each question has 4 options weighted 0-3 points (worst to best).
+   - Raw max = 6 * 3 = 18. Score shown = round(raw / 18 * 100), 0-100.
+   - 4 bands map the score to a title, summary and 3 specific next steps.
+   ──────────────────────────────────────────────────────────── */
+
+var QUESTIONS = [
+  {
+    q: "How do you decide what to build next?",
+    topic: "prioritisation",
+    opts: [
+      { t: "Whoever shouts loudest, or whatever the boss saw last week.", w: 0 },
+      { t: "Gut feel plus a rough sense of what competitors ship.", w: 1 },
+      { t: "We look at usage data, but rarely talk to users directly.", w: 2 },
+      { t: "Regular user research feeds a prioritised, written backlog.", w: 3 }
+    ]
+  },
+  {
+    q: "When something underperforms, how fast do you know why?",
+    topic: "performance feedback",
+    opts: [
+      { t: "We usually find out from a complaint, weeks later.", w: 0 },
+      { t: "We spot the dip eventually, then guess at the cause.", w: 1 },
+      { t: "Dashboards flag it, but digging into why is manual.", w: 2 },
+      { t: "We have the data and the research to explain it quickly.", w: 3 }
+    ]
+  },
+  {
+    q: "How much of your team's week goes on repetitive manual work?",
+    topic: "manual work and automation",
+    opts: [
+      { t: "Most of it. Copy-paste, re-keying, chasing, formatting.", w: 0 },
+      { t: "A big chunk, and nobody has mapped where it goes.", w: 1 },
+      { t: "Some. We've automated the obvious bits with no-code tools.", w: 2 },
+      { t: "Little. The repetitive work is documented and mostly automated.", w: 3 }
+    ]
+  },
+  {
+    q: "Where does your customer and product data actually live?",
+    topic: "data foundations",
+    opts: [
+      { t: "Spreadsheets, inboxes and people's heads.", w: 0 },
+      { t: "A few tools that don't talk to each other.", w: 1 },
+      { t: "Mostly in connected tools, with some manual stitching.", w: 2 },
+      { t: "In clean, connected systems an automation could read today.", w: 3 }
+    ]
+  },
+  {
+    q: "Have you tried AI on a real workflow yet, beyond a chat window?",
+    topic: "AI adoption",
+    opts: [
+      { t: "Not really. The odd ChatGPT question, nothing wired in.", w: 0 },
+      { t: "People use AI ad hoc, but nothing's part of a process.", w: 1 },
+      { t: "We've shipped 1 or 2 AI steps into real workflows.", w: 2 },
+      { t: "AI runs in production workflows and we measure the lift.", w: 3 }
+    ]
+  },
+  {
+    q: "If an AI step got something wrong, would you catch it?",
+    topic: "AI quality control",
+    opts: [
+      { t: "Probably not. We'd trust the output and move on.", w: 0 },
+      { t: "Maybe, if it was an obvious howler.", w: 1 },
+      { t: "A human spot-checks the important outputs.", w: 2 },
+      { t: "We have checks, owners and a way to measure quality.", w: 3 }
+    ]
+  }
+];
+
+/* Bands ordered low to high. `min` is the inclusive lower bound on the 0-100 score. */
+var BANDS = [
+  {
+    min: 0,
+    band: "Band 1 of 4 · Curious",
+    title: "Curious, not yet ready.",
+    ctaLead: 'Want a second pair of eyes on <em>where to start</em>?',
+    summary: "Teams at this score are interested, which is the hard part. Right now the foundations aren't quite there: decisions run on gut, work runs on manual effort, and data is scattered. Automating on top of that just makes the mess faster. Fix the basics first and the AI part gets easy.",
+    steps: [
+      { h: "Map where the week actually goes.", p: "For 1 week, have the team log the repetitive tasks they hate. You can't automate what you haven't named, and the list is usually shorter and more obvious than people fear." },
+      { h: "Talk to 5 customers before the next build.", p: "5 short conversations will tell you more than a quarter of guessing. Make user input a habit before it's a tool." },
+      { h: "Get your data out of inboxes and heads.", p: "Pick the 1 dataset you re-key most and give it a single home. Clean, connected data is the thing every later automation reads from." }
+    ]
+  },
+  {
+    min: 34,
+    band: "Band 2 of 4 · Warming up",
+    title: "Warming up.",
+    ctaLead: 'Want a second pair of eyes on <em>where to start</em>?',
+    summary: "Teams at this score have instincts and some tooling, but it's patchy. Problems get spotted late, and tools get stitched together by hand. There's real time to win back here. The move is to turn ad-hoc habits into 1 or 2 reliable, measured workflows.",
+    steps: [
+      { h: "Pick 1 painful workflow and automate it end to end.", p: "Not 5 half-built ones. 1 process, fully wired, with a clear before-and-after on time saved. A working example beats a roadmap." },
+      { h: "Connect the 2 tools that cause the most manual stitching.", p: "Most wasted time hides in the gaps between tools. Closing 1 gap properly compounds across every task that crosses it." },
+      { h: "Add a research loop to how you decide.", p: "Even a lightweight monthly round of user conversations turns 'we think' into 'we know', so the things you automate are the right things." }
+    ]
+  },
+  {
+    min: 60,
+    band: "Band 3 of 4 · Ready",
+    title: "Ready to compound.",
+    ctaLead: 'Want a second pair of eyes on <em>what to tackle next</em>?',
+    summary: "Teams at this score have solid foundations: they research, trust their data, and have started shipping AI into real workflows. The move now is leverage: more workflows, tighter quality checks, and measuring the lift to prove what's working and double down.",
+    steps: [
+      { h: "Standardise quality checks on every AI step.", p: "Owners, spot-checks and a simple quality metric per workflow. This is what lets you scale AI without scaling risk." },
+      { h: "Find the 3 next workflows worth automating.", p: "Score candidates by time spent and error cost. Do the high-volume, low-judgement ones first. Keep humans on the judgement calls." },
+      { h: "Wire research insight straight into the backlog.", p: "Close the loop so what users tell you shapes what you build and automate next, automatically where you can." }
+    ]
+  },
+  {
+    // Tightened from 84 to 90: at 84 a raw 16/18 reached the top band, which over-claims.
+    // The top band asserts production AI with measured lift and drift monitoring, so it
+    // should require a near-perfect sheet (raw 17 or 18, i.e. 94 or 100). See work log.
+    min: 90,
+    band: "Band 4 of 4 · Compounding",
+    title: "Already compounding.",
+    ctaLead: 'Want a second pair of eyes on <em>what to tackle next</em>?',
+    summary: "Teams here are in rare company: research drives decisions, data is clean and connected, and AI runs in measured production workflows. The risk now is plateauing. The edge comes from orchestration: agents that chain steps, and a culture that keeps raising the bar.",
+    steps: [
+      { h: "Move from single steps to orchestrated agents.", p: "Chain your reliable AI steps into workflows that run with light supervision. The gain is in the handoffs, not any single task." },
+      { h: "Audit for drift and silent failure.", p: "Mature setups fail quietly. Build monitoring that catches quality decay before a customer does, not after." },
+      { h: "Teach the rest of the org what you've learned.", p: "Your leverage is now organisational. Spread the playbook so readiness compounds across teams, not just yours." }
+    ]
+  }
+];
+
+(function () {
+  var form = document.getElementById('quizForm');
+  var answeredEl = document.getElementById('answered');
+  var ruleEl = document.getElementById('progressRule');
+  var scoreBtn = document.getElementById('scoreBtn');
+  var footHelper = document.getElementById('footHelper');
+  var quizView = document.getElementById('quizView');
+  var resultView = document.getElementById('resultView');
+  var total = QUESTIONS.length;
+
+  // Entrance timing lives in tokens.css so the whole-site feel is tuned in one place.
+  var rootStyle = getComputedStyle(document.documentElement);
+  function cssSeconds(prop, fallback) {
+    var v = rootStyle.getPropertyValue(prop).trim();
+    if (!v) return fallback;
+    var n = parseFloat(v);
+    if (isNaN(n)) return fallback;
+    return /ms$/.test(v) ? n / 1000 : n;
+  }
+  var qStep = cssSeconds('--q-step', 0.0875);
+  var countDur = cssSeconds('--countup-dur', 0.875) * 1000;
+
+  // Build the questions from the model.
+  QUESTIONS.forEach(function (item, qi) {
+    var fieldset = document.createElement('fieldset');
+    fieldset.className = 'question';
+    // Stagger the first-paint reveal so questions assemble top-to-bottom, one --q-step apart.
+    fieldset.style.setProperty('--qd', (qi * qStep) + 's');
+
+    // qnum goes inside the legend so browser hoisting keeps eyebrow above heading.
+    var legend = document.createElement('legend');
+
+    var num = document.createElement('div');
+    num.className = 'qnum';
+    num.textContent = 'Question ' + (qi + 1) + ' of ' + total;
+    legend.appendChild(num);
+
+    var qtext = document.createElement('div');
+    qtext.className = 'qtext';
+    qtext.textContent = item.q;
+    legend.appendChild(qtext);
+
+    fieldset.appendChild(legend);
+
+    var opts = document.createElement('div');
+    opts.className = 'options';
+    item.opts.forEach(function (opt, oi) {
+      var label = document.createElement('label');
+      label.className = 'option';
+
+      var input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'q' + qi;
+      input.value = String(opt.w);
+
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+
+      var text = document.createElement('span');
+      text.className = 'otext';
+      text.textContent = opt.t;
+
+      label.appendChild(input);
+      label.appendChild(dot);
+      label.appendChild(text);
+      opts.appendChild(label);
+    });
+    fieldset.appendChild(opts);
+    form.appendChild(fieldset);
+  });
+
+  // Count answered questions, update progress + button state.
+  function refresh() {
+    var count = 0;
+    for (var i = 0; i < total; i++) {
+      if (form.querySelector('input[name="q' + i + '"]:checked')) count++;
+    }
+    answeredEl.textContent = String(count);
+    ruleEl.style.setProperty('--fill', Math.round(count / total * 100) + '%');
+    var done = count === total;
+    // Use aria-disabled (not disabled) so the button stays in the tab order and
+    // click events fire; an unanswered click scrolls to the first missed question.
+    scoreBtn.setAttribute('aria-disabled', done ? 'false' : 'true');
+    footHelper.textContent = done ? 'All answered. See your result.' : 'Answer all ' + total + ' to see your score.';
+  }
+
+  form.addEventListener('change', function (e) {
+    refresh();
+    // After selecting an answer, scroll the next question (or the submit foot) into view.
+    var questions = form.querySelectorAll('.question');
+    for (var i = 0; i < questions.length; i++) {
+      if (questions[i].contains(e.target)) {
+        var next = questions[i + 1] || document.querySelector('.quiz-foot');
+        if (next) next.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        break;
+      }
+    }
+  });
+
+  // Score: sum weights, normalise to 0-100, pick the band.
+  function computeScore() {
+    var raw = 0;
+    for (var i = 0; i < total; i++) {
+      var checked = form.querySelector('input[name="q' + i + '"]:checked');
+      if (checked) raw += parseInt(checked.value, 10);
+    }
+    var max = total * 3;
+    return Math.round(raw / max * 100);
+  }
+
+  function bandFor(score) {
+    var chosen = BANDS[0];
+    for (var i = 0; i < BANDS.length; i++) {
+      if (score >= BANDS[i].min) chosen = BANDS[i];
+    }
+    return chosen;
+  }
+
+  // Honour the OS reduced-motion setting for the count-up and scroll behaviour.
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Count the score up from 0 so the number feels earned. Skipped under reduced motion.
+  // The final value is written up front, so if rAF never fires (e.g. a backgrounded
+  // tab pauses the frame loop) the correct score still shows. The animation then
+  // overwrites from 0 and settles back on it, and a timeout guarantees the end state.
+  function countUp(el, target) {
+    el.textContent = String(target);
+    if (reduceMotion) return;
+    el.textContent = '0';
+    var start = null;
+    var dur = countDur; // ms, from --countup-dur; the count-up resolves while the result panel settles.
+    function tick(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      // easeOutCubic for a quick start that settles gently on the final value.
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(eased * target));
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    // Safety net: snap to the final value even if the frame loop is throttled.
+    setTimeout(function () { el.textContent = String(target); }, dur + 120);
+  }
+
+  function showResult() {
+    var score = computeScore();
+    var b = bandFor(score);
+
+    // Find the lowest-weighted answer to surface the weakest area.
+    var minWeight = 4, weakTopic = '';
+    for (var i = 0; i < total; i++) {
+      var ch = form.querySelector('input[name="q' + i + '"]:checked');
+      if (ch) {
+        var w = parseInt(ch.value, 10);
+        if (w < minWeight) { minWeight = w; weakTopic = QUESTIONS[i].topic; }
+      }
+    }
+
+    document.getElementById('resultBand').textContent = b.band;
+    document.getElementById('resultSummary').textContent = b.summary;
+
+    // aria-label includes the score so screen readers announce it on focus.
+    var titleEl = document.getElementById('resultTitle');
+    titleEl.textContent = b.title;
+    titleEl.setAttribute('aria-label', 'Your score: ' + score + ' out of 100. ' + b.title);
+
+    // Weakest area (only when below a perfect per-question answer).
+    var weakspotEl = document.getElementById('resultWeakspot');
+    weakspotEl.textContent = (weakTopic && minWeight < 3) ? 'Lowest-scoring area: ' + weakTopic + '.' : '';
+
+    // Band-aware CTA lead.
+    document.getElementById('ctaLead').innerHTML = b.ctaLead;
+
+    var stepsWrap = document.getElementById('resultSteps');
+    stepsWrap.innerHTML = '';
+    b.steps.forEach(function (s, i) {
+      var step = document.createElement('div');
+      step.className = 'step';
+      var idx = document.createElement('div');
+      idx.className = 'idx';
+      idx.textContent = '0' + (i + 1);
+      var body = document.createElement('div');
+      body.className = 'body';
+      var h = document.createElement('h4');
+      h.textContent = s.h;
+      var p = document.createElement('p');
+      p.textContent = s.p;
+      body.appendChild(h);
+      body.appendChild(p);
+      step.appendChild(idx);
+      step.appendChild(body);
+      stepsWrap.appendChild(step);
+    });
+
+    // Prefill subject + body so the user only needs to add their name and hit send.
+    var emailSubject = 'AI readiness: scored ' + score + '/100 — ' + b.title.replace(/\.$/, '');
+    var emailBody =
+      'Hi Mooch,\n\n' +
+      'I just scored ' + score + '/100 on your AI readiness self-audit (' + b.band + ').\n\n' +
+      'I\'d love to talk through what this means for us and where to focus.\n\n' +
+      '[Your name]\n[Company, if relevant]';
+    document.getElementById('bookCta').href =
+      'mailto:hey@mooch.agency?subject=' + encodeURIComponent(emailSubject) +
+      '&body=' + encodeURIComponent(emailBody);
+
+    // Reveal the result, then run the count-up and move focus to the title.
+    function present() {
+      quizView.style.display = 'none';
+      quizView.classList.remove('quiz-leaving');
+      resultView.classList.add('show');
+      countUp(document.getElementById('resultScore'), score);
+      // Focus scrolls the result title into view; no explicit scrollTo needed.
+      var titleEl = document.getElementById('resultTitle');
+      titleEl.focus();
+    }
+
+    if (reduceMotion) {
+      present();
+    } else {
+      // Soft exit on the quiz before the result enters, so the swap feels intentional.
+      quizView.classList.add('quiz-leaving');
+      var swapped = false;
+      var swap = function () { if (swapped) return; swapped = true; present(); };
+      quizView.addEventListener('animationend', swap, { once: true });
+      setTimeout(swap, 360); // fallback if animationend doesn't fire.
+    }
+
+  }
+
+  scoreBtn.addEventListener('click', function () {
+    if (scoreBtn.getAttribute('aria-disabled') === 'true') {
+      // Find the first unanswered question, scroll to it and focus its first radio.
+      for (var i = 0; i < total; i++) {
+        if (!form.querySelector('input[name="q' + i + '"]:checked')) {
+          var unanswered = form.querySelectorAll('.question')[i];
+          unanswered.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+          var first = unanswered.querySelector('input[type="radio"]');
+          if (first) first.focus({ preventScroll: true });
+          footHelper.textContent = 'Question ' + (i + 1) + ' still needs an answer.';
+          return;
+        }
+      }
+      return;
+    }
+    showResult();
+  });
+
+  document.getElementById('retakeBtn').addEventListener('click', function () {
+    form.reset();
+    refresh();
+    resultView.classList.remove('show');
+    quizView.style.display = 'block';
+
+    // Replay the question stagger: strip the class, force reflow, re-add it.
+    if (!reduceMotion) {
+      var qs = form.querySelectorAll('.question');
+      qs.forEach(function (q) { q.style.animation = 'none'; });
+      void form.offsetWidth; // reflow so removing animation actually takes hold
+      qs.forEach(function (q) { q.style.animation = ''; });
+    }
+
+    // Focus scrolls the first answer into view; no explicit scrollTo needed.
+    var firstInput = form.querySelector('input[type="radio"]');
+    if (firstInput) firstInput.focus();
+  });
+
+  refresh();
+})();
+</script>
+
+<!-- Vercel Web Analytics (static-site install), mirrors index.html. No-op until enabled. -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
+</body>
+</html>

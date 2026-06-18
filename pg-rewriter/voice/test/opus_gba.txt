@@ -1,0 +1,5 @@
+"Hack" has two meanings, and they seem to be opposites. Sometimes the word means a clumsy, ugly solution. Other times it means a clever one. How can the same word mean both?
+
+Look closer and the two aren't as far apart as they seem. They're really the same thing seen from different angles. A hack is a solution that breaks the rules. When the rules are worth keeping, breaking them looks ugly. When the rules are dumb, breaking them looks brilliant. The move is identical. What changes is whether the constraint you ignored was a real one.
+
+So the contradiction isn't a contradiction at all. It's just two ways of judging the same act.

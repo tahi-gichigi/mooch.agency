@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zkSync - Case study - Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<meta name="description" content="How Mooch helped zkSync improve their Ethereum Layer 2 protocol through UX research.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mooch.agency/zksync">
+<meta property="og:title" content="zkSync - Case study - Mooch">
+<meta property="og:description" content="How Mooch helped zkSync improve their Ethereum Layer 2 protocol through UX research.">
+<meta property="og:image" content="https://mooch.agency/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="zkSync - Case study - Mooch">
+<meta name="twitter:description" content="How Mooch helped zkSync improve their Ethereum Layer 2 protocol through UX research.">
+<meta name="twitter:image" content="https://mooch.agency/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<style>
+  /* Tokens are shared: see tokens.css. Motion (.reveal etc.) lives in motion.css. */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar a { color: var(--ink); }
+  .topbar a:hover { border-bottom: 1px solid var(--ink); }
+  .topbar .you { color: var(--muted); }
+
+
+  .case-hero {
+    padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(48px, 8vw, 96px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-hero-inner { max-width: var(--max); margin: 0 auto; }
+  .case-hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .case-hero .eyebrow strong { color: var(--ink); font-weight: 600; }
+  .case-hero .eyebrow .rule { flex: 0 0 60px; height: 1px; background: var(--ink); }
+  .case-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 11vw, 168px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(28px, 4vw, 48px);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .case-hero h1 em { font-style: italic; }
+  .case-hero .standfirst {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 36ch;
+    margin-bottom: clamp(40px, 6vw, 64px);
+    text-wrap: pretty;
+  }
+
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .case-meta dt { color: var(--muted); margin-bottom: 4px; }
+  .case-meta dd { color: var(--ink); }
+  @media (min-width: 720px) { .case-meta { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1080px) { .case-meta { grid-template-columns: repeat(6, 1fr); } }
+
+  .case-body {
+    padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(96px, 12vw, 160px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-body-inner {
+    max-width: var(--col);
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .case-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 4.6vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-top: clamp(64px, 8vw, 112px);
+    margin-bottom: 28px;
+    scroll-margin-top: 40px;
+    text-wrap: balance;
+  }
+  .case-body h2 em { font-style: italic; }
+  .case-body h2:first-child { margin-top: 0; }
+  .case-body h2 .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: block;
+    font-style: normal;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .case-body h3 {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--black);
+    margin-top: 40px;
+    margin-bottom: 14px;
+    text-wrap: balance;
+  }
+  .case-body p { margin-bottom: 1.1em; hanging-punctuation: first last; text-wrap: pretty; }
+  .case-body p strong { font-weight: 600; color: var(--black); }
+  .case-body p em { font-style: italic; }
+  .case-body a { border-bottom: 1px solid var(--hairline); transition: border-color 0.15s ease; }
+  .case-body a:hover { border-bottom-color: var(--ink); }
+  .case-body ul, .case-body ol { margin: 0 0 1.4em 0; padding-left: 1.4em; }
+  .case-body li { margin-bottom: 0.6em; }
+
+  .case-body .lead-stat {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 8px 0 24px;
+    text-wrap: balance;
+  }
+  .case-body .lead-stat strong { font-weight: 400; font-style: italic; }
+
+  .user-need {
+    border-left: 2px solid var(--black);
+    padding: 14px 0 14px 20px;
+    margin: 32px 0 40px;
+    font-family: var(--sans);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .user-need .qual { color: var(--muted); }
+
+  .pull {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    font-style: italic;
+    margin: 56px 0;
+    text-align: left;
+    max-width: 100%;
+    text-indent: -0.4em;
+    text-wrap: balance;
+    padding-left: 0.4em;
+  }
+  .pull::before { content: '\201C'; }
+  .pull::after { content: '\201D'; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 32px 0;
+    margin: 24px 0 32px;
+  }
+  @media (min-width: 720px) {
+    .stat-row { grid-template-columns: repeat(3, 1fr); }
+  }
+  .stat .n {
+    font-family: var(--serif);
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .stat .n em { font-style: italic; }
+  .stat .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .client-quote {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.8vw, 30px);
+    line-height: 1.3;
+    font-style: italic;
+    color: var(--ink);
+    border-left: 2px solid var(--black);
+    padding: 12px 0 12px 24px;
+    margin: 40px 0;
+    max-width: 100%;
+    text-wrap: balance;
+  }
+  .client-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .case-next {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .case-next-inner { max-width: var(--max); margin: 0 auto; }
+  .case-next .small {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .case-next a.next-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    transition: padding-left 0.2s ease, transform 0.12s ease;
+  }
+  .case-next a.next-card:hover { padding-left: 8px; }
+  .case-next a.next-card:active { transform: scale(0.96); }
+  .case-next a.next-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .case-next a.next-card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .case-next a.next-card h3 em { font-style: italic; }
+  .case-next a.next-card p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+  .case-next a.next-card .arrow {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--ink);
+    transition: transform 0.2s ease;
+  }
+  .case-next a.next-card:hover .arrow { transform: translateX(6px); }
+
+  .colophon {
+    padding: 56px var(--pad-x) 40px;
+    background: var(--black);
+    color: var(--paper);
+    --muted: #8e8e93; /* lighter muted for dark bg, passes WCAG AA */
+  }
+  .colophon-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .colophon-mark {
+    font-family: var(--serif);
+    font-size: clamp(72px, 16vw, 240px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .colophon-mark em { font-style: italic; color: var(--muted); }
+  .colophon-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-top: 36px;
+    border-top: 1px solid #2a2a2c;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .colophon-links a { color: var(--paper); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-links a:hover { border-bottom-color: var(--paper); }
+  .colophon-sep { color: var(--muted); font-size: 10px; }
+  .colophon-foot {
+    border-top: 1px solid #2a2a2c;
+    margin-top: 36px;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .colophon-credits { max-width: 48ch; text-align: center; }
+  .colophon-version { color: var(--muted); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-version:hover { border-bottom-color: var(--paper); color: var(--paper); }
+
+  /* Print stylesheet: hide nav, expand content, ensure readability */
+  @media print {
+    body { background: #fff; color: #000; }
+    .topbar, .case-next, .colophon { display: none; }
+    .case-hero { padding: 24px 0; border: none; }
+    .case-body { padding: 0; max-width: 100%; }
+    .case-body-inner { max-width: 100%; }
+    a { color: #000; text-decoration: underline; }
+    .reveal { opacity: 1; transform: none; animation: none; }
+    .pull-quote, .client-quote { border-left: 2px solid #000; padding-left: 16px; }
+    .stat-row { break-inside: avoid; }
+    * { box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left">
+    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">zkSync</span>
+  </div>
+  <div class="right">Case Study 03 &nbsp; &middot; &nbsp; <span>2023</span></div>
+</header>
+
+<main>
+
+<section class="case-hero">
+  <div class="case-hero-inner">
+    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>03</strong> &middot; Case Study &middot; 2023</div>
+    <h1 class="reveal d2">Overhauling content for an Ethereum <em>L2</em> launch</h1>
+    <p class="standfirst reveal d3">A complete content, voice, and information architecture rebuild for zkSync Era, ready for the network's public launch.</p>
+    <dl class="case-meta reveal d4">
+      <div><dt>Client</dt><dd>zkSync</dd></div>
+      <div><dt>Sector</dt><dd>Web3, Ethereum L2</dd></div>
+      <div><dt>Year</dt><dd>2023</dd></div>
+      <div><dt>Services</dt><dd>Content strategy, Brand voice, Information architecture</dd></div>
+      <div><dt>Deliverables</dt><dd>25+ website pages, Style guide, Messaging</dd></div>
+      <div><dt>Discipline</dt><dd>UX</dd></div>
+    </dl>
+  </div>
+</section>
+
+<article class="case-body">
+  <div class="case-body-inner">
+
+    <h2><span class="num">&sect; 01</span>TL;DR</h2>
+    <p class="lead-stat"><strong>15+ media mentions in week one, 200+ apps built in six months.</strong></p>
+    <p>A complete content overhaul for zkSync's Era network launch: new brand voice, new information architecture, and 25+ pages of website copy. Shipped on time for the launch and ready for the developers it was built for.</p>
+
+    <h2><span class="num">&sect; 02</span>The brief</h2>
+    <p>zkSync is an Ethereum Layer 2 that lets developers build fast, low-cost applications while inheriting Ethereum's security. In early 2023, the team was preparing to launch Era, the next major version of the network and the first to open the platform to all developers. The existing site had no hierarchy, was overloaded with text, and used confusing titles. Developers were bouncing before they understood what zkSync could do for them. The CEO wanted a site that told the story without drowning the audience in jargon.</p>
+    <div class="user-need">
+      <span class="qual">As a</span> web3 developer or technical team lead<br>
+      <span class="qual">I want to</span> understand the complete zkSync offering<br>
+      <span class="qual">so that I can</span> decide whether to build my application here
+    </div>
+
+    <h2><span class="num">&sect; 03</span>The work</h2>
+    <p>We ran a four-phase engagement: audit, value proposition, information architecture, and drafting. The launch date was fixed, so phases ran in parallel where possible, with work-in-progress shared with the CEO and marketing team weekly.</p>
+
+    <h3>Audit</h3>
+    <p>We audited the old site and found four core issues: no content hierarchy, paragraphs over 80 words on the homepage, no clear narrative beyond a feature list, and confusing titles like "5 magical INGREDIENTS" as a section heading. The diagnosis was simple: developers couldn't tell what mattered most. Everything competed for attention.</p>
+
+    <h3>Value proposition</h3>
+    <p>We pulled everything we could find on brand values, USPs, and positioning: pitch decks, blog posts, Discord conversations, technical docs. After several rounds of workshopping, we distilled zkSync's story into four messages: we stand for freedom, we scale Ethereum, we're serious about security, and we enable a new era of UX. Each one became the spine of a section.</p>
+
+    <h3>Information architecture</h3>
+    <p>The old site had over 40 pages with no clear hierarchy. We mapped every page, identified redundancies, and proposed a simpler structure organised around the four value pillars. Nav depth went from four levels to two. We walked stakeholders through the new IA in FigJam to win buy-in before drafting started.</p>
+
+    <h3>Drafting</h3>
+    <p>We started with the homepage and encouraged feedback before moving onto child pages. Each draft went through two or three rounds with the marketing team. The biggest debates were about tone: how technical could we go without losing newcomers? We landed on a voice that assumed familiarity with Ethereum but didn't require deep ZK knowledge.</p>
+
+    <h2><span class="num">&sect; 04</span>What we found</h2>
+    <p class="pull">Developers couldn't tell what mattered most.</p>
+    <p>The technical audience wasn't asking for less detail. They were asking for hierarchy. When everything is listed with equal weight, the reader has to do the prioritisation work themselves. Strong opinion at the top, supporting detail underneath, repeated at every level: that was the shape that let zkSync's actual story show through.</p>
+
+    <h2><span class="num">&sect; 05</span>Impact</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="n">15<em>+</em></span><span class="label">Media mentions, week one</span></div>
+      <div class="stat"><span class="n">200<em>+</em></span><span class="label">Apps built in six months</span></div>
+      <div class="stat"><span class="n">$400<em>m</em></span><span class="label">AUM on zkSync</span></div>
+    </div>
+    <p>The new site launched alongside zkSync Era in March 2023, ready for the influx of developers. We also delivered launch articles and supported the team through the first week of comms. The content and IA work shaped how developers and investors made sense of the network for the rest of the year.</p>
+    <blockquote class="client-quote">
+      We'd been trying to explain zkSync for years, but it always came out too technical or too vague. Mooch got it on the first call. They translated the vision in my head into words I couldn't find myself.
+      <cite>CEO, zkSync</cite>
+    </blockquote>
+
+  </div>
+</article>
+
+<section class="case-next">
+  <div class="case-next-inner">
+    <span class="small">Continue &nbsp;/&nbsp; Next case study</span>
+    <a class="next-card" href="/ethereum.html">
+      <div>
+        <h3>Ethereum Foundation <em>&middot;</em> Plain-English rewrites for ethereum.org</h3>
+        <p>Rewriting the core informational layer of Ethereum's front door without losing technical accuracy.</p>
+      </div>
+      <span class="arrow">&rarr;</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-mark">Mooch<em>.</em></div>
+
+    <div class="colophon-links">
+      <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://moochagency.substack.com">Substack</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://toneofvoice.app">toneofvoice.app</a>
+    </div>
+
+    <div class="colophon-foot">
+      <span>&copy; 2026 Mooch Agency Ltd.</span>
+      <span class="colophon-credits">Set in Instrument Serif &amp; SF Pro. Built by two humans and one MoochBot. Hosted on Vercel because we're not animals.</span>
+      <span class="colophon-version">N&deg; 01</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

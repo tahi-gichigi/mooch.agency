@@ -1,0 +1,14 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "functions": {
+    "api/rewrite.js": { "includeFiles": "api/pg-system.md" }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "paulgraham.mooch.agency" }],
+      "destination": "/paulgraham.html"
+    }
+  ]
+}

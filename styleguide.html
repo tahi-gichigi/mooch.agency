@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style guide &middot; Mooch</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Living reference for the Mooch design system. Internal.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<!-- Consumes the same shared assets as every page, so this guide can't drift from
+     the live site: what renders here is exactly what ships. -->
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/ui.css">
+<style>
+  /* Style-guide layout only. The system itself lives in tokens/motion/ui.css. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar a { color: var(--ink); }
+  .topbar a:hover { border-bottom: 1px solid var(--ink); }
+
+  .sg { max-width: var(--max); margin: 0 auto; padding: var(--rhythm) var(--pad-x); }
+  .sg-lede {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: 16px;
+    text-wrap: balance;
+  }
+  .sg-lede em { font-style: italic; }
+  .sg-sub { font-size: clamp(17px, 1.8vw, 19px); color: var(--muted); max-width: 56ch; text-wrap: pretty; }
+
+  .sg-section { margin-top: clamp(56px, 8vw, 112px); }
+  .sg-h {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .sg-h strong { color: var(--ink); font-weight: 600; }
+  .sg-h .rule { flex: 1; height: 1px; background: var(--hairline); }
+
+  /* Colour swatches */
+  .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; border: 1px solid var(--hairline); }
+  .sg-swatch { padding: 0; border: 1px solid var(--hairline); }
+  .sg-chip { height: 88px; }
+  .sg-swatch .meta { padding: 12px 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; color: var(--ink); }
+  .sg-swatch .meta .val { color: var(--muted); text-transform: uppercase; display: block; margin-top: 4px; }
+
+  /* Spec table (live values) */
+  .sg-spec { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 13px; }
+  .sg-spec th, .sg-spec td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--hairline); }
+  .sg-spec th { color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 600; }
+  .sg-spec td .name { color: var(--ink); }
+  .sg-spec td .v { color: var(--muted); }
+
+  /* Type scale */
+  .sg-type > div { padding: 18px 0; border-bottom: 1px solid var(--hairline); }
+  .sg-type .tag { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); display: block; margin-bottom: 8px; }
+  .t-display { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 6vw, 72px); line-height: 0.95; letter-spacing: -0.02em; color: var(--black); }
+  .t-display em { font-style: italic; }
+  .t-heading { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4vw, 44px); line-height: 1; letter-spacing: -0.02em; color: var(--black); }
+  .t-body { font-family: var(--sans); font-size: 19px; line-height: 1.55; color: var(--ink); max-width: 56ch; }
+  .t-mono { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+
+  .sg-buttons { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .sg-note { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 16px; letter-spacing: 0.04em; }
+
+  /* Motion demo blocks */
+  .sg-reveal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid var(--hairline); }
+  .sg-box { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border: 1px solid var(--hairline); background: var(--surface); font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .sg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 24px; border: 1px solid var(--hairline); }
+  .sg-grid > div { padding: 28px 20px; border: 1px solid var(--hairline); font-family: var(--serif); font-size: 24px; color: var(--black); }
+  .sg-stagger { font-family: var(--serif); font-size: clamp(24px, 4vw, 40px); line-height: 1.1; letter-spacing: -0.02em; color: var(--black); max-width: 30ch; margin-top: 24px; text-wrap: balance; }
+
+  .colophon { padding: 40px var(--pad-x); border-top: 1px solid var(--hairline); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); text-align: center; }
+
+  @media (max-width: 600px) {
+    .sg-reveal-row { grid-template-columns: repeat(2, 1fr); }
+    .sg-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><a href="/">Mooch</a> &nbsp;/&nbsp; Style guide</div>
+  <div class="right">Internal &middot; noindex</div>
+</header>
+
+<main class="sg">
+  <h1 class="sg-lede reveal d1">The system, <em>rendered</em>.</h1>
+  <p class="sg-sub reveal d2">A living reference. Everything here is drawn from <code>tokens.css</code>, <code>motion.css</code> and <code>ui.css</code>, the same files every page links, so it can't drift from the live site. Prose companion: <code>docs/design-system.md</code>.</p>
+
+  <!-- COLOUR -->
+  <section class="sg-section">
+    <h2 class="sg-h"><strong>01</strong> Colour <span class="rule"></span></h2>
+    <div class="sg-swatches" id="swatches"></div>
+  </section>
+
+  <!-- MOTION TOKENS (live) -->
+  <section class="sg-section">
+    <h2 class="sg-h"><strong>02</strong> Motion tokens <span class="rule"></span></h2>
+    <table class="sg-spec">
+      <thead><tr><th>Token</th><th>Computed value</th></tr></thead>
+      <tbody id="motionSpec"></tbody>
+    </table>
+    <p class="sg-note">Read live from <code>:root</code> at load. Change a value in tokens.css and this table follows.</p>
+  </section>
+
+  <!-- TYPE -->
+  <section class="sg-section">
+    <h2 class="sg-h"><strong>03</strong> Type <span class="rule"></span></h2>
+    <div class="sg-type">
+      <div><span class="tag">Display &middot; serif</span><div class="t-display">Hey, we're <em>Mooch</em>.</div></div>
+      <div><span class="tag">Heading &middot; serif</span><div class="t-heading">Packaged ways to <em>start</em>.</div></div>
+      <div><span class="tag">Body &middot; sans</span><p class="t-body">We help teams make things their customers really want, then use AI to compound the benefits.</p></div>
+      <div><span class="tag">Eyebrow &middot; mono</span><div class="t-mono">AI automation &amp; UX</div></div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="sg-section">
+    <h2 class="sg-h"><strong>04</strong> Buttons <span class="rule"></span></h2>
+    <div class="sg-buttons">
+      <button class="pill" type="button">Primary <span class="arrow">&rarr;</span></button>
+      <button class="ghost" type="button">Secondary</button>
+      <button class="pill" type="button" aria-disabled="true">Disabled <span class="arrow">&rarr;</span></button>
+    </div>
+    <p class="sg-note">.pill and .ghost from ui.css. Hover, press (scale 0.96) and keyboard focus rings included. Tab to one to see the ring.</p>
+  </section>
+
+  <!-- MOTION -->
+  <section class="sg-section">
+    <h2 class="sg-h"><strong>05</strong> Motion <span class="rule"></span></h2>
+    <div class="sg-buttons" style="margin-bottom:24px">
+      <button class="ghost" id="replay" type="button">Replay entrances</button>
+    </div>
+
+    <p class="sg-note" style="margin:0 0 12px">.reveal d1 to d4 (staggered blur settle on load)</p>
+    <div class="sg-reveal-row" id="revealRow">
+      <div class="sg-box reveal d1">d1</div>
+      <div class="sg-box reveal d2">d2</div>
+      <div class="sg-box reveal d3">d3</div>
+      <div class="sg-box reveal d4">d4</div>
+    </div>
+
+    <p class="sg-note" style="margin:24px 0 0">Per-word stagger (data-stagger)</p>
+    <div class="sg-stagger reveal-words" data-stagger>Each word resolves into focus, one after the next.</div>
+
+    <p class="sg-note" style="margin:24px 0 0">Scroll reveal (data-reveal). Scroll this into view.</p>
+    <div class="sg-grid" data-reveal="child: :scope > *; cap: 5">
+      <div>One</div><div>Two</div><div>Three</div><div>Four</div><div>Five</div><div>Six</div>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">Mooch design system &middot; internal reference</footer>
+
+<script src="/motion.js"></script>
+<script>
+  // Render swatches and the motion-token table from the live :root, so the guide
+  // always shows the real shipped values rather than a hardcoded copy.
+  (function () {
+    var rs = getComputedStyle(document.documentElement);
+
+    var colours = ['--black', '--ink', '--paper', '--surface', '--muted', '--hairline'];
+    var sw = document.getElementById('swatches');
+    colours.forEach(function (name) {
+      var val = rs.getPropertyValue(name).trim();
+      var cell = document.createElement('div');
+      cell.className = 'sg-swatch';
+      var chip = document.createElement('div');
+      chip.className = 'sg-chip';
+      chip.style.background = 'var(' + name + ')';
+      // Light chips need a visible edge against the white page.
+      if (name === '--paper' || name === '--surface') chip.style.borderBottom = '1px solid var(--hairline)';
+      var meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.innerHTML = name + '<span class="val">' + val + '</span>';
+      cell.appendChild(chip);
+      cell.appendChild(meta);
+      sw.appendChild(cell);
+    });
+
+    var tokens = ['--t-decide', '--t-deliver', '--ease-decide', '--ease-deliver', '--stagger-beat', '--word-base', '--word-step', '--q-step', '--countup-dur'];
+    var tb = document.getElementById('motionSpec');
+    tokens.forEach(function (name) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td><span class="name">' + name + '</span></td><td><span class="v">' + rs.getPropertyValue(name).trim() + '</span></td>';
+      tb.appendChild(tr);
+    });
+
+    // Replay the on-load entrances for the .reveal demo row by stripping the
+    // animation, forcing reflow, then restoring it.
+    document.getElementById('replay').addEventListener('click', function () {
+      var boxes = document.querySelectorAll('#revealRow .reveal');
+      boxes.forEach(function (b) { b.style.animation = 'none'; });
+      void document.getElementById('revealRow').offsetWidth;
+      boxes.forEach(function (b) { b.style.animation = ''; });
+    });
+  })();
+</script>
+
+</body>
+</html>

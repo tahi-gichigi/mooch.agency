@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Project name] - Case study - Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<meta name="description" content="[Description] - Case study by Mooch.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mooch.agency/[slug]">
+<meta property="og:title" content="[Project name] - Case study - Mooch">
+<meta property="og:description" content="[Description] - Case study by Mooch.">
+<meta property="og:image" content="https://mooch.agency/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="[Project name] - Case study - Mooch">
+<meta name="twitter:description" content="[Description] - Case study by Mooch.">
+<meta name="twitter:image" content="https://mooch.agency/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<style>
+  /* Tokens are shared: see tokens.css. Motion (.reveal etc.) lives in motion.css. */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Topbar (matches index.html) */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar a { color: var(--ink); }
+  .topbar a:hover { border-bottom: 1px solid var(--ink); }
+  .topbar .you { color: var(--muted); }
+
+
+  /* Case hero */
+  .case-hero {
+    padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(48px, 8vw, 96px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-hero-inner { max-width: var(--max); margin: 0 auto; }
+  .case-hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .case-hero .eyebrow strong { color: var(--ink); font-weight: 600; }
+  .case-hero .eyebrow .rule { flex: 0 0 60px; height: 1px; background: var(--ink); }
+  .case-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 11vw, 168px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(28px, 4vw, 48px);
+    max-width: 16ch;
+  }
+  .case-hero h1 em { font-style: italic; }
+  .case-hero .standfirst {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 36ch;
+    margin-bottom: clamp(40px, 6vw, 64px);
+  }
+
+  /* Banner metadata strip (Mooch fields) */
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .case-meta dt { color: var(--muted); margin-bottom: 4px; }
+  .case-meta dd { color: var(--ink); }
+  @media (min-width: 720px) { .case-meta { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1080px) { .case-meta { grid-template-columns: repeat(6, 1fr); } }
+
+  /* Body */
+  .case-body {
+    padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(96px, 12vw, 160px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-body-inner {
+    max-width: var(--col);
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .case-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 4.6vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-top: clamp(64px, 8vw, 112px);
+    margin-bottom: 28px;
+    scroll-margin-top: 40px;
+  }
+  .case-body h2 em { font-style: italic; }
+  .case-body h2:first-child { margin-top: 0; }
+  .case-body h2 .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: block;
+    font-style: normal;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .case-body h3 {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--black);
+    margin-top: 40px;
+    margin-bottom: 14px;
+  }
+  .case-body p { margin-bottom: 1.1em; hanging-punctuation: first last; }
+  .case-body p strong { font-weight: 600; color: var(--black); }
+  .case-body p em { font-style: italic; }
+  .case-body a { border-bottom: 1px solid var(--hairline); transition: border-color 0.15s ease; }
+  .case-body a:hover { border-bottom-color: var(--ink); }
+  .case-body ul, .case-body ol { margin: 0 0 1.4em 0; padding-left: 1.4em; }
+  .case-body li { margin-bottom: 0.6em; }
+
+  /* TL;DR lead stat */
+  .case-body .lead-stat {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 8px 0 24px;
+    max-width: 22ch;
+  }
+  .case-body .lead-stat strong { font-weight: 400; font-style: italic; }
+
+  /* User-need quote */
+  .user-need {
+    border-left: 2px solid var(--black);
+    padding: 14px 0 14px 20px;
+    margin: 32px 0 40px;
+    font-family: var(--sans);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .user-need .qual { color: var(--muted); }
+
+  /* Pull quote (for §04 What we found headline insight) */
+  .pull {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    font-style: italic;
+    margin: 56px 0;
+    text-align: left;
+    max-width: 100%;
+    text-indent: -0.4em;
+    padding-left: 0.4em;
+  }
+  .pull::before { content: '\201C'; }
+  .pull::after { content: '\201D'; }
+
+  /* Impact stat block */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 32px 0;
+    margin: 24px 0 32px;
+  }
+  @media (min-width: 720px) {
+    .stat-row { grid-template-columns: repeat(3, 1fr); }
+  }
+  .stat .n {
+    font-family: var(--serif);
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .stat .n em { font-style: italic; }
+  .stat .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  /* Client quote */
+  .client-quote {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.8vw, 30px);
+    line-height: 1.3;
+    font-style: italic;
+    color: var(--ink);
+    border-left: 2px solid var(--black);
+    padding: 12px 0 12px 24px;
+    margin: 40px 0;
+    max-width: 100%;
+  }
+  .client-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  /* Continue / next case */
+  .case-next {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .case-next-inner { max-width: var(--max); margin: 0 auto; }
+  .case-next .small {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .case-next a.next-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    transition: padding-left 0.2s ease, transform 0.12s ease;
+  }
+  .case-next a.next-card:hover { padding-left: 8px; }
+  .case-next a.next-card:active { transform: scale(0.96); }
+  .case-next a.next-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .case-next a.next-card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+  }
+  .case-next a.next-card h3 em { font-style: italic; }
+  .case-next a.next-card p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 56ch;
+  }
+  .case-next a.next-card .arrow {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--ink);
+    transition: transform 0.2s ease;
+  }
+  .case-next a.next-card:hover .arrow { transform: translateX(6px); }
+
+  /* Footer (matches index.html) */
+  .colophon {
+    padding: 56px var(--pad-x) 40px;
+    background: var(--black);
+    color: var(--paper);
+    --muted: #8e8e93; /* lighter muted for dark bg, passes WCAG AA */
+  }
+  .colophon-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .colophon-mark {
+    font-family: var(--serif);
+    font-size: clamp(72px, 16vw, 240px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .colophon-mark em { font-style: italic; color: var(--muted); }
+  .colophon-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-top: 36px;
+    border-top: 1px solid #2a2a2c;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .colophon-links a { color: var(--paper); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-links a:hover { border-bottom-color: var(--paper); }
+  .colophon-sep { color: var(--muted); font-size: 10px; }
+  .colophon-foot {
+    border-top: 1px solid #2a2a2c;
+    margin-top: 36px;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .colophon-credits { max-width: 48ch; text-align: center; }
+  .colophon-version { color: var(--muted); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-version:hover { border-bottom-color: var(--paper); color: var(--paper); }
+
+  /* Print stylesheet: hide nav, expand content, ensure readability */
+  @media print {
+    body { background: #fff; color: #000; }
+    .topbar, .case-next, .colophon { display: none; }
+    .case-hero { padding: 24px 0; border: none; }
+    .case-body { padding: 0; max-width: 100%; }
+    .case-body-inner { max-width: 100%; }
+    a { color: #000; text-decoration: underline; }
+    .reveal { opacity: 1; transform: none; animation: none; }
+    .pull-quote, .client-quote { border-left: 2px solid #000; padding-left: 16px; }
+    .stat-row { break-inside: avoid; }
+    * { box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left">
+    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">[Project name]</span>
+  </div>
+  <div class="right">Case Study NN &nbsp; · &nbsp; <span>YYYY</span></div>
+</header>
+
+<main>
+
+<section class="case-hero">
+  <div class="case-hero-inner">
+    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>NN</strong> · Case Study · YYYY</div>
+    <h1 class="reveal d2">[Project name]</h1>
+    <p class="standfirst reveal d3">[One-line standfirst. What this project was, in a sentence with a clear point of view.]</p>
+    <dl class="case-meta reveal d4">
+      <div><dt>Client</dt><dd>[Client name]</dd></div>
+      <div><dt>Sector</dt><dd>[Sector]</dd></div>
+      <div><dt>Year</dt><dd>YYYY</dd></div>
+      <div><dt>Services</dt><dd>[Research, strategy, automation...]</dd></div>
+      <div><dt>Deliverables</dt><dd>[Report, prompt, system...]</dd></div>
+      <div><dt>Discipline</dt><dd>UX + AI</dd></div>
+    </dl>
+  </div>
+</section>
+
+<article class="case-body">
+  <div class="case-body-inner">
+
+    <h2><span class="num">§ 01</span>TL;DR</h2>
+    <p class="lead-stat"><strong>[Headline stat or outcome in one phrase].</strong></p>
+    <p>[One or two sentences summarising the project. Who, what, the result. Lead stat above is the takeaway a reader who skims should leave with.]</p>
+
+    <h2><span class="num">§ 02</span>The brief</h2>
+    <p>[Who the client is, what was broken, and what they asked us to do. One short paragraph.]</p>
+    <div class="user-need">
+      <span class="qual">As a</span> [user type]<br>
+      <span class="qual">I want to</span> [need]<br>
+      <span class="qual">so that I can</span> [outcome they care about]
+    </div>
+
+    <h2><span class="num">§ 03</span>The work</h2>
+    <p>[Narrative paragraph. What we actually did, in order. Keep it one scroll-chunk - subsections below if needed, but don't fragment into separate H2s.]</p>
+
+    <h3>[Subsection label, e.g. Discovery]</h3>
+    <p>[What we did and why.]</p>
+
+    <h3>[Subsection label, e.g. Build]</h3>
+    <p>[What we did and why.]</p>
+
+    <h3>[Subsection label, e.g. Handover]</h3>
+    <p>[What we did and why.]</p>
+
+    <h2><span class="num">§ 04</span>What we found</h2>
+    <p class="pull">[Headline insight in one line.]</p>
+    <p>[Two or three sentences expanding the insight. The thing the client didn't know going in. Plain language, no jargon.]</p>
+
+    <h2><span class="num">§ 05</span>Impact</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="n">[N]<em>x</em></span><span class="label">[Metric label]</span></div>
+      <div class="stat"><span class="n">[N]%</span><span class="label">[Metric label]</span></div>
+      <div class="stat"><span class="n">[N]</span><span class="label">[Metric label]</span></div>
+    </div>
+    <p>[Short narrative on what the numbers mean. Caveat correlation vs causation honestly where relevant.]</p>
+    <blockquote class="client-quote">
+      [Client quote in plain English. Specific, not generic.]
+      <cite>[Name, role, client]</cite>
+    </blockquote>
+
+  </div>
+</article>
+
+<section class="case-next">
+  <div class="case-next-inner">
+    <span class="small">Continue &nbsp;/&nbsp; Next case study</span>
+    <a class="next-card" href="/work/[next-slug]">
+      <div>
+        <h3>[Next project name] <em>·</em> [one-line frame]</h3>
+        <p>[Two-sentence teaser of the next case study.]</p>
+      </div>
+      <span class="arrow">&rarr;</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-mark">Mooch<em>.</em></div>
+
+    <div class="colophon-links">
+      <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://moochagency.substack.com">Substack</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://toneofvoice.app">toneofvoice.app</a>
+    </div>
+
+    <div class="colophon-foot">
+      <span>&copy; 2026 Mooch Agency Ltd.</span>
+      <span class="colophon-credits">Set in Instrument Serif &amp; SF Pro. Built by two humans and one MoochBot. Hosted on Vercel because we're not animals.</span>
+      <span class="colophon-version">N° 01</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

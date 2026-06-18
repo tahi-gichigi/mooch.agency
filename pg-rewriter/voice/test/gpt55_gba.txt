@@ -1,0 +1,5 @@
+The word "hack" has two meanings that seem to point in opposite directions. Sometimes it means a crude fix: something clumsy, ugly, and not quite the right way to do it. But sometimes it means the opposite: a clever move that gets round a hard problem.
+
+At first this looks like a flaw in the word. How can the same word mean both bad and good work? But the two senses are closer than they look. In both cases, a hack is a way of getting something done without following the usual path. If it fails, or leaves a mess, you call it ugly. If it works, and especially if it works in a way you didn't expect, you call it clever.
+
+The difference is not as sharp as it seems. A hack is often just a shortcut whose value hasn't yet been decided.

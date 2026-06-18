@@ -1,0 +1,5 @@
+In the popular press, "hacker" means someone who breaks into computers. Among programmers it means someone very good at what they do. But these aren't really two different meanings. To people who write software, a hacker is someone who can make a computer do exactly what they want. The word suggests mastery.
+
+"Hack" works the same way — it can be a compliment or an insult. When you solve something with an ugly workaround, that's a hack. When you solve something so cleverly you've beaten the system, that's also a hack. The word gets used more often in the first sense because ugly solutions are more common than brilliant ones. But the two are connected: both break the rules. There's a continuum from inelegant rule-breaking — duct tape on a bicycle — to brilliant rule-breaking, like discarding Euclidean space.
+
+Hacking predates computers. Feynman cracked safes during the Manhattan Project. A friend of mine had a lock-pick kit at MIT and now runs a hedge fund. Another got into trouble with the FBI for breaking into computers. The FBI starts by looking for a motive. Intellectual curiosity wasn't on their list. Their list was drugs, money, sex, and revenge.

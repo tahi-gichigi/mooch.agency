@@ -1,0 +1,47 @@
+/* Mooch design tokens — single source of truth for colour, type, spacing, motion.
+   Linked by every page. A page may still override any token in its own :root
+   (e.g. the dark footer lightens --muted locally). */
+:root {
+  /* Palette */
+  --black: #000000;
+  --ink: #1d1d1f;
+  --paper: #ffffff;
+  --surface: #fbfbfd;
+  --muted: #6e6e73;
+  --hairline: #d2d2d7;
+
+  /* Type families */
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+
+  /* Layout rhythm */
+  --pad-x: clamp(20px, 5vw, 56px);
+  --rhythm: clamp(80px, 12vw, 160px);
+  --eyebrow-gap: 56px;
+  --max: 1320px;
+  --col: 720px;
+
+  /* Motion, after "decide slow, deliver fast".
+     deciding = slow, considered settle (arrivals, reveals);
+     delivering = crisp, decisive response (hover, press, CTAs).
+     Entrance and stagger timings sit 25% slower than the original feel;
+     deliver timing stays snappy and is never slowed. */
+  --ease-decide: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-deliver: cubic-bezier(0.2, 0, 0, 1);
+  --t-decide: 1.56s;
+  --t-deliver: 0.15s;
+
+  /* Stagger scale. motion.js reads these so JS-driven timing lives here too. */
+  --stagger-beat: 100ms;
+  --word-base: 0.40s;
+  --word-step: 0.05s;
+  --q-step: 0.0875s;
+  --countup-dur: 875ms;
+
+  /* Category tints (homepage bento cards + the offer-index hero) */
+  --cat-product: hsl(220, 30%, 94%);
+  --cat-prompt: hsl(270, 30%, 94%);
+  --cat-plaything: hsl(35, 40%, 93%);
+  --cat-ai: hsl(200, 30%, 94%);
+}

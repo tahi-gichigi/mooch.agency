@@ -1,0 +1,50 @@
+/* Mooch buttons — canonical .pill and .ghost, single source of truth.
+   Anchored to the homepage hero values (12px 20px, 14px, deliver-mode transition,
+   0.96 press, ink focus ring) so buttons read identically on every page. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--black);
+  color: var(--paper);
+  padding: 12px 20px;
+  border-radius: 980px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  transition: transform var(--t-deliver) var(--ease-deliver),
+              background var(--t-deliver) var(--ease-deliver),
+              opacity var(--t-deliver) var(--ease-deliver);
+}
+.pill:hover { background: var(--ink); transform: translateY(-1px); }
+.pill:active { transform: scale(0.96); }
+.pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.pill .arrow { transition: transform var(--t-deliver) var(--ease-deliver); }
+.pill:hover .arrow { transform: translateX(3px); }
+/* aria-disabled keeps the button in the tab order while reading as inert. */
+.pill[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; transform: none; }
+.pill[aria-disabled="true"]:hover { background: var(--black); }
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--ink);
+  padding: 12px 20px;
+  border-radius: 980px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: border-color var(--t-deliver) var(--ease-deliver),
+              color var(--t-deliver) var(--ease-deliver),
+              transform var(--t-deliver) var(--ease-deliver);
+}
+.ghost:hover { border-color: var(--ink); color: var(--black); }
+.ghost:active { transform: scale(0.96); }
+.ghost:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
