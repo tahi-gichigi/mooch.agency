@@ -96,6 +96,26 @@
     margin-top: 40px;
   }
   .note strong { color: var(--ink); font-weight: 600; }
+  .index {
+    list-style: none;
+    max-width: var(--col);
+    margin-top: 8px;
+    border-top: 1px solid var(--hairline);
+  }
+  .index li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--hairline);
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .index b {
+    display: inline-block;
+    width: 1.6em;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+  }
   code {
     font-family: var(--mono);
     font-size: 0.85em;
@@ -147,6 +167,23 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+  }
+  /* The one-line contrast for each technique, so no two blocks read alike. */
+  .diff {
+    max-width: var(--col);
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .diff b {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-right: 8px;
   }
 
   /* The specimen: the exact block from the brief, Title / Description / Buttons.
@@ -240,15 +277,106 @@
     animation-delay: calc(var(--stagger, 0) * var(--stagger-beat));
   }
 
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE D — Scroll-driven GROUP sweep (one shared view-timeline)
+     Same scroll-driven engine as A, opposite choreography. A gives every item
+     its OWN view() timeline, so in a tall group each fires only when it
+     personally crosses: they can arrive seconds apart. D names ONE timeline on
+     the container (view-timeline-name) and slices it per --stagger index, so
+     the whole group reveals as a single coordinated sweep the moment the block
+     enters. Cinematic where A is incremental. ═══════════════════════════════ */
+  @supports (animation-timeline: view()) {
+    .sdg .specimen {
+      view-timeline-name: --grp;
+      view-timeline-axis: block;
+    }
+    .sdg .specimen > * {
+      opacity: 0;
+      animation: sd-rise linear both;
+      animation-timeline: --grp;
+      /* Each item takes a 45%-wide slice of the container's entry, stepped by
+         index so they cascade inside one sweep rather than firing apart. */
+      animation-range: entry calc(8% + var(--stagger, 0) * 9%) entry calc(53% + var(--stagger, 0) * 9%);
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE E — Clip-path WIPE (a different reveal material)
+     Not translate-and-fade. Each item is revealed behind a moving edge with
+     clip-path, so the text wipes up into place instead of sliding in. Editorial
+     feel. Observer-triggered deep, --stagger index delay. The +/-10% overshoot
+     on the inset keeps ascenders and descenders from clipping. ══════════════ */
+  .js .wipe .specimen > * {
+    opacity: 0;
+    clip-path: inset(0 0 108% 0);
+    transform: translateY(6px);
+  }
+  .wipe .specimen > *.play {
+    animation: wipe-up var(--t-stagger-item, 0.66s) var(--ease-decide) both;
+    animation-delay: calc(var(--stagger, 0) * var(--stagger-beat));
+  }
+  @keyframes wipe-up {
+    from { opacity: 0; clip-path: inset(0 0 108% 0); transform: translateY(6px); }
+    to   { opacity: 1; clip-path: inset(0 0 -8% 0); transform: translateY(0); }
+  }
+
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE F — WORD-by-word text reveal (a different granularity)
+     The hero word-stagger from motion.css, but triggered on scroll. The title
+     resolves one word at a time while the eyebrow, copy and buttons arrive as
+     whole blocks. Granular where every other technique moves whole elements.
+     Reuses the house .word feel; words pre-split in markup here. ════════════ */
+  .js .words .specimen > * { opacity: 0; }
+  .js .words .specimen .spec-title { opacity: 1; }            /* title stays put; its words carry the motion */
+  .js .words .specimen .spec-title .w { display: inline-block; opacity: 0; }
+  .words .specimen.play .spec-eyebrow,
+  .words .specimen.play .spec-desc,
+  .words .specimen.play .spec-actions {
+    animation: io-rise 0.6s var(--ease-decide) both;
+    animation-delay: var(--d, 0s);
+  }
+  .words .specimen.play .spec-title .w {
+    animation: word-rise 0.8s var(--ease-decide) both;
+    animation-delay: calc(0.12s + var(--wi, 0) * 0.05s);
+  }
+  @keyframes word-rise {
+    from { opacity: 0; transform: translateY(0.5em); filter: blur(4px); }
+    to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE G — Focus-pull (blur only, nothing moves)
+     The quietest option. No translate, no wipe: each item resolves from soft to
+     sharp in place, like a lens finding focus. Calm and expensive-feeling where
+     a rise can read busy. Observer-triggered deep, --stagger index. ══════════ */
+  .js .focus .specimen > * {
+    opacity: 0;
+    filter: blur(11px);
+  }
+  .focus .specimen > *.play {
+    animation: focus-in var(--t-stagger-item, 0.72s) var(--ease-decide) both;
+    animation-delay: calc(var(--stagger, 0) * var(--stagger-beat));
+  }
+  @keyframes focus-in {
+    from { opacity: 0; filter: blur(11px); }
+    to   { opacity: 1; filter: blur(0); }
+  }
+
   /* Reduced motion: every technique resolves to the final, visible state. */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .sd .specimen > *,
+    .sdg .specimen > *,
     .io .specimen > *,
-    .load .specimen > * {
+    .load .specimen > *,
+    .wipe .specimen > *,
+    .focus .specimen > *,
+    .words .specimen > *,
+    .words .specimen .spec-title .w {
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;
+      clip-path: none !important;
       animation: none !important;
     }
   }
@@ -266,9 +394,18 @@
   <div class="eyebrow">Internal &middot; not shipped &middot; 2026</div>
   <h1 class="lede">Stagger that waits for the <em>scroll</em>.</h1>
   <p class="standfirst">Right now below-fold elements fire as soon as they peek past the bottom edge, then run a 1.56s settle. So they start, and often finish, while still parked at the foot of the screen, before you've scrolled them into view. The motion outruns the reader.</p>
-  <p class="standfirst">Three ways to fix it, roughest to safest, all on the existing tokens. Scroll each block: the specimen sits well below the fold so you feel the trigger point, not just see it.</p>
+  <p class="standfirst">Seven techniques below, all on the existing tokens. The same Title / Description / Buttons block in each, so only the motion differs. Scroll each one: the specimen sits well below the fold so you feel the trigger point, not just see it. Every block names its difference up top.</p>
+  <ol class="index">
+    <li><b>A</b> Scroll-driven, per item. Each element on its own scroll timeline.</li>
+    <li><b>B</b> Observer, deeper trigger. The safe fix to what ships, works everywhere.</li>
+    <li><b>C</b> Index entrance on load. For above-fold heroes, no scroll to wait on.</li>
+    <li><b>D</b> Scroll-driven, group sweep. One shared timeline, the whole block as a unit.</li>
+    <li><b>E</b> Clip-path wipe. Text wipes up behind a moving edge.</li>
+    <li><b>F</b> Word by word. The title resolves a word at a time.</li>
+    <li><b>G</b> Focus-pull. Blur to sharp, nothing moves.</li>
+  </ol>
   <div class="note">
-    <strong>Recommendation: A (scroll-driven) for the homepage, B for everything else.</strong> A ties motion to scroll position so it can't outrun the reader, costs zero JS, and degrades cleanly where unsupported. B is the same fix inside the observer we already ship, supported everywhere today. Both replace the <code>.d1&ndash;.d4</code> delay ladder with a single <code>--stagger</code> index. C is the brief's on-load pattern, kept for above-fold heroes where there's no scroll to wait on.
+    <strong>Recommendation: A or D for the homepage (D if you want the block to land as one move, A if each row should earn its own arrival), B everywhere scroll-driven isn't supported yet.</strong> A, B and D fix the real bug, motion that outruns the reader. C handles above-fold heroes. E, F and G are the same fix dressed in different materials: pick one as the house feel. All replace the <code>.d1&ndash;.d4</code> ladder with a single <code>--stagger</code> index.
   </div>
 </section>
 
@@ -279,6 +416,7 @@
       <div class="demo-tag">Now &middot; current behaviour</div>
       <h2 class="demo-title">Fires at the edge.</h2>
       <p class="demo-desc">Roughly what ships: triggers near the bottom edge (<code>rootMargin</code> &minus;8%) on the long 1.56s settle. Watch it animate before it's really in view. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>The bug</b> Fires too early, lasts too long. Everything below is a way out of this.</p>
     </div>
   </div>
   <div class="specimen" style="--t-stagger-item:var(--t-decide);">
@@ -299,6 +437,7 @@
       <div class="demo-tag">A &middot; recommended</div>
       <h2 class="demo-title">Scroll-driven, <em>view-timeline</em>.</h2>
       <p class="demo-desc">Progress is bound to the element's travel through the viewport via <code>animation-timeline: view()</code>. It resolves in the reading band, and scrolling back up plays it in reverse. No JS. <code>--stagger</code> offsets each item's range for the cascade.</p>
+      <p class="diff"><b>vs D</b> Each element gets its own scroll timeline, so in a tall block they can arrive far apart. Incremental, not choreographed.</p>
     </div>
   </div>
   <div class="specimen">
@@ -319,6 +458,7 @@
       <div class="demo-tag">B &middot; safe everywhere</div>
       <h2 class="demo-title">Observer, <em>deeper</em> trigger.</h2>
       <p class="demo-desc">Same IntersectionObserver we ship, fired deep into the viewport (<code>rootMargin</code> bottom &minus;28%) on a snappier 0.62s settle, with an index <code>--stagger</code> delay. It lands in reading position. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>vs A</b> Same look, but JS-driven and one-shot (no reverse on scroll up). The choice when scroll-driven CSS isn't supported.</p>
     </div>
   </div>
   <div class="specimen">
@@ -339,6 +479,91 @@
       <div class="demo-tag">C &middot; above-fold heroes</div>
       <h2 class="demo-title">Index entrance, <em>on load</em>.</h2>
       <p class="demo-desc">The brief's pattern: no scroll to wait for, so bind the cascade to load and drive the delay off the <code>--stagger</code> index. Named to match the house <code>.reveal</code>. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>C vs D</b> C fires once on page load, ignoring scroll, for content already on screen. D (next) ignores load and is driven entirely by scroll position. Opposite triggers: time vs travel.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE D ── -->
+<section class="demo sdg">
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">D &middot; recommended (group)</div>
+      <h2 class="demo-title">Scroll-driven, <em>group sweep</em>.</h2>
+      <p class="demo-desc">One <code>view-timeline</code> named on the container, sliced per <code>--stagger</code> index. The whole block reveals as a single coordinated move the moment it enters, instead of each item firing on its own. No JS.</p>
+      <p class="diff"><b>vs A</b> Shared timeline, not one per item. The block lands as a unit and stays tight however tall it is. The cinematic option.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE E ── -->
+<section class="demo wipe" data-io>
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">E &middot; material</div>
+      <h2 class="demo-title">Clip-path <em>wipe</em>.</h2>
+      <p class="demo-desc">Each line is revealed behind a moving edge with <code>clip-path</code>, so the text wipes up into place rather than sliding in. Editorial, typographic. Observer-triggered deep, index <code>--stagger</code>. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>vs B</b> Same trigger, different material: a hard reveal edge instead of a translate. The text uncovers rather than moves.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE F ── -->
+<section class="demo words" data-io-group>
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">F &middot; granularity</div>
+      <h2 class="demo-title">Word <em>by word</em>.</h2>
+      <p class="demo-desc">The hero word-stagger from <code>motion.css</code>, triggered on scroll. The title resolves one word at a time while the eyebrow, copy and buttons arrive as whole blocks. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>vs the rest</b> Motion at the word level, not the element level. Best on a short hero line; too fussy on body copy.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow">AI automation &amp; UX</div>
+    <h3 class="spec-title"><span class="w" style="--wi:0">Hey,</span> <span class="w" style="--wi:1">we're</span> <span class="w" style="--wi:2"><em>Mooch</em>.</span></h3>
+    <p class="spec-desc" style="--d:0.45s">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--d:0.6s">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE G ── -->
+<section class="demo focus" data-io>
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">G &middot; restraint</div>
+      <h2 class="demo-title">Focus <em>pull</em>.</h2>
+      <p class="demo-desc">No translate, no wipe. Each item resolves from soft to sharp in place, like a lens finding focus. Calm where a rise can read busy. Observer-triggered deep, index <code>--stagger</code>. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>vs all others</b> Nothing moves. Blur to sharp only. The quietest reveal here, and the hardest to overdo.</p>
     </div>
   </div>
   <div class="specimen">
@@ -354,7 +579,7 @@
 
 <section class="wrap">
   <div class="note">
-    <strong>Porting to the real motion system.</strong> A and B both retire the <code>.d1&ndash;.d4</code> classes for one <code>--stagger</code> index set per child, which scales past 4 items for free. A needs an <code>@supports (animation-timeline: view())</code> block in <code>motion.css</code> and nothing in <code>motion.js</code>. B is a three-line change to the observer in <code>motion.js</code> (<code>rootMargin</code> bottom to &minus;28%, threshold to 0, the per-item duration token) plus an index delay. New timing values (<code>--t-stagger-item</code>, the range percentages) go in <code>tokens.css</code> first, per the design-system rule.
+    <strong>Porting to the real motion system.</strong> A, B and D all retire the <code>.d1&ndash;.d4</code> classes for one <code>--stagger</code> index set per child, which scales past 4 items for free. A and D are <code>@supports (animation-timeline: view())</code> blocks in <code>motion.css</code> with nothing in <code>motion.js</code>; D adds <code>view-timeline-name</code> on the container. B is a three-line change to the observer in <code>motion.js</code> (<code>rootMargin</code> bottom to &minus;28%, threshold to 0, the per-item duration token) plus an index delay. E, F and G are pure material swaps: the same trigger as B with a different keyframe, so they layer on once the trigger is fixed. New timing values (<code>--t-stagger-item</code>, the range percentages) go in <code>tokens.css</code> first, per the design-system rule.
   </div>
 </section>
 </main>
@@ -374,7 +599,10 @@
           io.unobserve(e.target);
         });
       }, { threshold: 0, rootMargin: '0px 0px -28% 0px' });
+      // B, E, G: observe each child, so .play lands per item and the index delay cascades.
       document.querySelectorAll('[data-io] .specimen > *').forEach(function (el) { io.observe(el); });
+      // F: observe the whole specimen, so .play lands once and the word stagger runs off it.
+      document.querySelectorAll('[data-io-group] .specimen').forEach(function (el) { io.observe(el); });
 
       // ── "Now": the shipping margins, to feel the bug (edge trigger, long settle). ──
       var nowIo = new IntersectionObserver(function (entries) {
@@ -401,6 +629,11 @@
           demo.classList.remove('run');
           void demo.offsetWidth;            // reflow so the animation restarts
           demo.classList.add('run');
+        } else if (demo.hasAttribute('data-io-group')) {
+          var sp = demo.querySelector('.specimen');
+          sp.classList.remove('play');
+          void demo.offsetWidth;
+          sp.classList.add('play');
         } else {
           var items = demo.querySelectorAll('.specimen > *');
           items.forEach(function (el) { el.classList.remove('play'); });
