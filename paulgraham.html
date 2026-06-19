@@ -701,7 +701,7 @@ async function rewrite(){
     } else if (full.trim()){
       errEl.textContent = msg;
     } else {
-      output.innerHTML = '<span class="placeholder-out">Here's how he would write it.</span>';
+      output.innerHTML = '<span class="placeholder-out">Here\'s how he would write it.</span>';
       errEl.textContent = msg;
     }
   } finally {
@@ -795,7 +795,7 @@ mSeeOrigBtn.addEventListener("click", () => {
 
 mRewriteAgainBtn.addEventListener("click", () => {
   closeMobileHero();
-  output.innerHTML = '<span class="placeholder-out">Here's how he would write it.</span>';
+  output.innerHTML = '<span class="placeholder-out">Here\'s how he would write it.</span>';
   copyBtn.classList.add("hidden");
   showBefore(); updateSampleBtn();
   setTimeout(() => input.focus(), 540);
