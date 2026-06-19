@@ -182,24 +182,27 @@
      slider change can re-fire it. .js-gated; reduced-motion shows everything.
      --ws  step between words      --wd  per-word settle
      --beat step between rows      --item-dur per-row settle ═════════════════ */
+  /* Hidden until .play. The animation lives in the .play rule, not here, so
+     toggling .play off then on fully restarts it (that's what Replay needs).
+     Toggling animation-play-state alone can't restart a finished reveal. */
   .js .tuned .word {
     display: inline-block;
     opacity: 0;
-    animation: wordReveal var(--wd, 1.06s) var(--ease-decide) both;
-    animation-delay: calc(var(--wbase, 0.12s) + var(--wi, 0) * var(--ws, 0.05s));
-    animation-play-state: paused;
     will-change: transform, opacity, filter;
   }
   .js .tuned .stag {
     opacity: 0;
     transform: translateY(16px);
     filter: blur(4px);
+  }
+  .tuned.play .word {
+    animation: wordReveal var(--wd, 1.06s) var(--ease-decide) both;
+    animation-delay: calc(var(--wbase, 0.12s) + var(--wi, 0) * var(--ws, 0.05s));
+  }
+  .tuned.play .stag {
     animation: tuneRise var(--item-dur, 0.62s) var(--ease-decide) both;
     animation-delay: calc(var(--si, 0) * var(--beat, 0.1s));
-    animation-play-state: paused;
   }
-  .tuned.play .word,
-  .tuned.play .stag { animation-play-state: running; }
   @keyframes tuneRise {
     from { opacity: 0; transform: translateY(16px); filter: blur(4px); }
     to   { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -222,13 +225,10 @@
     -webkit-backdrop-filter: saturate(180%) blur(14px);
     border-top: 1px solid var(--hairline);
     padding: 14px var(--pad-x);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px 28px;
-    align-items: center;
-    justify-content: space-between;
   }
-  .tuner-controls { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+  .tuner-main {
+    display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between;
+  }
   .tuner label {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -244,6 +244,12 @@
     accent-color: var(--ink);
     cursor: pointer;
   }
+  /* The master speed control: wider, leads the bar. */
+  .speed { flex: 1; min-width: 220px; max-width: 360px; }
+  .speed input[type="range"] { width: 100%; }
+  .speed .val { text-transform: none; letter-spacing: 0.04em; }
+  .speed .ends { grid-column: 1 / 3; display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); margin-top: 2px; }
+
   .tuner-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .presets { display: inline-flex; gap: 4px; margin-right: 6px; }
   .preset {
@@ -254,11 +260,23 @@
   .preset:hover { border-color: var(--ink); }
   .preset[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .tuner .pill, .tuner .ghost { padding: 8px 16px; font-size: 12px; }
-  .tuner-note { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+  #fine-toggle::after { content: ' ▾'; }
+  #fine-toggle[aria-expanded="true"]::after { content: ' ▴'; }
+
+  /* The optional fine-tune row, hidden by default. */
+  .tuner-fine {
+    display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hairline);
+  }
+  .tuner-fine[hidden] { display: none; }
+
+  body.fine-open { padding-bottom: 196px; }
   @media (max-width: 760px) {
-    body { padding-bottom: 220px; }
-    .tuner { gap: 10px 16px; }
+    body { padding-bottom: 188px; }
+    body.fine-open { padding-bottom: 300px; }
+    .tuner-main, .tuner-fine { gap: 10px 16px; }
     .tuner input[type="range"] { width: 130px; }
+    .speed { max-width: none; }
   }
 </style>
 </head>
@@ -380,25 +398,30 @@
 </main>
 
 <div class="tuner" role="region" aria-label="Stagger speed controls">
-  <div class="tuner-controls">
-    <label>Word step <span class="val"><span id="o-ws">50</span>ms</span>
-      <input type="range" id="ws" min="6" max="80" step="1" value="50" aria-label="Word step in milliseconds"></label>
-    <label>Word settle <span class="val"><span id="o-wd">1.06</span>s</span>
-      <input type="range" id="wd" min="0.30" max="1.40" step="0.02" value="1.06" aria-label="Word settle in seconds"></label>
-    <label>Row beat <span class="val"><span id="o-beat">100</span>ms</span>
-      <input type="range" id="beat" min="20" max="220" step="5" value="100" aria-label="Row beat in milliseconds"></label>
-    <label>Row settle <span class="val"><span id="o-idur">0.62</span>s</span>
-      <input type="range" id="idur" min="0.30" max="1.20" step="0.02" value="0.62" aria-label="Row settle in seconds"></label>
-  </div>
-  <div class="tuner-actions">
-    <span class="presets" role="group" aria-label="Word speed presets">
-      <button class="preset" type="button" data-ws="50" data-wd="1.06">F1 slow</button>
-      <button class="preset" type="button" data-ws="35" data-wd="0.82">F2 med</button>
-      <button class="preset" type="button" data-ws="22" data-wd="0.58">F3 brisk</button>
-      <button class="preset" type="button" data-ws="12" data-wd="0.42">F4 snap</button>
+  <div class="tuner-main">
+    <label class="speed">Speed <span class="val">&middot; <span id="o-speed">medium</span></span>
+      <input type="range" id="speed" min="0" max="100" step="1" value="40" aria-label="Overall stagger speed, slow to fast">
+      <span class="ends"><span>slow</span><span>fast</span></span>
+    </label>
+    <span class="presets" role="group" aria-label="Speed presets">
+      <button class="preset" type="button" data-speed="8">Slow</button>
+      <button class="preset" type="button" data-speed="40">Medium</button>
+      <button class="preset" type="button" data-speed="66">Brisk</button>
+      <button class="preset" type="button" data-speed="90">Snap</button>
     </span>
     <button class="pill" type="button" id="replay">Replay <span class="arrow">&#8635;</span></button>
+    <button class="ghost" type="button" id="fine-toggle" aria-expanded="false" aria-controls="fine">Fine tune</button>
     <button class="ghost" type="button" id="copy">Copy values</button>
+  </div>
+  <div class="tuner-fine" id="fine" hidden>
+    <label>Word step <span class="val"><span id="o-ws">37</span>ms</span>
+      <input type="range" id="ws" min="6" max="80" step="1" value="37" aria-label="Word step in milliseconds"></label>
+    <label>Word settle <span class="val"><span id="o-wd">0.86</span>s</span>
+      <input type="range" id="wd" min="0.30" max="1.40" step="0.02" value="0.86" aria-label="Word settle in seconds"></label>
+    <label>Row beat <span class="val"><span id="o-beat">95</span>ms</span>
+      <input type="range" id="beat" min="20" max="220" step="5" value="95" aria-label="Row beat in milliseconds"></label>
+    <label>Row settle <span class="val"><span id="o-idur">0.74</span>s</span>
+      <input type="range" id="idur" min="0.30" max="1.20" step="0.02" value="0.74" aria-label="Row settle in seconds"></label>
   </div>
 </div>
 
@@ -435,12 +458,13 @@
       })(el);
     });
 
+    var id = function (x) { return document.getElementById(x); };
     var sections = Array.prototype.slice.call(document.querySelectorAll('.tuned'));
     var onScreen = new Set();
 
     function play(sec) {
       sec.classList.remove('play');
-      void sec.offsetWidth;            // reflow so the animation restarts cleanly
+      void sec.offsetWidth;            // reflow so the animation actually restarts
       sec.classList.add('play');
     }
 
@@ -457,62 +481,103 @@
       sections.forEach(function (s) { s.classList.add('play'); });
     }
 
-    function replayVisible() {
-      var live = sections.filter(function (s) { return onScreen.has(s); });
-      (live.length ? live : sections).forEach(play);
-    }
-
-    // ── Sliders → CSS vars (with units). Re-fire what's on screen. ──
     var raf = null;
-    function bind(id, prop, unit, out, dp) {
-      var input = document.getElementById(id);
-      var label = document.getElementById(out);
-      function apply(refire) {
-        var v = parseFloat(input.value);
-        root.style.setProperty(prop, v + unit);
-        label.textContent = dp != null ? v.toFixed(dp) : v;
-        if (refire) { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(replayVisible); }
-      }
-      input.addEventListener('input', function () { apply(true); clearPreset(); });
-      apply(false);
-      return input;
+    function replayVisible() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function () {
+        var live = sections.filter(function (s) { return onScreen.has(s); });
+        (live.length ? live : sections).forEach(play);
+      });
     }
-    var wsIn = bind('ws', '--ws', 'ms', 'o-ws', null);
-    var wdIn = bind('wd', '--wd', 's', 'o-wd', 2);
-    bind('beat', '--beat', 'ms', 'o-beat', null);
-    bind('idur', '--item-dur', 's', 'o-idur', 2);
 
-    // ── Presets set the two word knobs and re-fire. ──
+    // ── The four real knobs. Each writes one CSS var with its unit. ──
+    var fields = {
+      ws:   { el: id('ws'),   out: id('o-ws'),   prop: '--ws',       unit: 'ms', dp: 0 },
+      wd:   { el: id('wd'),   out: id('o-wd'),   prop: '--wd',       unit: 's',  dp: 2 },
+      beat: { el: id('beat'), out: id('o-beat'), prop: '--beat',     unit: 'ms', dp: 0 },
+      idur: { el: id('idur'), out: id('o-idur'), prop: '--item-dur', unit: 's',  dp: 2 }
+    };
+    function setField(key, val) {
+      var f = fields[key];
+      f.el.value = val;
+      root.style.setProperty(f.prop, val + f.unit);
+      f.out.textContent = f.dp ? Number(val).toFixed(f.dp) : Math.round(val);
+    }
+
+    // ── Master speed → all four, on a best-practice curve. One number, slow to
+    //    fast: steps and settles shorten together, kept in a ratio that reads
+    //    well (decide slow, deliver fast). 0 = considered, 100 = near-instant. ──
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function fromSpeed(m) {
+      var t = m / 100;
+      return {
+        ws:   Math.round(lerp(55, 10, t)),
+        wd:   +lerp(1.15, 0.42, t).toFixed(2),
+        beat: Math.round(lerp(140, 30, t) / 5) * 5,
+        idur: +lerp(0.95, 0.42, t).toFixed(2)
+      };
+    }
+    function speedWord(m) { return m < 20 ? 'considered' : m < 45 ? 'medium' : m < 72 ? 'brisk' : 'snap'; }
+
+    var speed = id('speed'), oSpeed = id('o-speed');
+    function applySpeed(m, refire) {
+      var o = fromSpeed(m);
+      Object.keys(o).forEach(function (k) { setField(k, o[k]); });
+      speed.value = m;
+      oSpeed.textContent = speedWord(m);
+      if (refire) replayVisible();
+    }
+    speed.addEventListener('input', function () { clearPreset(); applySpeed(+speed.value, true); });
+
+    // ── Fine sliders override one value each; master then reads as "custom". ──
+    Object.keys(fields).forEach(function (k) {
+      fields[k].el.addEventListener('input', function () {
+        setField(k, fields[k].el.value);
+        oSpeed.textContent = 'custom';
+        clearPreset();
+        replayVisible();
+      });
+    });
+
+    // ── Presets are just positions on the master speed. ──
     var presets = Array.prototype.slice.call(document.querySelectorAll('.preset'));
     function clearPreset() { presets.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); }
     presets.forEach(function (b) {
       b.addEventListener('click', function () {
-        wsIn.value = b.dataset.ws; wdIn.value = b.dataset.wd;
-        wsIn.dispatchEvent(new Event('input'));
-        wdIn.dispatchEvent(new Event('input'));
         clearPreset();
         b.setAttribute('aria-pressed', 'true');
+        applySpeed(+b.dataset.speed, true);
       });
     });
-    // Mark F1 as the starting state.
-    presets[0].setAttribute('aria-pressed', 'true');
 
-    document.getElementById('replay').addEventListener('click', replayVisible);
+    // ── Fine-tune disclosure. ──
+    var fineBtn = id('fine-toggle'), fine = id('fine');
+    fineBtn.addEventListener('click', function () {
+      var open = fine.hidden;
+      fine.hidden = !open;
+      fineBtn.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('fine-open', open);
+    });
+
+    id('replay').addEventListener('click', replayVisible);
 
     // ── Copy values: a paste-ready snippet of the current settings. ──
-    document.getElementById('copy').addEventListener('click', function () {
+    id('copy').addEventListener('click', function () {
       var snippet =
         '/* stagger settings */\n' +
-        '--ws: ' + wsIn.value + 'ms;   /* word step */\n' +
-        '--wd: ' + wdIn.value + 's;    /* word settle */\n' +
-        '--beat: ' + document.getElementById('beat').value + 'ms; /* row beat */\n' +
-        '--item-dur: ' + document.getElementById('idur').value + 's; /* row settle */';
+        '--ws: ' + fields.ws.el.value + 'ms;   /* word step */\n' +
+        '--wd: ' + fields.wd.el.value + 's;    /* word settle */\n' +
+        '--beat: ' + fields.beat.el.value + 'ms; /* row beat */\n' +
+        '--item-dur: ' + fields.idur.el.value + 's; /* row settle */';
       var btn = this;
       navigator.clipboard.writeText(snippet).then(function () {
         var old = btn.textContent; btn.textContent = 'Copied';
         setTimeout(function () { btn.textContent = old; }, 1200);
       }).catch(function () { window.prompt('Copy these values:', snippet); });
     });
+
+    // ── Start coherent: drive everything from the master's default. ──
+    applySpeed(+speed.value, false);
   })();
 </script>
 </body>
