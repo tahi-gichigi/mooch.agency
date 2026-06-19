@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion lab &middot; scroll stagger &middot; Mooch</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Internal exploration of scroll-triggered stagger. Not shipped.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<!-- Same shared assets as every page; this lab can't drift from the live tokens. -->
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/ui.css">
+<!-- Flag JS up front so the hidden start-states below only apply when JS can
+     actually reveal them. No-JS and headless renderers keep content visible,
+     never trapped at opacity 0. Mirrors how the live motion.js gates .rise. -->
+<script>document.documentElement.className += ' js';</script>
+<style>
+  /* Lab layout only. The candidate techniques live in their own blocks below,
+     each commented so this page reads as the write-up and the demo at once. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+    position: sticky;
+    top: 0;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    z-index: 10;
+  }
+  .topbar a { color: var(--ink); }
+  .topbar a:hover { border-bottom: 1px solid var(--ink); }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: var(--rhythm) var(--pad-x); }
+
+  /* ── Intro / write-up ── */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+  }
+  .lede {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: 28px;
+    text-wrap: balance;
+  }
+  .lede em { font-style: italic; }
+  .standfirst {
+    max-width: var(--col);
+    font-size: clamp(19px, 2.4vw, 23px);
+    line-height: 1.45;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .standfirst + .standfirst { color: var(--muted); }
+  .note {
+    max-width: var(--col);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    border-left: 2px solid var(--hairline);
+    padding-left: 18px;
+    margin-top: 40px;
+  }
+  .note strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 1px 6px;
+  }
+
+  /* ── Per-demo scaffold ── */
+  .demo {
+    border-top: 1px solid var(--hairline);
+    padding: var(--rhythm) var(--pad-x);
+    /* Each demo is tall so the specimen sits well below the fold and you have to
+       scroll it up into view: the only honest way to feel a scroll trigger. */
+    min-height: 92vh;
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .demo-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: auto;
+  }
+  .demo-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .demo-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 4.5vw, 52px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 10px 0 14px;
+  }
+  .demo-desc { max-width: var(--col); color: var(--muted); font-size: 16px; }
+  .demo-desc code { font-size: 0.82em; }
+  .replay {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* The specimen: the exact block from the brief, Title / Description / Buttons.
+     Same markup in every demo so only the technique differs. */
+  .specimen { margin-top: 28vh; }
+  .spec-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .spec-title {
+    font-family: var(--serif);
+    font-size: clamp(34px, 6vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--black);
+  }
+  .spec-title em { font-style: italic; }
+  .spec-desc {
+    max-width: var(--col);
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 20px 0 28px;
+  }
+  .spec-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE A — Scroll-driven (CSS scroll-driven animations)
+     The recommendation. animation-timeline: view() binds each item's progress
+     to its own travel through the viewport, so the motion physically cannot
+     finish before you scroll: scroll back up and it plays in reverse. The
+     --stagger index offsets each item's range start, so a tight group still
+     cascades. No JS, no observer, no "fires at the bottom edge" bug.
+     Guarded by @supports; browsers without it (Firefox today) just see the
+     final state, never trapped invisible. ════════════════════════════════ */
+  @supports (animation-timeline: view()) {
+    .sd .specimen > * {
+      opacity: 0;
+      animation: sd-rise linear both;
+      animation-timeline: view();
+      /* Start once the item is ~12% up from the bottom, finish by ~45% cover:
+         it resolves in the comfortable reading band, not at the screen edge.
+         --stagger pushes each item's window down a touch for the cascade. */
+      animation-range: entry calc(12% + var(--stagger, 0) * 7%) cover calc(42% + var(--stagger, 0) * 7%);
+    }
+  }
+  @keyframes sd-rise {
+    from { opacity: 0; transform: translateY(18px); filter: blur(5px); }
+    to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE B — IntersectionObserver, deeper trigger + index stagger
+     The universally-supported fix to what ships today. Same observer model,
+     three changes: (1) trigger deep into the viewport (rootMargin bottom
+     -28%) so it fires when the row is in reading position, not peeking at the
+     edge; (2) a snappier per-item duration so it lands rather than floats;
+     (3) the --stagger index for delay instead of the .d1-.d4 ladder.
+     JS adds .play; CSS does the rest. ═══════════════════════════════════ */
+  .js .io .specimen > * {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  .io .specimen > *.play {
+    animation: io-rise var(--t-stagger-item, 0.62s) var(--ease-decide) both;
+    animation-delay: calc(var(--stagger, 0) * var(--stagger-beat));
+  }
+  @keyframes io-rise {
+    from { opacity: 0; transform: translateY(16px); filter: blur(4px); }
+    to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* ════════════════════════════════════════════════════════════════════
+     TECHNIQUE C — Index entrance on load (the pattern from the brief)
+     For above-the-fold groups (a hero) there's no scroll to wait for, so bind
+     the stagger to load and drive the delay off a --stagger index. This is the
+     brief's animate-enter / --stagger idea, named to match the house .reveal.
+     Replayable here via the .replay toggle. ═════════════════════════════ */
+  .js .load .specimen > * {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  .load.run .specimen > * {
+    animation: io-rise var(--t-stagger-item, 0.62s) var(--ease-decide) both;
+    animation-delay: calc(var(--stagger, 0) * var(--stagger-beat));
+  }
+
+  /* Reduced motion: every technique resolves to the final, visible state. */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .sd .specimen > *,
+    .io .specimen > *,
+    .load .specimen > * {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left"><a href="/styleguide">&larr; Style guide</a> &nbsp; &middot; &nbsp; MOTION LAB</div>
+  <div class="right"><span class="cities">SCROLL STAGGER</span></div>
+</header>
+
+<main>
+<section class="wrap">
+  <div class="eyebrow">Internal &middot; not shipped &middot; 2026</div>
+  <h1 class="lede">Stagger that waits for the <em>scroll</em>.</h1>
+  <p class="standfirst">Right now below-fold elements fire as soon as they peek past the bottom edge, then run a 1.56s settle. So they start, and often finish, while still parked at the foot of the screen, before you've scrolled them into view. The motion outruns the reader.</p>
+  <p class="standfirst">Three ways to fix it, roughest to safest, all on the existing tokens. Scroll each block: the specimen sits well below the fold so you feel the trigger point, not just see it.</p>
+  <div class="note">
+    <strong>Recommendation: A (scroll-driven) for the homepage, B for everything else.</strong> A ties motion to scroll position so it can't outrun the reader, costs zero JS, and degrades cleanly where unsupported. B is the same fix inside the observer we already ship, supported everywhere today. Both replace the <code>.d1&ndash;.d4</code> delay ladder with a single <code>--stagger</code> index. C is the brief's on-load pattern, kept for above-fold heroes where there's no scroll to wait on.
+  </div>
+</section>
+
+<!-- ── Reference: what ships today, to feel the bug ── -->
+<section class="demo io" data-now>
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">Now &middot; current behaviour</div>
+      <h2 class="demo-title">Fires at the edge.</h2>
+      <p class="demo-desc">Roughly what ships: triggers near the bottom edge (<code>rootMargin</code> &minus;8%) on the long 1.56s settle. Watch it animate before it's really in view. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+    </div>
+  </div>
+  <div class="specimen" style="--t-stagger-item:var(--t-decide);">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE A ── -->
+<section class="demo sd">
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">A &middot; recommended</div>
+      <h2 class="demo-title">Scroll-driven, <em>view-timeline</em>.</h2>
+      <p class="demo-desc">Progress is bound to the element's travel through the viewport via <code>animation-timeline: view()</code>. It resolves in the reading band, and scrolling back up plays it in reverse. No JS. <code>--stagger</code> offsets each item's range for the cascade.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE B ── -->
+<section class="demo io" data-io>
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">B &middot; safe everywhere</div>
+      <h2 class="demo-title">Observer, <em>deeper</em> trigger.</h2>
+      <p class="demo-desc">Same IntersectionObserver we ship, fired deep into the viewport (<code>rootMargin</code> bottom &minus;28%) on a snappier 0.62s settle, with an index <code>--stagger</code> delay. It lands in reading position. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE C ── -->
+<section class="demo load" data-load>
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">C &middot; above-fold heroes</div>
+      <h2 class="demo-title">Index entrance, <em>on load</em>.</h2>
+      <p class="demo-desc">The brief's pattern: no scroll to wait for, so bind the cascade to load and drive the delay off the <code>--stagger</code> index. Named to match the house <code>.reveal</code>. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--stagger:0">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--stagger:1">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc" style="--stagger:2">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
+    <div class="spec-actions" style="--stagger:3">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="note">
+    <strong>Porting to the real motion system.</strong> A and B both retire the <code>.d1&ndash;.d4</code> classes for one <code>--stagger</code> index set per child, which scales past 4 items for free. A needs an <code>@supports (animation-timeline: view())</code> block in <code>motion.css</code> and nothing in <code>motion.js</code>. B is a three-line change to the observer in <code>motion.js</code> (<code>rootMargin</code> bottom to &minus;28%, threshold to 0, the per-item duration token) plus an index delay. New timing values (<code>--t-stagger-item</code>, the range percentages) go in <code>tokens.css</code> first, per the design-system rule.
+  </div>
+</section>
+</main>
+
+<script>
+  /* Demo wiring only. None of this is the proposed shipping code: it just lets
+     the lab re-trigger so you can compare techniques without reloading. */
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── B: observer demo. Deep bottom margin is the whole point of the fix. ──
+    if (!reduce && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('play');
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -28% 0px' });
+      document.querySelectorAll('[data-io] .specimen > *').forEach(function (el) { io.observe(el); });
+
+      // ── "Now": the shipping margins, to feel the bug (edge trigger, long settle). ──
+      var nowIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('play');
+          nowIo.unobserve(e.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      document.querySelectorAll('[data-now] .specimen > *').forEach(function (el) { nowIo.observe(el); });
+
+      // ── C: load demo. Run once on first paint. ──
+      document.querySelectorAll('[data-load]').forEach(function (el) {
+        requestAnimationFrame(function () { el.classList.add('run'); });
+      });
+    }
+
+    // ── Replay buttons: strip and re-add the trigger class on the nearest demo. ──
+    document.querySelectorAll('[data-replay]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var demo = btn.closest('.demo');
+        if (!demo) return;
+        if (demo.classList.contains('load')) {
+          demo.classList.remove('run');
+          void demo.offsetWidth;            // reflow so the animation restarts
+          demo.classList.add('run');
+        } else {
+          var items = demo.querySelectorAll('.specimen > *');
+          items.forEach(function (el) { el.classList.remove('play'); });
+          void demo.offsetWidth;
+          items.forEach(function (el) { el.classList.add('play'); });
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
