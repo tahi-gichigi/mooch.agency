@@ -569,12 +569,12 @@ const vsCapEl = document.getElementById("vsCaption");
 function vscoreHide(){ vscoreEl.classList.remove("show"); }
 function vscoreSingle(score){            // before a rewrite: just the current score
   vsFromEl.style.display = "none"; vsArrowEl.style.display = "none";
-  vsToEl.textContent = score; vsCapEl.textContent = "your writing";
+  vsToEl.textContent = score + '%'; vsCapEl.textContent = "like PG";
   vscoreEl.classList.add("show");
 }
 function vscoreCompare(before, after){   // after a rewrite: before -> after, counting up
-  if (before != null){ vsFromEl.textContent = before; vsFromEl.style.display = ""; vsArrowEl.style.display = ""; vsCapEl.textContent = "your writing, in his voice"; }
-  else { vsFromEl.style.display = "none"; vsArrowEl.style.display = "none"; vsCapEl.textContent = "in his voice"; }
+  if (before != null){ vsFromEl.textContent = before + '%'; vsFromEl.style.display = ""; vsArrowEl.style.display = ""; vsCapEl.textContent = "like PG"; }
+  else { vsFromEl.style.display = "none"; vsArrowEl.style.display = "none"; vsCapEl.textContent = "like PG"; }
   vscoreEl.classList.add("show");
   countUp(vsToEl, after);
 }
@@ -645,11 +645,11 @@ input.addEventListener("input", () => { updateCount(); showBefore(); updateSampl
 updateCount(); showBefore(); updateSampleBtn();
 
 function countUp(el, to){
-  if (reduce){ el.textContent = to; return; }
+  if (reduce){ el.textContent = to + '%'; return; }
   const dur = 700, t0 = performance.now();
   (function step(t){
     const p = Math.min(1, (t-t0)/dur);
-    el.textContent = Math.round(to*(1-Math.pow(1-p,3)));
+    el.textContent = Math.round(to*(1-Math.pow(1-p,3))) + '%';
     if (p<1) requestAnimationFrame(step);
   })(t0);
 }
@@ -783,7 +783,7 @@ function openMobileHeroLoading() {
   mAfterEl.textContent = "—";
   if (lastBefore !== null) {
     mArcGhostEl.style.strokeDashoffset = mDialOffset(lastBefore);
-    mBeforeEl.textContent = lastBefore;
+    mBeforeEl.textContent = lastBefore + '%';
     mWasWrapEl.style.display = "";
   } else {
     mArcGhostEl.style.strokeDashoffset = M_DIAL_C;
