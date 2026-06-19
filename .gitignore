@@ -1,1 +1,4 @@
 .vercel
+
+# Skills are materialised from skills-lock.json per environment, not committed.
+.claude/skills/
