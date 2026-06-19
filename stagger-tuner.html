@@ -399,15 +399,15 @@
 
 <div class="tuner" role="region" aria-label="Stagger speed controls">
   <div class="tuner-main">
-    <label class="speed">Speed <span class="val">&middot; <span id="o-speed">medium</span></span>
-      <input type="range" id="speed" min="0" max="100" step="1" value="40" aria-label="Overall stagger speed, slow to fast">
-      <span class="ends"><span>slow</span><span>fast</span></span>
+    <label class="speed">Speed <span class="val">&middot; <span id="o-speed">default</span></span>
+      <input type="range" id="speed" min="0" max="100" step="1" value="100" aria-label="Overall stagger speed, slower to default">
+      <span class="ends"><span>slower (10%)</span><span>default</span></span>
     </label>
     <span class="presets" role="group" aria-label="Speed presets">
-      <button class="preset" type="button" data-speed="8">Slow</button>
-      <button class="preset" type="button" data-speed="40">Medium</button>
-      <button class="preset" type="button" data-speed="66">Brisk</button>
-      <button class="preset" type="button" data-speed="90">Snap</button>
+      <button class="preset" type="button" data-speed="100">Default</button>
+      <button class="preset" type="button" data-speed="66">Gentle</button>
+      <button class="preset" type="button" data-speed="33">Slow</button>
+      <button class="preset" type="button" data-speed="8">Very slow</button>
     </span>
     <button class="pill" type="button" id="replay">Replay <span class="arrow">&#8635;</span></button>
     <button class="ghost" type="button" id="fine-toggle" aria-expanded="false" aria-controls="fine">Fine tune</button>
@@ -415,13 +415,13 @@
   </div>
   <div class="tuner-fine" id="fine" hidden>
     <label>Word step <span class="val"><span id="o-ws">37</span>ms</span>
-      <input type="range" id="ws" min="6" max="80" step="1" value="37" aria-label="Word step in milliseconds"></label>
+      <input type="range" id="ws" min="6" max="400" step="1" value="37" aria-label="Word step in milliseconds"></label>
     <label>Word settle <span class="val"><span id="o-wd">0.86</span>s</span>
-      <input type="range" id="wd" min="0.30" max="1.40" step="0.02" value="0.86" aria-label="Word settle in seconds"></label>
+      <input type="range" id="wd" min="0.30" max="3.00" step="0.02" value="0.86" aria-label="Word settle in seconds"></label>
     <label>Row beat <span class="val"><span id="o-beat">95</span>ms</span>
-      <input type="range" id="beat" min="20" max="220" step="5" value="95" aria-label="Row beat in milliseconds"></label>
+      <input type="range" id="beat" min="20" max="1000" step="5" value="95" aria-label="Row beat in milliseconds"></label>
     <label>Row settle <span class="val"><span id="o-idur">0.74</span>s</span>
-      <input type="range" id="idur" min="0.30" max="1.20" step="0.02" value="0.74" aria-label="Row settle in seconds"></label>
+      <input type="range" id="idur" min="0.30" max="2.60" step="0.02" value="0.74" aria-label="Row settle in seconds"></label>
   </div>
 </div>
 
@@ -504,20 +504,23 @@
       f.out.textContent = f.dp ? Number(val).toFixed(f.dp) : Math.round(val);
     }
 
-    // ── Master speed → all four, on a best-practice curve. One number, slow to
-    //    fast: steps and settles shorten together, kept in a ratio that reads
-    //    well (decide slow, deliver fast). 0 = considered, 100 = near-instant. ──
-    function lerp(a, b, t) { return a + (b - a) * t; }
+    // ── Master speed → all four. The top (100) is the default speed and the
+    //    cap: nothing goes faster. Below that it slows, down to 10% speed at 0,
+    //    i.e. a 10x longer cascade. Step and beat scale the full 10x (that's the
+    //    "slowness"); the per-word / per-row settle lengthens on a gentler curve
+    //    so words still resolve cleanly instead of smearing the whole time. ──
+    var BASE = { ws: 37, wd: 0.86, beat: 95, idur: 0.74 }; // the default speed
     function fromSpeed(m) {
-      var t = m / 100;
+      var mult = 0.1 + 0.9 * (m / 100);    // 0.10 (slowest) .. 1.0 (default)
+      var settle = Math.sqrt(mult);        // gentler so settles don't balloon 10x
       return {
-        ws:   Math.round(lerp(55, 10, t)),
-        wd:   +lerp(1.15, 0.42, t).toFixed(2),
-        beat: Math.round(lerp(140, 30, t) / 5) * 5,
-        idur: +lerp(0.95, 0.42, t).toFixed(2)
+        ws:   Math.round(BASE.ws / mult),
+        wd:   +(BASE.wd / settle).toFixed(2),
+        beat: Math.round((BASE.beat / mult) / 5) * 5,
+        idur: +(BASE.idur / settle).toFixed(2)
       };
     }
-    function speedWord(m) { return m < 20 ? 'considered' : m < 45 ? 'medium' : m < 72 ? 'brisk' : 'snap'; }
+    function speedWord(m) { return m >= 95 ? 'default' : m >= 55 ? 'gentle' : m >= 25 ? 'slow' : 'very slow'; }
 
     var speed = id('speed'), oSpeed = id('o-speed');
     function applySpeed(m, refire) {
