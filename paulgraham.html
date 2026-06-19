@@ -165,13 +165,22 @@
   .pill:active, .ghost:active { transform: scale(0.96); transition-property: transform; }
   .score.hidden { visibility: hidden; }
 
-  /* Desktop: give the Voice Score the prominence it has on mobile */
+  /* Voice Score on desktop: a centred before -> after banner above the panes
+     (top-middle, echoing the mobile result hero). The small controls dial is
+     hidden here; mobile keeps the controls dial plus the result hero. */
+  .vscore { display: none; }
   @media (min-width: 721px) {
-    .dial { width: 88px; height: 88px; }
-    .dial svg { width: 100%; height: 100%; }
-    .dial-num { font-size: 30px; }
-    .dial-lab { font-size: 12px; }
-    .score { gap: 16px; }
+    .score { display: none; }
+    .vscore.show {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; text-align: center; margin: 4px 0 32px;
+    }
+    .vscore-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+    .vscore-nums { display: flex; align-items: baseline; gap: 22px; font-family: var(--serif); color: var(--ink); line-height: 1; }
+    .vscore-from { font-size: 46px; color: var(--muted); }
+    .vscore-arrow { font-size: 30px; color: var(--muted); align-self: center; }
+    .vscore-to { font-size: 88px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .vscore-caption { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
   }
 
   .copy { margin-top: 14px; align-self: flex-start; }
@@ -358,6 +367,15 @@
 
 <section class="tool">
   <div class="wrap">
+    <div class="vscore" id="vscore">
+      <div class="vscore-label">Voice Score</div>
+      <div class="vscore-nums">
+        <span class="vscore-from" id="vsFrom">&mdash;</span>
+        <span class="vscore-arrow" id="vsArrow">&rarr;</span>
+        <span class="vscore-to" id="vsTo">&mdash;</span>
+      </div>
+      <div class="vscore-caption" id="vsCaption">your writing</div>
+    </div>
     <div class="panes reveal d4">
       <div class="pane original">
         <div class="pane-label">
@@ -542,6 +560,24 @@ const afterEl = document.getElementById("after");
 const arcAfter = document.getElementById("arcAfter");
 const arcGhost = document.getElementById("arcGhost");
 const wasWrap = document.getElementById("wasWrap");
+// Desktop Voice Score banner (centred before -> after, above the panes)
+const vscoreEl = document.getElementById("vscore");
+const vsFromEl = document.getElementById("vsFrom");
+const vsArrowEl = document.getElementById("vsArrow");
+const vsToEl = document.getElementById("vsTo");
+const vsCapEl = document.getElementById("vsCaption");
+function vscoreHide(){ vscoreEl.classList.remove("show"); }
+function vscoreSingle(score){            // before a rewrite: just the current score
+  vsFromEl.style.display = "none"; vsArrowEl.style.display = "none";
+  vsToEl.textContent = score; vsCapEl.textContent = "your writing";
+  vscoreEl.classList.add("show");
+}
+function vscoreCompare(before, after){   // after a rewrite: before -> after, counting up
+  if (before != null){ vsFromEl.textContent = before; vsFromEl.style.display = ""; vsArrowEl.style.display = ""; vsCapEl.textContent = "your writing, in his voice"; }
+  else { vsFromEl.style.display = "none"; vsArrowEl.style.display = "none"; vsCapEl.textContent = "in his voice"; }
+  vscoreEl.classList.add("show");
+  countUp(vsToEl, after);
+}
 const DIAL_C = 169.65;
 const dialOffset = (s) => DIAL_C * (1 - Math.max(0, Math.min(100, s)) / 100);
 let lastBefore = null;
@@ -595,7 +631,8 @@ function updateCount(){
 }
 function showBefore(){
   const s = fit(input.value);
-  if (s === null){ scoreEl.classList.add("hidden"); return; }
+  if (s === null){ scoreEl.classList.add("hidden"); vscoreHide(); return; }
+  vscoreSingle(s);
   afterEl.textContent = s;
   wasWrap.style.display = "none";
   arcGhost.style.strokeDashoffset = DIAL_C;
@@ -695,6 +732,7 @@ async function rewrite(){
       if (lastBefore != null){ beforeEl.textContent = lastBefore; wasWrap.style.display = ""; }
       arcAfter.style.strokeDashoffset = dialOffset(s);
       countUp(afterEl, s);
+      vscoreCompare(lastBefore, s);
     }
     copyBtn.dataset.text = full.trim();
     copyBtn.classList.remove("hidden");
