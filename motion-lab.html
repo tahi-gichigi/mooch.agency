@@ -322,27 +322,27 @@
 
   /* ════════════════════════════════════════════════════════════════════
      TECHNIQUE F — WORD-by-word text reveal (a different granularity)
-     The hero word-stagger from motion.css, but triggered on scroll. The title
-     resolves one word at a time while the eyebrow, copy and buttons arrive as
-     whole blocks. Granular where every other technique moves whole elements.
-     Reuses the house .word feel; words pre-split in markup here. ════════════ */
+     The live hero subheading effect, reused verbatim. The deck sentence gets
+     the house .reveal-words .word treatment from motion.css (the wordReveal
+     keyframe: 1.06s blur-and-rise per word). The only change is the trigger:
+     prod runs it on load, here each word is held paused until the block is
+     scrolled into view, then released so the sentence resolves a word at a
+     time. The title, eyebrow and buttons arrive as whole blocks. ════════════ */
   .js .words .specimen > * { opacity: 0; }
-  .js .words .specimen .spec-title { opacity: 1; }            /* title stays put; its words carry the motion */
-  .js .words .specimen .spec-title .w { display: inline-block; opacity: 0; }
+  .js .words .specimen .spec-deck { opacity: 1; }            /* container shown; its .word spans carry the motion */
+  /* Reuse motion.css .reveal-words .word; just index the delay off --wi and
+     hold paused until .play, instead of motion.js setting --word-delay on load. */
+  .js .words .specimen .spec-deck .word {
+    animation-play-state: paused;
+    animation-delay: calc(var(--wi, 0) * var(--word-step, 0.05s));
+  }
   .words .specimen.play .spec-eyebrow,
-  .words .specimen.play .spec-desc,
+  .words .specimen.play .spec-title,
   .words .specimen.play .spec-actions {
     animation: io-rise 0.6s var(--ease-decide) both;
     animation-delay: var(--d, 0s);
   }
-  .words .specimen.play .spec-title .w {
-    animation: word-rise 0.8s var(--ease-decide) both;
-    animation-delay: calc(0.12s + var(--wi, 0) * 0.05s);
-  }
-  @keyframes word-rise {
-    from { opacity: 0; transform: translateY(0.5em); filter: blur(4px); }
-    to   { opacity: 1; transform: translateY(0); filter: blur(0); }
-  }
+  .words .specimen.play .spec-deck .word { animation-play-state: running; }
 
   /* ════════════════════════════════════════════════════════════════════
      TECHNIQUE G — Focus-pull (blur only, nothing moves)
@@ -372,7 +372,7 @@
     .wipe .specimen > *,
     .focus .specimen > *,
     .words .specimen > *,
-    .words .specimen .spec-title .w {
+    .words .specimen .word {
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;
@@ -541,15 +541,15 @@
     <div>
       <div class="demo-tag">F &middot; granularity</div>
       <h2 class="demo-title">Word <em>by word</em>.</h2>
-      <p class="demo-desc">The hero word-stagger from <code>motion.css</code>, triggered on scroll. The title resolves one word at a time while the eyebrow, copy and buttons arrive as whole blocks. <button class="ghost replay" type="button" data-replay>Replay</button></p>
-      <p class="diff"><b>vs the rest</b> Motion at the word level, not the element level. Best on a short hero line; too fussy on body copy.</p>
+      <p class="demo-desc">The live hero subheading effect (<code>.reveal-words</code> in <code>motion.css</code>), held paused until scrolled into view. The deck sentence resolves one word at a time; the title, eyebrow and buttons arrive as whole blocks. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>vs the rest</b> Motion at the word level, not the element level. This is the homepage deck reused as-is. Right for one line of subheading, too fussy on long body copy.</p>
     </div>
   </div>
   <div class="specimen">
-    <div class="spec-eyebrow">AI automation &amp; UX</div>
-    <h3 class="spec-title"><span class="w" style="--wi:0">Hey,</span> <span class="w" style="--wi:1">we're</span> <span class="w" style="--wi:2"><em>Mooch</em>.</span></h3>
-    <p class="spec-desc" style="--d:0.45s">An AI automation and UX agency that's lean and long-term focused. We help teams make things their customers really want.</p>
-    <div class="spec-actions" style="--d:0.6s">
+    <div class="spec-eyebrow" style="--d:0s">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--d:0.06s">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc spec-deck reveal-words"><span class="word" style="--wi:0">An</span> <span class="word" style="--wi:1">AI</span> <span class="word" style="--wi:2">automation</span> <span class="word" style="--wi:3">and</span> <span class="word" style="--wi:4">UX</span> <span class="word" style="--wi:5">agency</span> <span class="word" style="--wi:6">that's</span> <span class="word" style="--wi:7">lean</span> <span class="word" style="--wi:8">and</span> <span class="word" style="--wi:9">long-term</span> <span class="word" style="--wi:10">focused.</span> <span class="word" style="--wi:11">We</span> <span class="word" style="--wi:12">help</span> <span class="word" style="--wi:13">teams</span> <span class="word" style="--wi:14">make</span> <span class="word" style="--wi:15">things</span> <span class="word" style="--wi:16">their</span> <span class="word" style="--wi:17">customers</span> <span class="word" style="--wi:18">really</span> <span class="word" style="--wi:19">want.</span></p>
+    <div class="spec-actions" style="--d:1.15s">
       <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
       <a class="ghost" href="#">Get in touch</a>
     </div>
