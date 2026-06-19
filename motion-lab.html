@@ -331,10 +331,13 @@
   .js .words .specimen > * { opacity: 0; }
   .js .words .specimen .spec-deck { opacity: 1; }            /* container shown; its .word spans carry the motion */
   /* Reuse motion.css .reveal-words .word; just index the delay off --wi and
-     hold paused until .play, instead of motion.js setting --word-delay on load. */
+     hold paused until .play, instead of motion.js setting --word-delay on load.
+     Two speed knobs, set per section: --ws is the step between words, --wd is
+     each word's settle. Defaults match the prod hero (50ms step, 1.06s settle). */
   .js .words .specimen .spec-deck .word {
     animation-play-state: paused;
-    animation-delay: calc(var(--wi, 0) * var(--word-step, 0.05s));
+    animation-duration: var(--wd, 1.06s);
+    animation-delay: calc(var(--wi, 0) * var(--ws, 0.05s));
   }
   .words .specimen.play .spec-eyebrow,
   .words .specimen.play .spec-title,
@@ -401,7 +404,7 @@
     <li><b>C</b> Index entrance on load. For above-fold heroes, no scroll to wait on.</li>
     <li><b>D</b> Scroll-driven, group sweep. One shared timeline, the whole block as a unit.</li>
     <li><b>E</b> Clip-path wipe. Text wipes up behind a moving edge.</li>
-    <li><b>F</b> Word by word. The title resolves a word at a time.</li>
+    <li><b>F</b> Word by word, in four speeds (F1&ndash;F4), slow to snap. The deck resolves a word at a time.</li>
     <li><b>G</b> Focus-pull. Blur to sharp, nothing moves.</li>
   </ol>
   <div class="note">
@@ -535,21 +538,84 @@
   </div>
 </section>
 
-<!-- ── TECHNIQUE F ── -->
-<section class="demo words" data-io-group>
+<!-- ── TECHNIQUE F1 ── -->
+<section class="demo words" data-io-group style="--ws:0.05s; --wd:1.06s">
   <div class="demo-head">
     <div>
-      <div class="demo-tag">F &middot; granularity</div>
-      <h2 class="demo-title">Word <em>by word</em>.</h2>
-      <p class="demo-desc">The live hero subheading effect (<code>.reveal-words</code> in <code>motion.css</code>), held paused until scrolled into view. The deck sentence resolves one word at a time; the title, eyebrow and buttons arrive as whole blocks. <button class="ghost replay" type="button" data-replay>Replay</button></p>
-      <p class="diff"><b>vs the rest</b> Motion at the word level, not the element level. This is the homepage deck reused as-is. Right for one line of subheading, too fussy on long body copy.</p>
+      <div class="demo-tag">F1 &middot; slow (original)</div>
+      <h2 class="demo-title">Word by word, <em>considered</em>.</h2>
+      <p class="demo-desc">The prod hero cadence: 50ms between words, 1.06s settle each. Each word almost lands before the next leaves. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>F1</b> 50ms step &middot; 1.06s settle. Slowest. Reads as deliberate, on brand for a hero; can feel long on a full sentence.</p>
     </div>
   </div>
   <div class="specimen">
     <div class="spec-eyebrow" style="--d:0s">AI automation &amp; UX</div>
     <h3 class="spec-title" style="--d:0.06s">Hey, we're <em>Mooch</em>.</h3>
     <p class="spec-desc spec-deck reveal-words"><span class="word" style="--wi:0">An</span> <span class="word" style="--wi:1">AI</span> <span class="word" style="--wi:2">automation</span> <span class="word" style="--wi:3">and</span> <span class="word" style="--wi:4">UX</span> <span class="word" style="--wi:5">agency</span> <span class="word" style="--wi:6">that's</span> <span class="word" style="--wi:7">lean</span> <span class="word" style="--wi:8">and</span> <span class="word" style="--wi:9">long-term</span> <span class="word" style="--wi:10">focused.</span> <span class="word" style="--wi:11">We</span> <span class="word" style="--wi:12">help</span> <span class="word" style="--wi:13">teams</span> <span class="word" style="--wi:14">make</span> <span class="word" style="--wi:15">things</span> <span class="word" style="--wi:16">their</span> <span class="word" style="--wi:17">customers</span> <span class="word" style="--wi:18">really</span> <span class="word" style="--wi:19">want.</span></p>
-    <div class="spec-actions" style="--d:1.15s">
+    <div class="spec-actions" style="--d:1.2s">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE F2 ── -->
+<section class="demo words" data-io-group style="--ws:0.035s; --wd:0.82s">
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">F2 &middot; medium</div>
+      <h2 class="demo-title">Word by word, <em>flowing</em>.</h2>
+      <p class="demo-desc">35ms step, 0.82s settle. The wave runs closer together, so the sentence reads almost as fast as you do. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>F2</b> 35ms step &middot; 0.82s settle. The balance point: clearly staggered, but it keeps up with reading pace.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--d:0s">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--d:0.06s">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc spec-deck reveal-words"><span class="word" style="--wi:0">An</span> <span class="word" style="--wi:1">AI</span> <span class="word" style="--wi:2">automation</span> <span class="word" style="--wi:3">and</span> <span class="word" style="--wi:4">UX</span> <span class="word" style="--wi:5">agency</span> <span class="word" style="--wi:6">that's</span> <span class="word" style="--wi:7">lean</span> <span class="word" style="--wi:8">and</span> <span class="word" style="--wi:9">long-term</span> <span class="word" style="--wi:10">focused.</span> <span class="word" style="--wi:11">We</span> <span class="word" style="--wi:12">help</span> <span class="word" style="--wi:13">teams</span> <span class="word" style="--wi:14">make</span> <span class="word" style="--wi:15">things</span> <span class="word" style="--wi:16">their</span> <span class="word" style="--wi:17">customers</span> <span class="word" style="--wi:18">really</span> <span class="word" style="--wi:19">want.</span></p>
+    <div class="spec-actions" style="--d:0.85s">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE F3 ── -->
+<section class="demo words" data-io-group style="--ws:0.022s; --wd:0.58s">
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">F3 &middot; brisk</div>
+      <h2 class="demo-title">Word by word, <em>brisk</em>.</h2>
+      <p class="demo-desc">22ms step, 0.58s settle. The cascade is tight enough to read as one quick sweep with grain. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>F3</b> 22ms step &middot; 0.58s settle. Snappy. The word-by-word is felt more than seen; good for repeat visits.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--d:0s">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--d:0.06s">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc spec-deck reveal-words"><span class="word" style="--wi:0">An</span> <span class="word" style="--wi:1">AI</span> <span class="word" style="--wi:2">automation</span> <span class="word" style="--wi:3">and</span> <span class="word" style="--wi:4">UX</span> <span class="word" style="--wi:5">agency</span> <span class="word" style="--wi:6">that's</span> <span class="word" style="--wi:7">lean</span> <span class="word" style="--wi:8">and</span> <span class="word" style="--wi:9">long-term</span> <span class="word" style="--wi:10">focused.</span> <span class="word" style="--wi:11">We</span> <span class="word" style="--wi:12">help</span> <span class="word" style="--wi:13">teams</span> <span class="word" style="--wi:14">make</span> <span class="word" style="--wi:15">things</span> <span class="word" style="--wi:16">their</span> <span class="word" style="--wi:17">customers</span> <span class="word" style="--wi:18">really</span> <span class="word" style="--wi:19">want.</span></p>
+    <div class="spec-actions" style="--d:0.6s">
+      <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
+      <a class="ghost" href="#">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNIQUE F4 ── -->
+<section class="demo words" data-io-group style="--ws:0.012s; --wd:0.42s">
+  <div class="demo-head">
+    <div>
+      <div class="demo-tag">F4 &middot; snap</div>
+      <h2 class="demo-title">Word by word, <em>snap</em>.</h2>
+      <p class="demo-desc">12ms step, 0.42s settle. Almost a single wipe; the stagger survives only as texture on the edge. <button class="ghost replay" type="button" data-replay>Replay</button></p>
+      <p class="diff"><b>F4</b> 12ms step &middot; 0.42s settle. Fastest. Barely reads as word-by-word; closest to a whole-line reveal.</p>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="spec-eyebrow" style="--d:0s">AI automation &amp; UX</div>
+    <h3 class="spec-title" style="--d:0.06s">Hey, we're <em>Mooch</em>.</h3>
+    <p class="spec-desc spec-deck reveal-words"><span class="word" style="--wi:0">An</span> <span class="word" style="--wi:1">AI</span> <span class="word" style="--wi:2">automation</span> <span class="word" style="--wi:3">and</span> <span class="word" style="--wi:4">UX</span> <span class="word" style="--wi:5">agency</span> <span class="word" style="--wi:6">that's</span> <span class="word" style="--wi:7">lean</span> <span class="word" style="--wi:8">and</span> <span class="word" style="--wi:9">long-term</span> <span class="word" style="--wi:10">focused.</span> <span class="word" style="--wi:11">We</span> <span class="word" style="--wi:12">help</span> <span class="word" style="--wi:13">teams</span> <span class="word" style="--wi:14">make</span> <span class="word" style="--wi:15">things</span> <span class="word" style="--wi:16">their</span> <span class="word" style="--wi:17">customers</span> <span class="word" style="--wi:18">really</span> <span class="word" style="--wi:19">want.</span></p>
+    <div class="spec-actions" style="--d:0.42s">
       <a class="pill" href="#">See selected work <span class="arrow">&rarr;</span></a>
       <a class="ghost" href="#">Get in touch</a>
     </div>
