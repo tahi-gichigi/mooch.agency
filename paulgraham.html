@@ -358,13 +358,13 @@
             <button class="field-btn" id="sampleBtn" type="button">Try sample</button>
           </span>
         </div>
-        <textarea id="input" spellcheck="false" aria-label="Your writing" placeholder="Paste your writing here. A paragraph or two is plenty."></textarea>
+        <textarea id="input" spellcheck="false" aria-label="Your writing" placeholder="Paste your writing here."></textarea>
       </div>
       <div class="pane rewrite">
         <div class="pane-label">
           <span>Paul Graham</span>
         </div>
-        <div id="output"><span class="placeholder-out">How he would write it.</span></div>
+        <div id="output"><span class="placeholder-out">Here's how he would write it.</span></div>
         <button class="ghost copy hidden" id="copy">Copy</button>
         <span class="stamp">Mooch</span>
       </div>
@@ -701,7 +701,7 @@ async function rewrite(){
     } else if (full.trim()){
       errEl.textContent = msg;
     } else {
-      output.innerHTML = '<span class="placeholder-out">How he would write it.</span>';
+      output.innerHTML = '<span class="placeholder-out">Here's how he would write it.</span>';
       errEl.textContent = msg;
     }
   } finally {
@@ -795,7 +795,7 @@ mSeeOrigBtn.addEventListener("click", () => {
 
 mRewriteAgainBtn.addEventListener("click", () => {
   closeMobileHero();
-  output.innerHTML = '<span class="placeholder-out">How he would write it.</span>';
+  output.innerHTML = '<span class="placeholder-out">Here's how he would write it.</span>';
   copyBtn.classList.add("hidden");
   showBefore(); updateSampleBtn();
   setTimeout(() => input.focus(), 540);
