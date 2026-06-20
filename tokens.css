@@ -25,17 +25,20 @@
   /* Motion, after "decide slow, deliver fast".
      deciding = slow, considered settle (arrivals, reveals);
      delivering = crisp, decisive response (hover, press, CTAs).
-     Entrance and stagger timings sit 25% slower than the original feel;
+     Reveal and stagger timings are slow and deliberate (tuned on /stagger-tuner);
      deliver timing stays snappy and is never slowed. */
   --ease-decide: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-deliver: cubic-bezier(0.2, 0, 0, 1);
   --t-decide: 1.56s;
   --t-deliver: 0.15s;
 
-  /* Stagger scale. motion.js reads these so JS-driven timing lives here too. */
-  --stagger-beat: 100ms;
-  --word-base: 0.40s;
-  --word-step: 0.05s;
+  /* Stagger scale. motion.js reads these so JS-driven timing lives here too.
+     Tuned on /stagger-tuner against real sections. */
+  --stagger-beat: 310ms;   /* row beat: gap between scroll-revealed siblings */
+  --word-base: 0.40s;      /* lead-in before the first hero word */
+  --word-step: 0.121s;     /* gap between hero words */
+  --word-dur: 1.56s;       /* per-word settle (.reveal-words .word) */
+  --rise-dur: 1.34s;       /* per-row settle (.rise scroll reveal) */
   --q-step: 0.0875s;
   --countup-dur: 875ms;
 

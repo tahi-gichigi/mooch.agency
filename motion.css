@@ -26,7 +26,7 @@
   opacity: 0;
   transform: translateY(0.4em);
   filter: blur(4px);
-  animation: wordReveal 1.06s var(--ease-decide) both;
+  animation: wordReveal var(--word-dur) var(--ease-decide) both;
   animation-delay: var(--word-delay, 0s);
   will-change: transform, opacity, filter;
 }
@@ -42,15 +42,23 @@
   opacity: 0;
   transform: translateY(16px);
   filter: blur(4px);
-  transition: opacity var(--t-decide) var(--ease-decide),
-              transform var(--t-decide) var(--ease-decide),
-              filter var(--t-decide) var(--ease-decide);
-  transition-delay: var(--rise-delay, 0ms);
 }
-.rise.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+/* Driven by a keyframe, not a transition: many revealed elements (work rows,
+   bento cards, offer rows) set their own `transition` for hover, which would
+   whole-value override a transition here and make them snap in. An animation
+   sidesteps that, so every element ramps. motion.js strips .rise/.in on
+   animationend to release the forwards-filled transform back to hover/press. */
+.rise.in {
+  animation: riseIn var(--rise-dur) var(--ease-decide) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { animation: none; opacity: 1; transform: none; filter: none; }
   .reveal-words .word { animation: none; opacity: 1; transform: none; filter: none; }
-  .rise { opacity: 1; transform: none; filter: none; transition: none; }
+  .rise { opacity: 1; transform: none; filter: none; animation: none; }
 }

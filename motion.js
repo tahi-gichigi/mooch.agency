@@ -58,14 +58,14 @@
       var el = entry.target;
       el.classList.add('in');
       io.unobserve(el);
-      // Once the entrance settles, strip the reveal classes. The .rise transition
-      // spans transform at --t-decide; leaving it on would make each element's own
-      // hover lift glide over that long duration instead of its snappy --t-deliver.
-      // The final visual state equals the base state, so removal is seamless.
-      el.addEventListener('transitionend', function handler(e) {
+      // Once the entrance settles, strip the reveal classes. The .rise animation
+      // fills forwards on transform; leaving it on would pin transform and block
+      // the element's own snappy hover/press lift (--t-deliver). The final visual
+      // state equals the base state, so removal is seamless.
+      el.addEventListener('animationend', function handler(e) {
         if (e.target !== el) return;
         el.classList.remove('rise', 'in');
-        el.removeEventListener('transitionend', handler);
+        el.removeEventListener('animationend', handler);
       });
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
