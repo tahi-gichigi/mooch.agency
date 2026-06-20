@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mooch. AI automation and UX.</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<meta name="description" content="A two-person UX and AI automation agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mooch.agency">
+<meta property="og:title" content="Mooch. AI automation and UX.">
+<meta property="og:description" content="A two-person agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta property="og:image" content="https://mooch.agency/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mooch. AI automation and UX.">
+<meta name="twitter:description" content="A two-person agency in London and Lisbon. We help teams build things people actually want, then use AI to multiply the gains.">
+<meta name="twitter:image" content="https://mooch.agency/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/ui.css">
+<style>
+  /* Tokens are shared: see tokens.css. */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ───────── Topbar ───────── */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar .num { color: var(--ink); text-decoration: none; }
+  .topbar .num:hover { border-bottom: 1px solid var(--ink); }
+
+  /* ───────── Hero ───────── */
+  .hero {
+    position: relative;
+    padding: clamp(80px, 14vw, 180px) var(--pad-x) clamp(80px, 12vw, 140px);
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 13vw, 200px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(40px, 6vw, 72px);
+    text-wrap: balance;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--ink);
+  }
+  .hero-meta {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero-deck {
+    font-family: var(--sans);
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 38ch;
+    text-wrap: pretty;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  /* Buttons (.pill / .ghost) are shared: see ui.css. */
+
+  /* ───────── Marquee ───────── */
+  .marquee {
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+    overflow: hidden;
+    padding: 22px 0;
+    position: relative;
+  }
+  .marquee::before, .marquee::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .marquee::before { left: 0; background: linear-gradient(90deg, var(--surface), transparent); }
+  .marquee::after { right: 0; background: linear-gradient(270deg, var(--surface), transparent); }
+  .marquee-track {
+    display: flex;
+    gap: 64px;
+    width: max-content;
+    animation: scroll 38s linear infinite;
+  }
+  .marquee-track span {
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 64px;
+  }
+  .marquee-track span::after {
+    content: '✶';
+    font-family: var(--sans);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ───────── Section frame ───────── */
+  .section {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .section-inner { max-width: 1320px; margin: 0 auto; }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num strong { color: var(--ink); font-weight: 600; }
+  .section-num .rule { flex: 1; height: 1px; background: var(--hairline); max-width: 80px; }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .section-title em { font-style: italic; }
+  .section-lead {
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 48ch;
+    margin-top: 12px;
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 880px) {
+    .section-head {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+    }
+    .section-head .right { text-align: right; }
+  }
+
+  /* ───────── Work, editorial list ───────── */
+  .work-list { border-top: 1px solid var(--hairline); }
+  .work-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: baseline;
+    gap: 24px;
+    padding: 28px 4px;
+    border-bottom: 1px solid var(--hairline);
+    transition: background var(--t-deliver) var(--ease-deliver);
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .work-row:hover { background: var(--surface); }
+  /* Delivery beat: the title leans toward you the instant you point at it */
+  .work-row:hover .client { transform: translateX(8px); }
+  .work-row .idx {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    padding-top: 3px;
+  }
+  .work-row .client {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    transition: transform var(--t-deliver) var(--ease-deliver);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .work-row .desc {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .work-row .year {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-align: right;
+    align-self: center;
+    padding-top: 16px;
+    white-space: nowrap;
+  }
+  /* Shares the canonical pill-badge spec; UX fills solid, AI stays outline so the
+     two disciplines read apart at a glance. */
+  .work-row .discipline {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 980px;
+    padding: 3px 10px;
+  }
+  .work-row .discipline[data-disc="ux"] { background: var(--ink); color: var(--paper); }
+  .work-row .discipline[data-disc="ai"] { background: transparent; }
+  .work-row .tldr {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  @media (max-width: 640px) {
+    .work-row {
+      grid-template-columns: 40px 1fr;
+    }
+    .work-row .year { grid-column: 2; padding-top: 4px; }
+    .work-row .discipline { margin-left: 8px; }
+  }
+
+  /* ───────── Bento: Things we've made ───────── */
+  .bento {
+    display: grid;
+    gap: 2px;
+    background: var(--hairline);
+    border: 2px solid var(--hairline);
+  }
+  .bento-card {
+    background: var(--paper);
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--t-deliver) var(--ease-deliver), transform var(--t-deliver) var(--ease-deliver);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .bento-card:hover { background: var(--surface); }
+  @media (prefers-reduced-motion: no-preference) { .bento-card:hover { transform: translateY(-2px); } }
+  .bento-card:active { transform: scale(0.96); }
+  .bento-card .card-cat {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .bento-card .card-name {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--black);
+    text-wrap: balance;
+  }
+  .bento-card .card-name em { font-style: italic; }
+  .bento-card .card-blurb {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-top: auto;
+    text-wrap: pretty;
+  }
+  .flagship {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--hairline);
+    gap: 2px;
+  }
+  .flagship > * { background: var(--paper); }
+  @media (max-width: 700px) {
+    .flagship { grid-template-columns: 1fr; }
+  }
+  @media (min-width: 960px) {
+    .bento { grid-template-columns: repeat(3, 1fr); }
+    .bento .wide { grid-column: span 2; }
+  }
+
+  /* ───────── About + Contact ───────── */
+  .closer {
+    display: grid;
+    gap: 64px;
+  }
+  @media (min-width: 880px) {
+    .closer { grid-template-columns: 1fr 1fr; gap: 80px; }
+  }
+  .about-label, .contact-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: var(--eyebrow-gap);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .about-label::before, .contact-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--hairline);
+  }
+  .about-head, .contact-head {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 24px;
+    text-wrap: balance;
+  }
+  .about-head em, .contact-head em { font-style: italic; }
+  .about p, .contact p {
+    font-size: clamp(15px, 1.4vw, 17px);
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-wrap: pretty;
+  }
+  .contact-actions { margin-top: 24px; }
+
+  /* ───────── Offers: How to work with us ───────── */
+  /* The featured tile (hero) gets a tinted background and a full-column span;
+     the other two sit as numbered rows. Reads as a menu of entry points, not a
+     tiered plan picker. See offer layout explorations for the rationale. */
+
+  .fi-kicker { display: none; } /* section lead already frames the offers */
+  /* These are spans inside an <a>; force block so they stack. */
+  .fi-cat, .fi-name, .fi-blurb { display: block; }
+  .fi-price { display: block; margin-top: auto; }
+  .offer-index {
+    display: grid;
+    gap: 2px;
+    background: var(--hairline);
+    border: 2px solid var(--hairline);
+  }
+  .fi-hero, .fi-row {
+    background: var(--paper);
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--t-deliver) var(--ease-deliver), transform var(--t-deliver) var(--ease-deliver);
+  }
+  .fi-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 220px;
+    background: var(--surface);
+  }
+  .fi-hero:hover { border-color: var(--muted); }
+  @media (prefers-reduced-motion: no-preference) { .fi-hero:hover { transform: translateY(-2px); } }
+  .fi-hero:focus-visible, .fi-row:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .fi-cat {
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .fi-name {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--black);
+    text-wrap: balance;
+    margin-bottom: 8px;
+  }
+  .fi-name em { font-style: italic; }
+  .fi-blurb {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+  .fi-price {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    padding-top: 16px;
+  }
+  .fi-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 24px;
+    border-top: 1px solid var(--hairline);
+  }
+  .fi-row:hover { background: var(--surface); }
+  @media (prefers-reduced-motion: no-preference) { .fi-row:hover { transform: translateX(4px); } }
+  .fi-idx {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+  @media (min-width: 880px) {
+    .offer-index { grid-template-columns: 1fr 1fr; }
+    .fi-hero { grid-column: span 2; }
+  }
+
+  /* ───────── Colophon / footer ───────── */
+  .colophon {
+    padding: var(--rhythm) var(--pad-x);
+    display: grid;
+    gap: 48px;
+  }
+  .colophon-inner { max-width: 1320px; margin: 0 auto; }
+  .colophon-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 32px;
+  }
+  .colophon-mark {
+    font-family: var(--serif);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    line-height: 1;
+  }
+  .colophon-mark em { font-style: italic; }
+  .colophon-nav {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 48px;
+  }
+  .colophon-col h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .colophon-col a {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    text-decoration: none;
+  }
+  .colophon-col a:hover { color: var(--ink); }
+  .colophon-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--hairline);
+    padding-top: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 700px) {
+    .colophon-top { grid-template-columns: 1fr; }
+    .colophon-nav { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left">
+    <a class="num" href="/">MOOCH</a>
+  </div>
+  <nav class="right" aria-label="Top navigation">
+    <a href="#work">Work</a> &nbsp;&middot;&nbsp;
+    <a href="#offers">Start</a> &nbsp;&middot;&nbsp;
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero" aria-label="Introduction">
+  <div class="hero-grid">
+    <p class="hero-eyebrow" aria-hidden="true">Mooch · London + Lisbon</p>
+    <h1>
+      <span class="reveal-words" aria-label="We make things people actually want.">
+        <span class="word" style="--wi:0">We</span> <span class="word" style="--wi:1">make</span> <span class="word" style="--wi:2">things</span> <span class="word" style="--wi:3">people</span> <span class="word" style="--wi:4">actually</span> <span class="word" style="--wi:5"><em>want.</em></span>
+      </span>
+    </h1>
+  </div>
+  <div class="hero-meta">
+    <p class="hero-deck reveal-words" aria-label="A two-person UX and AI automation agency. We build the thing, then automate the gains.">
+      <span class="word" style="--wi:0">A</span> <span class="word" style="--wi:1">two-person</span> <span class="word" style="--wi:2">UX</span> <span class="word" style="--wi:3">and</span> <span class="word" style="--wi:4">AI</span> <span class="word" style="--wi:5">automation</span> <span class="word" style="--wi:6">agency.</span> <span class="word" style="--wi:7">We</span> <span class="word" style="--wi:8">build</span> <span class="word" style="--wi:9">the</span> <span class="word" style="--wi:10">thing,</span> <span class="word" style="--wi:11">then</span> <span class="word" style="--wi:12">automate</span> <span class="word" style="--wi:13">the</span> <span class="word" style="--wi:14"><em>gains.</em></span>
+    </p>
+    <div class="hero-actions">
+      <a class="pill" href="mailto:hey@mooch.agency">Say hello &rarr;</a>
+      <a class="pill ghost" href="#work">See selected work <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Product design</span><span>Qualitative user research</span><span>Brand tone of voice</span><span>AI workflow automation</span><span>Agent design &amp; orchestration</span><span>Internal tooling &amp; ops automation</span>
+    <span>Product design</span><span>Qualitative user research</span><span>Brand tone of voice</span><span>AI workflow automation</span><span>Agent design &amp; orchestration</span><span>Internal tooling &amp; ops automation</span>
+  </div>
+</div>
+
+<section class="section" id="work">
+  <div class="section-inner">
+    <div class="section-head">
+      <div data-reveal="child: :scope > *; cap: 5">
+        <div class="section-num"><strong>01</strong> Selected Work <span class="rule"></span></div>
+        <h2 class="section-title">Work we've <em>done</em>.</h2>
+        <p class="section-lead">Startups to public companies, governments, charities and foundations.</p>
+      </div>
+    </div>
+
+    <div class="work-list" data-reveal="child: .work-row; cap: 5">
+      <a class="work-row" href="/gov-uk.html">
+        <span class="idx">001</span>
+        <span class="desc">
+          <span class="client">gov.uk <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Designing government digital services that millions of people rely on every day.</span>
+        </span>
+        <span class="year">2021</span>
+      </a>
+      <a class="work-row" href="/british-airways.html">
+        <span class="idx">002</span>
+        <span class="desc">
+          <span class="client">British Airways <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Bringing British heritage into the 2020s through clearer in-flight content.</span>
+        </span>
+        <span class="year">2024</span>
+      </a>
+      <a class="work-row" href="/octant.html">
+        <span class="idx">003</span>
+        <span class="desc">
+          <span class="client">Octant <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Turning early science into a product people trust and a team that can build on it.</span>
+        </span>
+        <span class="year">2024</span>
+      </a>
+      <a class="work-row" href="/ethereum.html">
+        <span class="idx">004</span>
+        <span class="desc">
+          <span class="client">Ethereum Foundation <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Making the most ambitious technical roadmap in crypto legible to the people building it.</span>
+        </span>
+        <span class="year">2025</span>
+      </a>
+      <a class="work-row" href="/big-debate-club.html">
+        <span class="idx">005</span>
+        <span class="desc">
+          <span class="client">Big Debate Club <span class="discipline" data-disc="ux">UX</span></span>
+          <span class="tldr">Helping kids find their voice through competitive debating.</span>
+        </span>
+        <span class="year">2023</span>
+      </a>
+      <a class="work-row" href="/contrabando.html">
+        <span class="idx">006</span>
+        <span class="desc">
+          <span class="client">Contrabando <span class="discipline" data-disc="ai">AI</span></span>
+          <span class="tldr">Building an AI agent that handles all the review management for a Michelin-listed restaurant in Lisbon.</span>
+        </span>
+        <span class="year">2025</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="playthings">
+  <div class="section-inner">
+    <div class="section-head">
+      <div data-reveal="child: :scope > *; cap: 5">
+        <div class="section-num"><strong>02</strong> Things we've made <span class="rule"></span></div>
+        <h2 class="section-title">Things we've made.</h2>
+        <p class="section-lead">Products we ship, prompts you can steal, things we built for fun.</p>
+      </div>
+    </div>
+
+    <div class="flagship">
+      <a class="bento-card" href="/paulgraham">
+        <span class="card-cat">Tone of voice · Free</span>
+        <span class="card-name">Write like Paul <em>Graham</em></span>
+        <span class="card-blurb">Paste your writing and get a score for how close it reads to Paul Graham. Then rewrite it with AI guidance.</span>
+      </a>
+      <a class="bento-card" href="/samantha">
+        <span class="card-cat">AI agent · Coming soon</span>
+        <span class="card-name">Meet <em>Samantha</em></span>
+        <span class="card-blurb">The first AI that sounds like it went to therapy. Samantha doesn't hold back. She says what she sees, and sometimes, you need to hear it.</span>
+      </a>
+    </div>
+
+    <div class="bento">
+      <a class="bento-card" href="https://theopenclaws.com" target="_blank" rel="noopener">
+        <span class="card-cat">Product · &euro;999</span>
+        <span class="card-name">The Open<em>claws</em></span>
+        <span class="card-blurb">A polymer clip that props your MacBook open. Lets it breathe. Ships worldwide.</span>
+      </a>
+      <a class="bento-card" href="/onlyfans">
+        <span class="card-cat">Concept</span>
+        <span class="card-name">only<em>fans*</em></span>
+        <span class="card-blurb">A pre-loved GPU marketplace. Fans only.</span>
+      </a>
+      <a class="bento-card" href="/gravity">
+        <span class="card-cat">Concept</span>
+        <span class="card-name"><em>Gravity</em></span>
+        <span class="card-blurb">Your portfolio, weighted by what matters.</span>
+      </a>
+      <a class="bento-card" href="/ready">
+        <span class="card-cat">Tool · Free</span>
+        <span class="card-name">AI readiness <em>check</em></span>
+        <span class="card-blurb">A 5-minute self-audit. Tells you where AI is actually worth the effort.</span>
+      </a>
+      <a class="bento-card wide" href="/doggy-dogg">
+        <span class="card-cat">Prompt · Free</span>
+        <span class="card-name">The Doggy-Dogg <em>Method</em></span>
+        <span class="card-blurb">How to write AI prompts so they actually do what you want.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="offers">
+  <div class="section-inner">
+    <div class="section-head">
+      <div data-reveal="child: :scope > *; cap: 5">
+        <div class="section-num"><strong>03</strong> How to work with us <span class="rule"></span></div>
+        <h2 class="section-title">Ways to <em>start</em>.</h2>
+        <p class="section-lead">A few ways to start working with us depending on what&#x27;s important to you. Often leads to long-term collaboration and value add.</p>
+      </div>
+    </div>
+
+    <div class="offer-index" data-reveal="child: :scope > *; cap: 5">
+      <a class="fi-hero" data-cat="ai" href="mailto:hey@mooch.agency?subject=AI%20Automation%20Setup%20%E2%80%94%20let%27s%20book%20one%20in&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20book%20an%20AI%20Automation%20Setup.%0A%0AHere%27s%20a%20bit%20of%20context%20on%20the%20workflow%20I%27d%20like%20to%20tackle%3A%0A%0A%5BDescribe%20the%20repetitive%20task%20or%20process%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
+        <span class="fi-cat">Fixed scope</span>
+        <span class="fi-name">AI Automation <em>Setup</em></span>
+        <span class="fi-blurb">We find your single highest-leverage AI automation and ship it end to end. Discovery, build and handover included.</span>
+        <span class="fi-price">&euro;2,500 flat</span>
+      </a>
+      <a class="fi-row" href="mailto:hey@mooch.agency?subject=Strategy%20session%20%E2%80%94%20let%27s%20book%20one%20in&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20book%20a%20strategy%20session.%0A%0AHere%27s%20what%20I%27d%20like%20to%20cover%3A%0A%0A%5BDescribe%20the%20problem%20or%20question%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
+        <span class="fi-idx">02</span>
+        <span>
+          <span class="fi-name">Strategy <em>session</em></span>
+          <span class="fi-blurb">A focused 90-minute session on a problem you're stuck on.</span>
+        </span>
+        <span class="fi-price">&euro;550</span>
+      </a>
+      <a class="fi-row" href="mailto:hey@mooch.agency?subject=Embedded%20sprint%20%E2%80%94%20let%27s%20talk&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20discuss%20an%20embedded%20sprint.%0A%0AHere%27s%20some%20context%3A%0A%0A%5BDescribe%20the%20project%20or%20challenge%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
+        <span class="fi-idx">03</span>
+        <span>
+          <span class="fi-name">Embedded <em>sprint</em></span>
+          <span class="fi-blurb">One or two weeks inside your team, working on a specific problem end to end.</span>
+        </span>
+        <span class="fi-price">&euro;5,500 &ndash; &euro;11,000</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-inner">
+    <div class="closer">
+      <div class="about">
+        <p class="about-label" aria-hidden="true">About Mooch</p>
+        <h2 class="about-head">A husband-and-wife team. <em>Tahi &amp; Nat.</em></h2>
+        <p>We've worked at the BBC, HSBC, and across startups, charities and government for the last decade.</p>
+        <p>What ties it together: helping teams move from "we think" to "we know", then build accordingly.</p>
+        <p>AI's a multiplier on that. We wire it into the places it earns its keep.</p>
+      </div>
+      <div class="contact">
+        <p class="contact-label" aria-hidden="true">Get in touch</p>
+        <h2 class="contact-head">Got something <em>worth building?</em></h2>
+        <p>We're selective about what we take on. If it's a problem worth solving, we'd like to hear about it.</p>
+        <div class="contact-actions">
+          <a class="pill" href="mailto:hey@mooch.agency">hey@mooch.agency &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon" role="contentinfo">
+  <div class="colophon-inner">
+    <div class="colophon-top">
+      <div class="colophon-mark">Mooch<em>.</em></div>
+
+      <nav class="colophon-nav" aria-label="Footer">
+        <div class="colophon-col">
+          <h4>Studio</h4>
+          <a href="#work">Work we've done</a>
+          <a href="#offers">Ways to start</a>
+          <a href="/ready">AI readiness check</a>
+          <a href="#about">About</a>
+        </div>
+        <div class="colophon-col">
+          <h4>Things we've made</h4>
+          <a href="/paulgraham">Write like Paul Graham</a>
+          <a href="/samantha">Samantha</a>
+          <a href="https://theopenclaws.com" target="_blank" rel="noopener">The Openclaws</a>
+          <a href="/onlyfans">onlyfans*</a>
+          <a href="/gravity">Gravity</a>
+          <a href="/doggy-dogg">The Doggy-Dogg Method</a>
+        </div>
+        <div class="colophon-col">
+          <h4>Contact</h4>
+          <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+          <a href="https://www.linkedin.com/in/tahigichigi" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="colophon-bottom">
+      <span>&copy; 2025 Mooch Studio Ltd</span>
+      <span>London &amp; Lisbon</span>
+      <a href="/styleguide" style="color:inherit">Styleguide</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/motion.js"></script>
+<script>
+  // Bento card taps
+  document.querySelectorAll('.bento-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var href = card.getAttribute('href');
+      if (href) window.location.href = href;
+    });
+  });
+
+  // Offer index (How to work with us): featured hero + numbered rows
+  document.querySelectorAll('.fi-hero, .fi-row').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var href = card.getAttribute('href');
+      if (href) window.location.href = href;
+    });
+  });
+</script>
+
+</body>
+</html>
