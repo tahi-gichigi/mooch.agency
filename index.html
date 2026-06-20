@@ -274,8 +274,8 @@
     padding-top: 16px;
     white-space: nowrap;
   }
-  /* Shares the canonical pill-badge spec; UX fills solid, AI stays outline so the
-     two disciplines read apart at a glance. */
+  /* Pill badge: UX fills solid, AI stays outline so the two disciplines read
+     apart at a glance. */
   .work-row .discipline {
     display: inline-block;
     font-family: var(--mono);
@@ -392,18 +392,6 @@
      the other two sit as numbered rows. Reads as a menu of entry points, not a
      tiered plan picker. See offer layout explorations for the rationale. */
 
-  /* Canonical pill badge: reused for the "Start here" flag and the case-study
-     discipline tags so badge styling is consistent site-wide. */
-  .pill-badge {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    border-radius: 980px;
-    padding: 4px 12px;
-  }
-
   .fi-kicker { display: none; } /* section lead already frames the offers */
   /* These are spans inside an <a>; force block so they stack. */
   .fi-cat, .fi-name, .fi-blurb { display: block; }
@@ -423,7 +411,6 @@
   .fi-hero:hover { border-color: var(--muted); }
   @media (prefers-reduced-motion: no-preference) { .fi-hero:hover { transform: translateY(-2px); } }
   .fi-hero:focus-visible, .fi-row:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .fi-badge { margin-bottom: 16px; }
   .fi-cat {
     font-family: var(--mono);
     font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
@@ -773,7 +760,6 @@
 
     <div class="offer-index" data-reveal="child: :scope > *; cap: 5">
       <a class="fi-hero" data-cat="ai" href="mailto:hey@mooch.agency?subject=AI%20Automation%20Setup%20%E2%80%94%20let%27s%20book%20one%20in&body=Hi%20Mooch%2C%0A%0AI%27d%20like%20to%20book%20an%20AI%20Automation%20Setup.%0A%0AHere%27s%20a%20bit%20of%20context%20on%20the%20workflow%20I%27d%20like%20to%20tackle%3A%0A%0A%5BDescribe%20the%20repetitive%20task%20or%20process%5D%0A%0A%5BYour%20name%5D%0A%5BCompany%2C%20if%20relevant%5D">
-        <span class="pill-badge fi-badge">Start here</span>
         <span class="fi-cat">Fixed scope</span>
         <span class="fi-name">AI Automation <em>Setup</em></span>
         <span class="fi-blurb">We find your single highest-leverage AI automation and ship it end to end. Discovery, build and handover included.</span>
