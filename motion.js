@@ -1,7 +1,8 @@
 /* Mooch entrance motion — declarative and page-agnostic.
    Timing is read from CSS custom properties (tokens.css), so the feel is tuned in
    one place. Two behaviours:
-     - Word stagger on any [data-stagger] element (hero subheadings).
+     - Word stagger on any [data-stagger] element (hero subheadings); an optional
+       start time in seconds (data-stagger="0.2") leads or trails other elements.
      - Scroll reveal on any [data-reveal="child: <selector>; cap: <n>"] container.
    Both are no-ops under reduced motion or without IntersectionObserver, so content
    is always served fully visible — never trapped at opacity 0. */
@@ -23,6 +24,10 @@
   var wordBase = cssSeconds('--word-base', 0.40);
   var wordStep = cssSeconds('--word-step', 0.05);
   document.querySelectorAll('[data-stagger]').forEach(function (el) {
+    // data-stagger may carry a start time in seconds (e.g. data-stagger="0.2")
+    // to lead or trail other staggered elements; bare data-stagger uses --word-base.
+    var attr = el.getAttribute('data-stagger');
+    var base = attr && !isNaN(parseFloat(attr)) ? parseFloat(attr) : wordBase;
     var counter = 0;
     (function splitNode(node) {
       Array.prototype.slice.call(node.childNodes).forEach(function (child) {
@@ -33,7 +38,7 @@
             if (p.trim() === '') { frag.appendChild(document.createTextNode(p)); return; }
             var span = document.createElement('span');
             span.className = 'word';
-            if (!reduce) span.style.setProperty('--word-delay', (wordBase + counter * wordStep).toFixed(2) + 's');
+            if (!reduce) span.style.setProperty('--word-delay', (base + counter * wordStep).toFixed(2) + 's');
             counter++;
             span.textContent = p;
             frag.appendChild(span);
