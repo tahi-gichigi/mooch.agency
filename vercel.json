@@ -4,12 +4,11 @@
   "functions": {
     "api/rewrite.js": { "includeFiles": "api/pg-system.md" }
   },
-  "redirects": [
+  "rewrites": [
     {
       "source": "/",
       "has": [{ "type": "host", "value": "paulgraham.mooch.agency" }],
-      "destination": "/paulgraham",
-      "permanent": false
+      "destination": "/paulgraham"
     }
   ]
 }
