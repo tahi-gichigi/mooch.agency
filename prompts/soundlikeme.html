@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/soundlikeme - Prompt - Mooch</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<meta name="description" content="A prompt to make AI write in your voice using a few writing samples. Free from Mooch.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mooch.agency/prompts/soundlikeme">
+<link rel="canonical" href="https://mooch.agency/prompts/soundlikeme">
+<meta property="og:title" content="/soundlikeme - Prompt - Mooch">
+<meta property="og:description" content="A prompt to make AI write in your voice using a few writing samples. Free from Mooch.">
+<meta property="og:image" content="https://mooch.agency/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="/soundlikeme - Prompt - Mooch">
+<meta name="twitter:description" content="A prompt to make AI write in your voice using a few writing samples. Free from Mooch.">
+<meta name="twitter:image" content="https://mooch.agency/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --ink: #1d1d1f;
+    --paper: #ffffff;
+    --surface: #fbfbfd;
+    --muted: #6e6e73;
+    --hairline: #d2d2d7;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Liberation Mono", monospace;
+    --pad-x: clamp(20px, 5vw, 56px);
+    --rhythm: clamp(80px, 12vw, 160px);
+    --max: 1320px;
+    --col: 720px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "tnum", "kern", "liga", "ss01";
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 24px var(--pad-x);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar .left { justify-self: start; }
+  .topbar .right { justify-self: end; text-align: right; }
+  .topbar a { color: var(--ink); }
+  .topbar a:hover { border-bottom: 1px solid var(--ink); }
+  .topbar .you { color: var(--muted); }
+
+  .reveal { opacity: 0; transform: translateY(12px); animation: reveal 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards; }
+  .reveal.d1 { animation-delay: 0.05s; }
+  .reveal.d2 { animation-delay: 0.18s; }
+  .reveal.d3 { animation-delay: 0.32s; }
+  .reveal.d4 { animation-delay: 0.46s; }
+  @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+  }
+
+  .case-hero {
+    padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(48px, 8vw, 96px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-hero-inner { max-width: var(--max); margin: 0 auto; }
+  .case-hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .case-hero .eyebrow strong { color: var(--ink); font-weight: 600; }
+  .case-hero .eyebrow .rule { flex: 0 0 60px; height: 1px; background: var(--ink); }
+  .case-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 11vw, 168px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: clamp(28px, 4vw, 48px);
+    max-width: 16ch;
+  }
+  .case-hero h1 em { font-style: italic; }
+  .case-hero .standfirst {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 36ch;
+    margin-bottom: clamp(40px, 6vw, 64px);
+  }
+
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .case-meta dt { color: var(--muted); margin-bottom: 4px; }
+  .case-meta dd { color: var(--ink); }
+  @media (min-width: 720px) { .case-meta { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1080px) { .case-meta { grid-template-columns: repeat(5, 1fr); } }
+
+  .case-body {
+    padding: clamp(64px, 10vw, 120px) var(--pad-x) clamp(96px, 12vw, 160px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-body-inner {
+    max-width: var(--col);
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .case-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 4.6vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-top: clamp(64px, 8vw, 112px);
+    margin-bottom: 28px;
+    scroll-margin-top: 40px;
+  }
+  .case-body h2 em { font-style: italic; }
+  .case-body h2:first-child { margin-top: 0; }
+  .case-body h2 .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: block;
+    font-style: normal;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .case-body h3 {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--black);
+    margin-top: 40px;
+    margin-bottom: 14px;
+  }
+  .case-body p { margin-bottom: 1.1em; hanging-punctuation: first last; }
+  .case-body p strong { font-weight: 600; color: var(--black); }
+  .case-body p em { font-style: italic; }
+  .case-body a { border-bottom: 1px solid var(--hairline); transition: border-color 0.15s ease; }
+  .case-body a:hover { border-bottom-color: var(--ink); }
+  .case-body ul, .case-body ol { margin: 0 0 1.4em 0; padding-left: 1.4em; }
+  .case-body li { margin-bottom: 0.6em; }
+
+  .case-body .lead-stat {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 8px 0 24px;
+    max-width: 38ch;
+  }
+  .case-body .lead-stat strong { font-weight: 400; font-style: italic; }
+
+  .user-need {
+    border-left: 2px solid var(--black);
+    padding: 14px 0 14px 20px;
+    margin: 32px 0 40px;
+    font-family: var(--sans);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .user-need .qual { color: var(--muted); }
+
+  .prompt-box {
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    background: var(--surface);
+    margin: 24px 0 40px;
+    overflow: hidden;
+  }
+  .prompt-box-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .prompt-box-head .copy-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    min-height: 44px;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .prompt-box-head .copy-btn:hover { border-color: var(--ink); }
+  .prompt-box-head .copy-btn.copied { color: var(--muted); }
+  .prompt-box pre {
+    margin: 0;
+    padding: 22px 20px;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+  }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 24px 0 40px;
+  }
+  @media (min-width: 720px) { .ba-grid { grid-template-columns: 1fr 1fr; } }
+  .ba-col {
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 20px;
+    background: var(--paper);
+  }
+  .ba-col .ba-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .ba-col.after { background: var(--surface); }
+  .ba-col p { font-size: 16px; line-height: 1.6; margin-bottom: 0.8em; }
+  .ba-col p:last-child { margin-bottom: 0; }
+
+  .case-next {
+    padding: var(--rhythm) var(--pad-x);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .case-next-inner { max-width: var(--max); margin: 0 auto; }
+  .case-next .small {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .case-next a.next-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    transition: padding-left 0.2s ease;
+  }
+  .case-next a.next-card:hover { padding-left: 8px; }
+  .case-next a.next-card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+  }
+  .case-next a.next-card h3 em { font-style: italic; }
+  .case-next a.next-card p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 56ch;
+  }
+  .case-next a.next-card .arrow {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--ink);
+    transition: transform 0.2s ease;
+  }
+  .case-next a.next-card:hover .arrow { transform: translateX(6px); }
+
+  .colophon {
+    padding: 56px var(--pad-x) 40px;
+    background: var(--black);
+    color: var(--paper);
+    --muted: #8e8e93;
+  }
+  .colophon-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .colophon-mark {
+    font-family: var(--serif);
+    font-size: clamp(72px, 16vw, 240px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .colophon-mark em { font-style: italic; color: var(--muted); }
+  .colophon-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-top: 36px;
+    border-top: 1px solid #2a2a2c;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .colophon-links a { color: var(--paper); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-links a:hover { border-bottom-color: var(--paper); }
+  .colophon-sep { color: var(--muted); font-size: 10px; }
+  .colophon-foot {
+    border-top: 1px solid #2a2a2c;
+    margin-top: 36px;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .colophon-credits { max-width: 48ch; text-align: center; }
+  .colophon-version { color: var(--muted); border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .colophon-version:hover { border-bottom-color: var(--paper); color: var(--paper); }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .topbar, .case-next, .colophon { display: none; }
+    .case-hero { padding: 24px 0; border: none; }
+    .case-body { padding: 0; max-width: 100%; }
+    .case-body-inner { max-width: 100%; }
+    a { color: #000; text-decoration: underline; }
+    .reveal { opacity: 1; transform: none; animation: none; }
+    .prompt-box, .ba-col { break-inside: avoid; border: 1px solid #000; }
+    .copy-btn { display: none; }
+    * { box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="left">
+    <a href="/">Mooch</a> &nbsp;/&nbsp; <a href="/#work">Work</a> &nbsp;/&nbsp; <span class="you">/soundlikeme</span>
+  </div>
+  <div class="right">Prompt &nbsp; · &nbsp; <span>Free</span></div>
+</header>
+
+<main>
+
+<section class="case-hero">
+  <div class="case-hero-inner">
+    <div class="eyebrow reveal d1"><span class="rule"></span> <strong>Prompt</strong> · Steal it · Free</div>
+    <h1 class="reveal d2">/sound<em>like</em>me</h1>
+    <p class="standfirst reveal d3">Make AI write in your voice using a few writing samples. Write first, sound like yourself second.</p>
+    <dl class="case-meta reveal d4">
+      <div><dt>Use case</dt><dd>Voice matching</dd></div>
+      <div><dt>Works with</dt><dd>Claude, ChatGPT, Gemini</dd></div>
+      <div><dt>Input</dt><dd>2-3 writing samples</dd></div>
+      <div><dt>Output</dt><dd>Voice profile + rewritten draft</dd></div>
+      <div><dt>Licence</dt><dd>Free to use</dd></div>
+    </dl>
+  </div>
+</section>
+
+<article class="case-body">
+  <div class="case-body-inner">
+
+    <h2><span class="num">&sect; 01</span>What it does</h2>
+    <p class="lead-stat"><strong>Your voice, learned from examples, applied to anything.</strong></p>
+    <p>Feed the prompt 2-3 samples of your writing and it builds a voice profile: how you sound, how you write, what makes you distinct. Confirm or tweak the profile, then paste any draft and it rewrites it to match.</p>
+    <div class="user-need">
+      <span class="qual">Use this when</span> AI-generated text sounds generic, corporate, or nothing like you<br>
+      <span class="qual">so that you can</span> ship drafts that read like you wrote them yourself
+    </div>
+
+    <h2><span class="num">&sect; 02</span>The prompt</h2>
+    <p>Copy the full prompt below and paste it into any AI chat. Then follow the three-step flow: share samples, confirm your voice profile, paste a draft to rewrite.</p>
+    <div class="prompt-box">
+      <div class="prompt-box-head">
+        <span>Prompt &middot; v2.2</span>
+        <button class="copy-btn" type="button" data-copy-target="prompt-text">Copy</button>
+      </div>
+      <pre id="prompt-text">You are a voice analyst and rewriter. Your job is to learn how someone writes, then rewrite content to match their voice.
+
+You work in three steps. Do not skip steps. Do not combine them.
+
+### Step 1: Learn the voice
+
+Ask me to paste 2-3 examples of my writing. Anything works - emails, blog posts, social posts, docs, messages. The more natural, the better. Say this:
+
+> Paste 2-3 examples of your writing. Pick stuff that sounds most like you - doesn't have to be your most polished work, just the way you naturally write. Emails, posts, docs, messages - anything goes.
+
+When I paste my samples, analyse them and return a voice profile using exactly this format:
+
+**Your voice profile**
+
+*[One-line TL;DR of the voice]*
+
+How You Sound
+- [Label]: [Tone in 8 words or fewer]
+- [Label]: [Vocabulary in 8 words or fewer]
+- [Label]: [Quirks in 8 words or fewer]
+
+How You Write
+- [Label]: [Sentence style in 8 words or fewer]
+- [Label]: [Structure in 8 words or fewer]
+- [Label]: [Pacing in 8 words or fewer]
+
+How You Stand Out
+- [Label]: [Signature habit in 8 words or fewer]
+- [Label]: [Signature habit in 8 words or fewer]
+- [Label]: [Signature habit in 8 words or fewer]
+
+Rules
+- Do: [One short rule, 8 words or fewer]
+- Do: [One short rule]
+- Do: [One short rule]
+- Don't: [One short rule, 8 words or fewer]
+- Don't: [One short rule]
+- Don't: [One short rule]
+
+Bold label (1-3 words) then a fragment, not a sentence. Max 8 words after the label. This is a cheat sheet, not a style guide.
+
+Then ask:
+
+> Does this sound like you? If anything's off, tell me what to change. If it's right, say "confirmed" and I'll use this for rewrites.
+
+### Step 2: Confirm
+
+Wait for my response.
+
+- If I say "confirmed" or similar, lock in the voice profile and move to Step 3.
+- If I give corrections, update the profile, show the revised version, and ask for confirmation again.
+- Do not proceed to Step 3 until I explicitly confirm.
+
+### Step 3: Rewrite
+
+Once the voice profile is confirmed, check if I've already provided content to rewrite earlier in the conversation.
+
+- If yes, rewrite it immediately using the voice profile.
+- If no, say:
+
+> Voice locked in. Paste any draft and I'll rewrite it to sound like you.
+
+When I paste a draft, rewrite it following these rules:
+
+1. Match the voice profile exactly. Every bullet in the profile is a rule.
+2. Keep my meaning. Do not add ideas, opinions, or arguments I didn't make.
+3. Keep my structure. Same sections, same order, same approximate length.
+4. Cut AI patterns. If the draft has em dashes, "Let's dive in", staccato rhythms, or gift-wrapped endings, fix them as part of the rewrite.
+5. Don't flatten personality. If the draft has a joke or strong opinion that fits the voice profile, keep it or make it better.
+6. Use judgment. If a sentence sounds right but technically breaks a voice rule, leave it. Voice is a pattern, not a prison.
+
+Output format:
+
+**Rewritten draft** (full text, ready to use)
+
+**Voice changelog**
+Group changes by voice profile section. One line per change. Only include changes that meaningfully shifted the voice.
+
+After the rewrite, say:
+
+> Paste another draft anytime. I'll keep using this voice.</pre>
+    </div>
+
+    <h2><span class="num">&sect; 03</span>Before / after</h2>
+    <p>A founder's update email, drafted by Claude, then rewritten with /soundlikeme after profiling 3 of their real emails.</p>
+    <div class="ba-grid">
+      <div class="ba-col before">
+        <div class="ba-label">Before (generic AI)</div>
+        <p>I'm excited to share that we've made significant progress this quarter. Our team has been working diligently to deliver results, and I'm pleased to report that we've exceeded our targets. Here's what you need to know about our journey forward.</p>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label">After (/soundlikeme)</div>
+        <p>Good quarter. We hit the number, beat it actually. Three things worth knowing: the enterprise pipeline doubled, we shipped the API two weeks early, and Jamie's team closed the Acme deal everyone said was dead. More below.</p>
+      </div>
+    </div>
+
+    <h2><span class="num">&sect; 04</span>How it works</h2>
+    <p>Most people tell AI "write in a casual tone" or "be more conversational" and get back something that sounds like a LinkedIn post. The voice profile forces the model to learn specifics: your sentence length, your quirks, what you never do. Confirming the profile before any rewrite gives you a chance to correct the model's read on you. The rewrite rules then lock the model into editing mode rather than generation mode, so it changes how your draft sounds without changing what it says.</p>
+
+  </div>
+</article>
+
+<section class="case-next">
+  <div class="case-next-inner">
+    <span class="small">Continue &nbsp;/&nbsp; Next prompt</span>
+    <a class="next-card" href="/prompts/deslop">
+      <div>
+        <h3>/deslop <em>&middot;</em> strip AI writing patterns</h3>
+        <p>13 rules that catch the tells. Paste a draft, get a clean version back with a changelog of what it fixed.</p>
+      </div>
+      <span class="arrow">&rarr;</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-mark">Mooch<em>.</em></div>
+
+    <div class="colophon-links">
+      <a href="mailto:hey@mooch.agency">hey@mooch.agency</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://x.com/tahigichigi">X / @tahigichigi</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://moochagency.substack.com">Substack</a>
+      <span class="colophon-sep">&middot;</span>
+      <a href="https://toneofvoice.app">toneofvoice.app</a>
+    </div>
+
+    <div class="colophon-foot">
+      <span>&copy; 2026 Mooch Agency Ltd.</span>
+      <span class="colophon-credits">Set in Instrument Serif &amp; SF Pro. Built by two humans and one MoochBot. Hosted on Vercel because we're not animals.</span>
+      <span class="colophon-version">N&deg; 01</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.getAttribute('data-copy-target'));
+      if (!target) return;
+      navigator.clipboard.writeText(target.textContent.trim()).then(function () {
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  });
+</script>
+
+
+<!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
+<script>
+  // Custom Vercel Analytics events for prompt pages.
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".copy-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        window.va("event", { name: "prompt_copy", data: { prompt: document.title } });
+      });
+    });
+  });
+</script>
+</body>
+</html>

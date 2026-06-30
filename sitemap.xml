@@ -36,8 +36,23 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mooch.agency/log</loc>
+    <loc>https://mooch.agency/ethereum</loc>
     <lastmod>2026-05-14</lastmod>
-    <priority>0.3</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mooch.agency/ready</loc>
+    <lastmod>2026-05-14</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mooch.agency/prompts/soundlikeme</loc>
+    <lastmod>2026-05-14</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mooch.agency/prompts/deslop</loc>
+    <lastmod>2026-05-14</lastmod>
+    <priority>0.5</priority>
   </url>
 </urlset>

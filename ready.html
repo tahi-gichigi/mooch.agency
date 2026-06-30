@@ -10,6 +10,7 @@
 <meta name="description" content="A 2-minute self-audit. Answer 6 questions about your UX research and AI automation, get a readiness score and 3 specific next steps. No email, no signup.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mooch.agency/ready">
+<link rel="canonical" href="https://mooch.agency/ready">
 <meta property="og:title" content="AI readiness self-audit &middot; Mooch">
 <meta property="og:description" content="Answer 6 questions, get a readiness score and 3 specific next steps. No email, no signup.">
 <meta property="og:image" content="https://mooch.agency/og.jpg">
@@ -805,6 +806,8 @@ var BANDS = [
       quizView.classList.remove('quiz-leaving');
       resultView.classList.add('show');
       countUp(document.getElementById('resultScore'), score);
+      // Track quiz completion in Vercel Analytics.
+      window.va('event', { name: 'ready_score', data: { score: score } });
       // Focus scrolls the result title into view; no explicit scrollTo needed.
       var titleEl = document.getElementById('resultTitle');
       titleEl.focus();
@@ -870,6 +873,18 @@ var BANDS = [
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+
+<script>
+  // Custom Vercel Analytics events for the ready page.
+  document.addEventListener('DOMContentLoaded', function () {
+    var bookCta = document.getElementById('bookCta');
+    if (bookCta) {
+      bookCta.addEventListener('click', function () {
+        window.va('event', { name: 'ready_cta_click', data: { label: bookCta.textContent.trim() } });
+      });
+    }
+  });
+</script>
 
 </body>
 </html>

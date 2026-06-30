@@ -18,6 +18,7 @@ We figure out what people actually need, then build the AI to deliver it. Most o
 - [zkSync](https://mooch.agency/zksync): UX research for zkSync, an Ethereum Layer 2 scaling protocol.
 - [Big Debate Club](https://mooch.agency/big-debate-club): Brand and product development for Big Debate Club, a debate platform for young people.
 - [Contrabando](https://mooch.agency/contrabando): AI-powered review automation for a Lisbon restaurant group.
+- [Ethereum UX](https://mooch.agency/ethereum): UX teardown of Ethereum wallet interactions, scoring clarity and confidence at every step.
 
 ## Products
 
@@ -40,6 +41,6 @@ We figure out what people actually need, then build the AI to deliver it. Most o
 - [alibi](https://alibi-saas.vercel.app): Client dispute app channelling a legal drama. Mockup.
 - [write like paul graham](https://paulgraham.mooch.agency): Paste your writing, get it back in Paul Graham's voice. Built from 208 of his essays.
 
-## Optional
+## Tools
 
-- [Changelog](https://mooch.agency/log): Site changelog, written by MoochBot.
+- [Ready score](https://mooch.agency/ready): A 2-minute self-audit for UX research and AI automation readiness.
